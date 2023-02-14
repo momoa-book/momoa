@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { isClickedAtom } from './AccountNav';
 
 export default function AccountSideBar() {
-  // const [isDropdown, setisDropdown] = useState(false);
+  const clicked = useRecoilValue(isClickedAtom);
 
-  // function clickDropdown() {
-  //   setisDropdown(!isDropdown);
-  // }
+  useEffect(() => {
+    if (clicked === true) {
+      document
+        .getElementById('logo-sidebar')
+        .classList.remove('-translate-x-full');
+    } else {
+      document
+        .getElementById('logo-sidebar')
+        .classList.add('-translate-x-full');
+    }
+  }, [clicked]);
 
   return (
     <>

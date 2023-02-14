@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ReactComponent as Logo2 } from '../assets/logo2.svg';
 import Toggle from './Toggle';
 import { Link } from 'react-router-dom'; // 필요 없음 사실..
-import AccountSideBar from './AccountSideBar';
+import { atom, useRecoilState } from 'recoil';
+
+export const isClickedAtom = atom({
+  key: 'isClicked',
+  default: false,
+});
 
 export default function AccountNav() {
-  const [isSidebar, setisSidebar] = useState(false);
-
-  function clickSidebar() {
-    setisSidebar(!isSidebar);
-  }
+  const [clicked, setClicked] = useRecoilState(isClickedAtom);
 
   return (
     <>
@@ -19,8 +20,8 @@ export default function AccountNav() {
             <div className="flex items-center justify-start">
               <button
                 type="button"
-                onClick={clickSidebar}
                 className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                onClick={() => setClicked(!clicked)}
               >
                 <span className="sr-only">Open sidebar</span>
                 <svg
@@ -58,7 +59,6 @@ export default function AccountNav() {
           </div>
         </div>
       </nav>
-      {isSidebar === true && <AccountSideBar />}
     </>
   );
 }

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 export default function EmailLogin() {
   const [Email, setEmail] = useState('');
   const [emailError, setEmailError] = useState(null);
-  const [inputShow, setinputShow] = useState(false);
 
   function isVaildEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
@@ -17,9 +16,6 @@ export default function EmailLogin() {
       setEmailError(null);
     }
     setEmail(event.target.value);
-    if (event.target.value === '') {
-      setinputShow(false);
-    }
   };
   return (
     <>
@@ -44,24 +40,22 @@ export default function EmailLogin() {
           </p>
         )}
 
-        {inputShow && (
-          <div>
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              비밀번호
-            </label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="비밀번호를 입력하세요."
-              className="user-primary-input"
-              required=""
-            />
-          </div>
-        )}
+        <div>
+          <label
+            htmlFor="password"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            비밀번호
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="비밀번호를 입력하세요."
+            className="user-primary-input"
+            required=""
+          />
+        </div>
 
         <Link
           to="/" // 링크 변경해야 함
@@ -70,25 +64,9 @@ export default function EmailLogin() {
           <p className="mt-4">비밀번호를 잊으셨나요?</p>
         </Link>
 
-        {inputShow === false && (
-          <button
-            type="submit"
-            className="user-submit-btn"
-            onClick={() => {
-              if (!emailError) {
-                setinputShow(!inputShow);
-              }
-            }}
-          >
-            이메일로 로그인
-          </button>
-        )}
-
-        {inputShow === true && (
-          <button type="submit" className="user-submit-btn" onClick={() => {}}>
-            로그인
-          </button>
-        )}
+        <button type="submit" className="user-submit-btn">
+          이메일로 로그인
+        </button>
       </form>
     </>
   );
