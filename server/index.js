@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 5000;
+const port = process.env.PORT;
+const router = require('./routes');
 
 let corsOption = {
   origin: 'http://localhost:3000', // 허락하는 요청 주소
@@ -13,6 +14,7 @@ let corsOption = {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors(corsOption));
+app.use('/api', router);
 
 app.listen(port, () => {
   console.log(`app listening at port : ${port}`);
