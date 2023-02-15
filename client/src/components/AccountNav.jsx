@@ -1,7 +1,6 @@
 import React from 'react';
-import { ReactComponent as Logo2 } from '../assets/logo2.svg';
+import { ReactComponent as Logo } from '../assets/logo2.svg';
 import Toggle from './Toggle';
-import { Link } from 'react-router-dom'; // 필요 없음 사실..
 import { atom, useRecoilState } from 'recoil';
 
 export const isClickedAtom = atom({
@@ -38,23 +37,23 @@ export default function AccountNav() {
                   />
                 </svg>
               </button>
-              <Link to="/" className="flex ml-2 md:mr-24">
-                <Logo2 className="h-8 mr-3" width="50px" height="50px" />
-
+              <div className="flex md:mr-24 ">
+                <Logo className="h-8" width="50px" height="50px" />
                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                  모모아 Momoa
+                  모모아
                 </span>
-              </Link>
-            </div>
-            <div className="flex items-center">
-              <div className="flex items-center ml-3">
-                {/* <img 공유 했을 시 접속 사용자 보여줄 때 활용하기
-                  className="w-8 h-8 rounded-full"
-                  src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                  alt="user photo"
-                /> */}
-                <Toggle />
               </div>
+            </div>
+            <div className="flex">문서 이름</div>
+
+            <div className="flex items-center justify-start">
+              <img
+                className="mr-3 w-8 h-8 rounded-full"
+                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                alt="user_pic"
+              />
+
+              <Toggle />
             </div>
           </div>
         </div>
