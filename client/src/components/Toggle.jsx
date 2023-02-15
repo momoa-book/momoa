@@ -30,7 +30,7 @@ export default function Toggle() {
 
   return (
     <>
-      <label className="relative inline-flex items-center mr-5 cursor-pointer">
+      <label className="relative inline-flex items-center cursor-pointer">
         <input
           type="checkbox"
           checked={checked}
