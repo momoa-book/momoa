@@ -1,29 +1,35 @@
 const User = (Sequelize, DataTypes) => {
   return Sequelize.define(
-    'User',
+    'Sheet',
     {
-      user_id: {
-        type: DataTypes.STRING(20),
+      sheet_id: {
+        type: DataTypes.STRING(36),
         allowNull: false,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
       },
 
-      user_pw: {
+      sheet_name: {
+        type: DataTypes.STRING(10),
+        allowNull: false,
+      },
+
+      user_id: {
         type: DataTypes.STRING(20),
         allowNull: false,
       },
 
-      user_name: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
+      goal: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
       },
     },
     {
-      tableName: 'User',
+      tableName: 'Sheet',
       freezeTableName: true,
       timestamps: false,
     }
   );
 };
 
-module.exports = User;
+module.exports = Sheet;
