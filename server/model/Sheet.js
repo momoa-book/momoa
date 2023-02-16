@@ -1,4 +1,4 @@
-const User = (Sequelize, DataTypes) => {
+const Sheet = (Sequelize, DataTypes) => {
   return Sequelize.define(
     'Sheet',
     {
