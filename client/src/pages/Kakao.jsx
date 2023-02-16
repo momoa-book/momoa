@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import { ReactComponent as Logo2 } from '../assets/logo2.svg';
 
 export default function Kakao(props) {
@@ -6,7 +7,22 @@ export default function Kakao(props) {
 
   let params = new URL(document.URL).searchParams;
   let code = params.get('code');
-  console.log(code);
+
+  const getAccessToken = () => {
+    axios
+      .post('http://localhost:5000/api/getkakao', { authcode: code })
+      .then((res) => {
+        console.log(res.data);
+        // let accessToken = res.data.accessToken;
+        // let refreshToken = res.headers['refresh-token'];
+        // localStorage.setItem('CC_Token', accessToken);
+        // localStorage.setItem('RF_Token', refreshToken);
+      });
+  };
+
+  useEffect(() => {
+    getAccessToken();
+  }, []);
 
   return (
     <>
