@@ -1,9 +1,12 @@
 const express = require('express');
 const cors = require('cors');
-const app = express();
+const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const jwt = require('jsonwebtoken');
 const port = process.env.PORT;
 const router = require('./routes');
+const app = express();
 
 let corsOption = {
   origin: 'http://localhost:3000', // 허락하는 요청 주소
@@ -13,18 +16,19 @@ let corsOption = {
 };
 
 //세션
-app.use(
-  session({
-    secret: '1234',
+// app.use(
+//   session({
+//     secret: '1234',
 
-    resave: false,
+//     resave: false,
 
-    saveUninitialized: true,
-  })
-);
+//     saveUninitialized: true,
+//   })
+// );
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors(corsOption));
 app.use('/api', router);
 
