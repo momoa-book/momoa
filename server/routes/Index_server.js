@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controller/Csign');
-const controller = require('../controller/Csignin');
+const controllerSign = require('../controller/Csign');
+const controllerSignIn = require('../controller/Csignin');
+const controllerMail = require('../controller/Cmail');
 // const controller = require('../controller/Cmain');
 
-router.post('/login', controller.login);
+// router.post('/login', controller.login);
 router.post('/signup', controller.signup);
 
 // 메인 페이지 및 세션 체크
@@ -14,9 +15,9 @@ router.get('/', controller.main);
 // router.get('/login', controller.login_main);
 
 //로그인
-router.post('/signin', controller.user_signin);
+router.post('/signin', controllerSignIn.user_signin);
 
 //로그아웃
-router.delete('/logout', controller.user_logout);
+router.delete('/logout', controlleSignIn.user_logout);
 
 module.exports = router;
