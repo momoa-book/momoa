@@ -15,11 +15,14 @@ let corsOption = {
 //세션
 app.use(
   session({
-    secret: '1234',
-
+    secret: process.env.COOKIE_SECRET,
     resave: false,
-
     saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      secure: true,
+      expires: new Date(Date.now() + 60000 * 15),
+    },
   })
 );
 
