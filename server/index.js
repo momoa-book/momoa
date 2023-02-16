@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const session = require('express-session');
-const port = process.env.PORT;
 const router = require('./routes');
+require('dotenv').config();
 
 let corsOption = {
   origin: 'http://localhost:3000', // 허락하는 요청 주소
@@ -31,6 +31,6 @@ app.use(express.json());
 app.use(cors(corsOption));
 app.use('/api', router);
 
-app.listen(port, () => {
-  console.log(`app listening at port : ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`app listening at port : ${process.env.PORT}`);
 });
