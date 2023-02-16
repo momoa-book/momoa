@@ -6,10 +6,12 @@ const controllerMail = require('../controller/Cmail');
 // const controller = require('../controller/Cmain');
 
 // router.post('/login', controller.login);
-router.post('/signup', controller.signup);
 
 // 메인 페이지 및 세션 체크
 router.get('/', controller.main);
+
+//회원가입
+router.post('/signup', controller.signup);
 
 //로그인 하면 메인페이지로
 // router.get('/login', controller.login_main);
