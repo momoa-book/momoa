@@ -1,6 +1,6 @@
 const { User } = require('../model');
 const nodemailer = require("nodemailer");
-​
+
 //인증코드(6자리 랜덤숫자) 생성 함수
 function createAuthCode() {
     let authCode = '';
@@ -16,7 +16,7 @@ exports.send_code = async(req, res) => {
       });
 
     //중복될 경우 false
-    if (find_email) { res.send(false) }
+    if (find_email) { res.send({ status: false }) }
 
     //중복이 아닌 경우 인증코드 발송
     else {
@@ -50,10 +50,15 @@ exports.send_code = async(req, res) => {
             if (err) {
                 console.log(error);
             } else {
-                console.log(`Email sent ${info.response}`)
+                console.log(`Email sent : ${info.response}`);
             }
         });
-        res.send(true);
+
+        //세션 생성 - 인증코드 15분간 저장
+        req.session.code = authCode;
+
+        //메일발송 완료
+        res.send({ status: true });
     }    
 };
 
@@ -61,4 +66,16 @@ exports.send_code = async(req, res) => {
 exports.approve = async (req, res) => {
     //세션에 저장해 둔 코드와 사용자가 입력한 코드가 일치하는지 확인
     //일치한다면 DB에 회원정보 등록 및 가입절차 완료 
-}
+    if (req.body.code === req.session.code) {
+        let user_info = {
+            email: req.body.id,
+            pw: req.body.pw,
+            name: req.body.name
+        }
+        let register = await User.create(user_info);
+        console.log(`회원가입 완료 : ${register}`);
+        res.send({ status: true });
+    } else if (req.session.code === null ) {
+        res.send({ msg: '인증 유효시간이 지나 인증할 수 없습니다. 인증코드를 재발급해주세요.', status: false });
+    } else res.send({ msg: '인증코드가 일치하지 않습니다. 다시 한 번 확인해주세요.', status: false });
+};
