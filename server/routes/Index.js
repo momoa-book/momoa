@@ -22,6 +22,12 @@ router.post('/signin', controllerSignIn.user_signin);
 //로그아웃
 router.delete('/logout', controllerSignIn.user_logout);
 
+router.get('/accesstoken', controllerSignIn.accessToken);
+router.get('/refreshtoken', controllerSignIn.refreshToken);
+
+//로그인성공시 보여주는
+// router.get('/lognin/success', loginSuccess);
+
 //카카오 로그인 인가코드 전달
 router.post('/getkakao');
 
