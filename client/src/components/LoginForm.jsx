@@ -7,6 +7,21 @@ export default function EmailLogin() {
   const [Password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(null);
 
+  function isVaildEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+  const onEmailHandler = (event) => {
+    if (!isVaildEmail(event.target.value)) {
+      setEmailError('유효하지 않은 이메일입니다.');
+    } else {
+      setEmailError(null);
+    }
+    setEmail(event.target.value);
+  };
+  const onPasswordHandler = (event) => {
+    setPassword(event.target.value);
+  };
+
   const login = () => {
     axios({
       url: 'http://localhost:5000/api/signin',
@@ -23,26 +38,9 @@ export default function EmailLogin() {
     });
   };
 
-  function isVaildEmail(email) {
-    return /\S+@\S+\.\S+/.test(email);
-  }
-
-  const onEmailHandler = (event) => {
-    if (!isVaildEmail(event.target.value)) {
-      setEmailError('유효하지 않은 이메일입니다.');
-    } else {
-      setEmailError(null);
-    }
-    setEmail(event.target.value);
-  };
-
-  const onPasswordHandler = (event) => {
-    setPassword(event.target.value);
-  };
-
   return (
     <>
-      <form className="space-y-4 md:space-y-4" action="#" onSubmit={login}>
+      <form className="space-y-4 md:space-y-4" action="#">
         <label
           htmlFor="email"
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
