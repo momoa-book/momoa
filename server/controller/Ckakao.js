@@ -1,5 +1,6 @@
 const { User } = require('../model');
 const axios = require('axios');
+require('dotenv').config();
 
 //토큰 요청할 카카오 서버 옵션
 // curl -v -X POST "https://kauth.kakao.com/oauth/token" \
@@ -17,13 +18,16 @@ const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI;
 // 1. 인가 코드 발급 요청(프론트에서 완료)
 // 2. 사용자 인증 후 로그인 요청 시 전달받은 인가 코드로 토큰 요청
 exports.getKakao = async (req, res) => {
-  let code = req.query.code;
+  let code = req.body.authcode;
+  console.log(`인가 코드 : ${req.body.authcode}`);
   axios({
-    url: `${KAKAO_TOKEN_URL}?grant_type=${GRANT_TYPE}&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=${code}`,
+    url: `${KAKAO_TOKEN_URL}?grant_type=${GRANT_TYPE}&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}`,
     method: 'post',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
+  }).then((result) => {
+    console.log(`토큰 : ${result.data.access_token}`);
   });
 };
 

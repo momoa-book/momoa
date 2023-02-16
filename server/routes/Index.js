@@ -23,6 +23,6 @@ router.post('/signin', controllerSignIn.user_signin);
 router.delete('/logout', controllerSignIn.user_logout);
 
 //카카오 로그인 인가코드 전달
-router.post('/getkakao');
+router.post('/getkakao', controllerKakao.getKakao);
 
 module.exports = router;
