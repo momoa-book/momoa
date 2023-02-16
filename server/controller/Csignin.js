@@ -37,7 +37,7 @@ const jwt = require('jsonwebtoken');
 exports.user_signin = (req, res, next) => {
   const { user_id, password } = req.body;
   const userInfo = userDatabase.filter((item) => {
-    return item.usesr_id === user_id;
+    return item.user_id === user_id;
   })[0];
 
   if (!userInfo) {
