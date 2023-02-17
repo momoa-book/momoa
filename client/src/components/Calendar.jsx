@@ -1,85 +1,39 @@
-import React from 'react';
+import { addMonths, subMonths } from 'date-fns';
+import React, { useState } from 'react';
+import RenderCells from './Calendar/RenderCells';
+import RenderDays from './Calendar/RenderDays';
+import RenderHeader from './Calendar/RenderHeader';
 
 export default function Calendar() {
+  // 오늘 날짜 가져오기
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const prevMonth = () => {
+    setCurrentMonth(subMonths(currentMonth, 1));
+  };
+  const nextMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, 1));
+  };
+  const onDateClick = (day) => {
+    setSelectedDate(day);
+  };
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-              Product name
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Color
-            </th>
-            <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-              Category
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Price
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="border-b border-gray-200 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-            >
-              Apple MacBook Pro 17"
-            </th>
-            <td className="px-6 py-4">Sliver</td>
-            <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">Laptop</td>
-            <td className="px-6 py-4">$2999</td>
-          </tr>
-          <tr className="border-b border-gray-200 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-            >
-              Microsoft Surface Pro
-            </th>
-            <td className="px-6 py-4">White</td>
-            <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">Laptop PC</td>
-            <td className="px-6 py-4">$1999</td>
-          </tr>
-          <tr className="border-b border-gray-200 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-            >
-              Magic Mouse 2
-            </th>
-            <td className="px-6 py-4">Black</td>
-            <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-              Accessories
-            </td>
-            <td className="px-6 py-4">$99</td>
-          </tr>
-          <tr className="border-b border-gray-200 dark:border-gray-700">
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-            >
-              Google Pixel Phone
-            </th>
-            <td className="px-6 py-4">Gray</td>
-            <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">Phone</td>
-            <td className="px-6 py-4">$799</td>
-          </tr>
-          <tr>
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-            >
-              Apple Watch 5
-            </th>
-            <td className="px-6 py-4">Red</td>
-            <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">Wearables</td>
-            <td className="px-6 py-4">$999</td>
-          </tr>
-        </tbody>
-      </table>
+    <div className="calendar">
+      <RenderHeader
+        currentMonth={currentMonth}
+        prevMonth={prevMonth}
+        nextMonth={nextMonth}
+      />
+      <RenderDays />
+      <RenderCells
+        currentMonth={currentMonth}
+        selectedDate={selectedDate}
+        onDateClick={onDateClick}
+      />
+      {/* <div className="header">Header</div> */}
+
+      {/* <div className="days">Days</div> */}
+      {/* <div className="body">Cells</div> */}
     </div>
   );
 }
