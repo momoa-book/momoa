@@ -1,0 +1,28 @@
+GET http://localhost:5000/api/users
+
+###
+POST http://localhost:5000/api/users
+Content-Type:application/json
+
+{ 
+    "user_email":"momoa@gmail.com",
+    "user_name":"momoa",
+    "user_pw":"12345",
+    "confPassword":"12345"
+
+}
+
+###
+POST http://localhost:5000/api/signin
+Content-Type:application/json
+
+{ 
+    "user_email":"momoa@gmail.com",
+    "user_pw":"12345"
+}
+
+###
+GET http://localhost:5000/api/token
+
+###
+DELETE http://localhost:5000/api/logout

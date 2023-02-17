@@ -2,8 +2,8 @@ const User = (Sequelize, DataTypes) => {
   return Sequelize.define(
     'User',
     {
-      user_id: {
-        type: DataTypes.STRING(20),
+      user_email: {
+        type: DataTypes.STRING(50),
         allowNull: false,
         primaryKey: true,
       },
@@ -16,6 +16,11 @@ const User = (Sequelize, DataTypes) => {
       user_name: {
         type: DataTypes.STRING(20),
         allowNull: false,
+      },
+
+      refresh_token: {
+        type: DataTypes.TEXT,
+        defaultValue: null,
       },
     },
     {
