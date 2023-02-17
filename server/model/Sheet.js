@@ -14,7 +14,7 @@ const Sheet = (Sequelize, DataTypes) => {
         allowNull: false,
       },
 
-      user_id: {
+      user_email: {
         type: DataTypes.STRING(20),
         allowNull: false,
       },

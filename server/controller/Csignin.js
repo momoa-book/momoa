@@ -1,6 +1,8 @@
 const { User } = require('../model');
-const userDatabase = require('../model/Database');
+// const userDatabase = require('../model/Database');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+// import bcrypt from 'bcrypt';
 
 //로그인 페이지
 // exports.login_main = (req, res) => {
@@ -34,127 +36,98 @@ const jwt = require('jsonwebtoken');
 // };
 
 //jwt 테스트
-exports.user_signin = (req, res, next) => {
-  const { user_id, password } = req.body;
-  const userInfo = userDatabase.filter((item) => {
-    return item.user_id === user_id;
-  })[0];
 
-  if (!userInfo) {
-    res.status(403).json('권한이 없습니다');
-  } else {
-    try {
-      //access token 발급
-      const accessToken = jwt.sign(
-        {
-          user_id: userInfo.user_id,
-          user_name: userInfo.user_name,
-        },
-        process.env.ACCESS_SECRET,
-        {
-          expiresIn: '1m',
-          issuer: '토큰발급자',
-        }
-      );
-
-      //refresh token 발급
-      const refreshToken = jwt.sign(
-        {
-          user_id: userInfo.user_id,
-          user_name: userInfo.user_name,
-        },
-        process.env.REFRESH_SECRET,
-        {
-          expiresIn: '24h',
-          issuer: '토큰 발급자',
-        }
-      );
-
-      //token 전송
-      res.cookies('accessToken', accessToken, {
-        secure: false,
-        httpOnly: true,
-      });
-
-      res.cookies('refreshToken', refreshToken, {
-        secure: false,
-        httpOnly: true,
-      });
-      res.status(200).json('로그인 성공');
-    } catch (error) {}
-  }
-};
-
-exports.accessToken = (req, res) => {
+//원하는 정보들 조회하는
+exports.getUsers = async (req, res) => {
   try {
-    const token = req.cookies.accessToken;
-    const data = jwt.verify(token, process.env.ACCESS_SECRET);
-
-    const userData = userDatabase.filter((item) => {
-      // return item.email === data.email;
-      return item.user_id === data.user_id;
-    })[0];
-
-    const { password, ...others } = userData;
-
-    res.status(200).json(others);
+    const users = await User.findAll({
+      attributes: ['user_email', 'user_name'],
+    });
+    res.json(users);
   } catch (error) {
-    res.status(500).json(error);
+    console.log(error);
   }
 };
 
-exports.refreshToken = (req, res) => {
-  //access token을 갱신
-  try {
-    const token = req.cookies.refreshToken;
-    const data = jwt.verify(token, process.env.REFRESH_SECRET);
-    const userData = userDatabase.filter((item) => {
-      // return item.email === data.email;
-      return item.user_id === data.user_id;
-    })[0];
+// exports.Register = async (req, res) => {
+//   const { user_name, user_email, user_pw, confPassword } = req.body;
+//   if (user_pw !== confPassword)
+//     return res.status(400).json({ msg: '비밀번호가 일치하지 않습니다' });
+//   const salt = await bcrypt.genSalt();
+//   const hashPassword = await bcrypt.hash(user_pw, salt);
+//   try {
+//     await User.create({
+//       user_name: user_name,
+//       user_email: user_email,
+//       user_pw: hashPassword,
+//     });
+//     res.json({ msg: '등록 완료' });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
-    const accessToken = jwt.sign(
-      {
-        user_id: userData.user_id,
-        user_name: userData.user_name,
+exports.user_signin = async (req, res) => {
+  try {
+    const user = await User.findAll({
+      where: {
+        user_email: req.body.user_email,
       },
-      process.env.ACCESS_SECRET,
+    });
+    const match = await bcrypt.compare(req.body.user_pw, user[0].user_pw);
+    if (!match) return res.status(400).json({ msg: '비밀번호가 틀렸습니다' });
+    const user_email = user[0].user_email;
+    const user_name = user[0].user_name;
+    const accessToken = jwt.sign(
+      { user_email, user_name },
+      process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: '1m',
-        issuer: 'About Tech',
+        expiresIn: '20s',
       }
     );
-
-    res.cookie('accessToken', accessToken, {
-      secure: false,
+    const refreshToken = jwt.sign(
+      { user_email, user_name },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: '1d',
+      }
+    );
+    await User.update(
+      { refresh_token: refreshToken },
+      {
+        where: {
+          user_email: user_email,
+        },
+      }
+    );
+    res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
     });
-    res.status(200).json('access token 재발급');
+    res.json({ accessToken });
   } catch (error) {
-    res.status(500).json(error);
+    res.status(404).json({ msg: '이메일을 찾을 수 없습니다' });
   }
 };
 
-exports.loginSucess = (req, res) => {
-  try {
-    const token = req.cookies.accessToken;
-    const data = jwt.verify(token, process.env.ACCESS_SECRET);
-
-    const userData = userDatabase.filter((item) => {
-      // return item.email === data.email;
-      return item.user_id === data.user_id;
-    })[0];
-    res.status(200).json(userData);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-};
-
-exports.user_logout = (req, res) => {
-  try {
-    res.cookie('accessToken', '');
-    res.status(200).json('로그아웃 성공');
-  } catch (error) {
-    res.status(500).json(error);
-  }
+exports.user_logout = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) return res.sendStatus(204);
+  const user = await User.findAll({
+    where: {
+      refresh_token: refreshToken,
+    },
+  });
+  if (!user[0]) return res.sendStatus(204);
+  const user_email = user[0].user_email;
+  await User.update(
+    { refresh_token: null },
+    {
+      where: {
+        user_email: user_email,
+      },
+    }
+  );
+  res.clearCookie('refreshToken');
+  return res.sendStatus(200);
 };
