@@ -24,7 +24,7 @@ exports.refreshToken = async (req, res) => {
           { user_email, user_name },
           process.env.ACCESS_TOKEN_SECRET,
           {
-            expiresIn: '15s',
+            expiresIn: '30s',
           }
         );
         res.json({ accessToken });

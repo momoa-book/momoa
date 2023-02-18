@@ -1,26 +1,30 @@
 GET http://localhost:5000/api/users
+Authorization: Bearer
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2EyQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6Im1vbW9hMiIsImlhdCI6MTY3NjY5NzczNCwiZXhwIjoxNjc2Njk3NzY0fQ.CR4WKEXRDAm5afNDn5aagPPU4x9u1mONZNotiB6eB_U
 
 ###
 POST http://localhost:5000/api/users
 Content-Type:application/json
 
 { 
-    "user_email":"momoa@gmail.com",
-    "user_name":"momoa",
+    "user_email":"momoa2@gmail.com",
+    "user_name":"momoa2",
     "user_pw":"12345",
     "confPassword":"12345"
 
 }
 
+//로그인
 ###
 POST http://localhost:5000/api/signin
 Content-Type:application/json
 
 { 
-    "user_email":"momoa@gmail.com",
+    "user_email":"momoa2@gmail.com",
     "user_pw":"12345"
 }
 
+//리프레쉬토큰 ->액세스토큰갱신
 ###
 GET http://localhost:5000/api/token
 

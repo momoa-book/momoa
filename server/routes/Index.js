@@ -5,6 +5,8 @@ const controllerSignIn = require('../controller/Csignin');
 const controllerRefreshToken = require('../controller/CrefreshToken');
 const middlewareVerifyToken = require('../middleware/VerifyToken');
 const controllerKakao = require('../controller/Ckakao');
+
+// import { getUsers } from '../controllers/Users.js';
 // const controller = require('../controller/Cmain');
 
 //이메일 인증요청
@@ -22,6 +24,7 @@ router.post(
 );
 
 //마이페이지 or 캘린더화면 처럼 유저 정보뿌려주는 화면에서 요청할 api
+
 router.get(
   '/users',
   middlewareVerifyToken.verifyToken,
@@ -38,6 +41,9 @@ router.post('/signin', controllerSignIn.user_signin);
 router.delete('/logout', controllerSignIn.user_logout);
 
 //테스트용
-// router.post('/users', controllerSignIn.Register);
+router.post('/users', controllerSignIn.Register);
+
+//이 코드의 밑에있는 것들은 전부 미들웨어를 거치게 된다.
+// router.all('*', middlewareVerifyToken, (req,res,next) => {next();});
 
 module.exports = router;
