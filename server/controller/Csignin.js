@@ -8,10 +8,10 @@ const bcrypt = require('bcrypt');
 
 //원하는 정보들 조회하는
 exports.getUsers = async (req, res) => {
-  // console.log(req.decoded);
+  console.log(req.decoded);
   // console.log(req.decoded.user_name);
   // console.log(req.decoded.user_pw);
-  console.log(req.body);
+  // console.log(req.body);
   try {
     // let data = {
     //   user_pw: req.body.user_pw,
@@ -25,7 +25,7 @@ exports.getUsers = async (req, res) => {
         // user_name: req.decoded.user_name,
       },
     });
-    res.json(users);
+    res.json(users); //유저의 모든 정보를 보내준다(?)이것땜에 email,password,refreshtoken,name이 다뜬다...
   } catch (error) {
     console.log(error);
   }
@@ -93,7 +93,7 @@ exports.user_signin = async (req, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ accessToken }); //로그인할때 accesstoken 보내줌
+    res.json({ accessToken }); //로그인할때 accesstoken 보내줌 //
   } catch (error) {
     console.log(error);
     res.status(404).json({ msg: '이메일을 찾을 수 없습니다' });
@@ -152,3 +152,8 @@ exports.user_logout = async (req, res) => {
 //     res.send(true);
 //   });
 // };
+
+//1.회원가입시 유저정보생성됨(refreshtoken정보는 안생김)
+//2.로그인 했을때 refreshtoken이랑 accesstoken이 발행되고 accesstoken은 만료전까지, refreshtoken은 로그아웃전까지 유지됨
+//3. api/token 주소로 클라이언트에서 뭔가를 요청하면, (액세스토큰이 갱신됐으면 좋겠는 페이지에서 api/token으로 요청 보냄) accesstoken이 갱신됨
+//4. api/users 주소로 클라이언트에서 뭔가를 요청하면, VerifyToken이라는 미들웨어를 거쳐서 액세스토큰값이 서로 같은 경우에 다음 단계로 넘어간다( 다음 단계에서는 유저정보를 조회해서 뿌려주거나..수정하거나 등등 기능을 수행)
