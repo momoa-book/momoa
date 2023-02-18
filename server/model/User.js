@@ -9,13 +9,15 @@ const User = (Sequelize, DataTypes) => {
       },
 
       user_pw: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        defaultValue: null,
       },
 
       user_name: {
         type: DataTypes.STRING(20),
-        allowNull: false,
+        allowNull: true,
+        defaultValue: null,
       },
 
       refresh_token: {
