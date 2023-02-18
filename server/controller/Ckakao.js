@@ -9,7 +9,7 @@ const REST_API_KEY = process.env.KAKAO_REST_API_KEY;
 const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI;
 
 // 카카오 로그인
-exports.getKakao = async (req, res, next) => {
+exports.KakaoLogin = async (req, res, next) => {
   let code = req.body.authcode;
   console.log(`인가 코드 : ${req.body.authcode}`);
 
@@ -21,18 +21,23 @@ exports.getKakao = async (req, res, next) => {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
   });
-  console.log(`토큰 : ${get_token.data.access_token}`);
-  let token = get_token.data.access_token;
-  next(token);
-};
+  console.log(`{
+    엑세스 토큰 : ${get_token.data.access_token}, 
+    엑세스 토큰 만료시간 : ${get_token.data.expires_in}, 
+    리프레시 토큰 : ${get_token.data.refresh_token},
+    리프레시 토큰 만료시간: ${get_token.data.refresh_token_expires_in}
+    }`);
 
-//받은 토큰으로 사용자 정보 가져오기 요청
-exports.getUserInfo = async (req, res, next, token) => {
-  console.log(`받아온 토큰 : ${token}`);
+  let token = {
+    access_token: get_token.data.access_token,
+    refresh_token: get_token.data.refresh_token,
+  };
+
+  //받은 토큰으로 사용자 정보 가져오기 요청
   let user_info = await axios({
     url: 'https://kapi.kakao.com/v2/user/me',
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token.access_token}`,
     },
   });
   console.log(`유저 이메일 : ${user_info.data.kakao_account.email}`);
@@ -40,24 +45,24 @@ exports.getUserInfo = async (req, res, next, token) => {
   let get_user = {
     user_email: user_info.data.kakao_account.email,
     user_name: user_info.data.kakao_account.profile.nickname,
+    refresh_token: token.refresh_token,
   };
-  next();
-};
 
-//가입여부 확인하여 가입처리 후 로그인처리
-//가입 된 이메일인 경우 로그인처리
-exports.kakaoLogin = async (req, res) => {
+  //가입여부 확인하여 가입처리 후 로그인처리
+  //가입 된 이메일인 경우 로그인처리
   let find_user = await User.findOne({
-    attributes: ['user_email'],
-    where: get_user,
+    where: {
+      user_email: get_user.user_email,
+    },
   });
-  console.log(find_user);
+  console.log(`찾기: ${find_user}`);
+
+  //jwt 발행(todo) 후 로그인처리
 
   if (find_user == null) {
     let join = await User.create(get_user);
-    console.log(join);
-    res.redirect(REDIRECT_URI);
+    res.status(200).json({ token });
   } else {
-    res.redirect(REDIRECT_URI);
+    res.status(200).json({ token });
   }
 };
