@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Graph from './Graph.jsx';
 
 // 숫자 input 컴포넌트로 빼서 위에서도 사용해야겠다..
 
 export default function CurrentStatus() {
   const [num, setNum] = useState('');
   const [goal, setGoal] = useState('');
-  // goal 값 전달하면 됨.. 숫자로 다 바꿔놈
+  const [none, setNone] = useState(true);
+  const [percent, setPercent] = useState(0);
 
   const inputGoalFormat = (str) => {
     const comma = (str) => {
@@ -20,9 +22,28 @@ export default function CurrentStatus() {
     return comma(uncomma(str));
   };
 
+  function goalApi() {
+    setGoal(Number(num.split(',').reduce((curr, acc) => curr + acc, '')));
+    setNone(false);
+    axios
+      .post('http://localhost:5000/api/goal', {
+        goal: goal,
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
+  }
+
+  useEffect(() => {
+    if (goal) {
+      setPercent(((5000 / goal) * 100).toFixed(1));
+      // 10000 부분 사용 금액 합계로 변경해야함
+    }
+  }, [goal]);
+
   return (
     <>
-      {!goal && (
+      {none && (
         <>
           <h2> 이번 달 목표를 설정해 주세요! </h2>
           <div>
@@ -35,16 +56,7 @@ export default function CurrentStatus() {
             />
             <button
               onClick={() => {
-                setGoal(
-                  Number(num.split(',').reduce((curr, acc) => curr + acc, ''))
-                );
-                axios
-                  .post('http://localhost:5000/api/goal', {
-                    goal: goal,
-                  })
-                  .then((res) => {
-                    console.log(res.data);
-                  });
+                goalApi();
               }}
               className=" w-28 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
             >
@@ -54,11 +66,11 @@ export default function CurrentStatus() {
         </>
       )}
 
-      {goal && (
+      {!none && (
         <>
-          <h1> 이번 달 목표 금액은 {num}원 입니다! </h1>
+          <h1> 이번 달 예산 금액은 {num}원 입니다! </h1>
           <button
-            onClick={() => setGoal('')}
+            onClick={() => setNone(true)}
             className=" w-28 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
           >
             수정
@@ -66,7 +78,24 @@ export default function CurrentStatus() {
         </>
       )}
 
-      <h3> 아직 입력 된 데이터가 없습니다! </h3>
+      <div className="flex justify-between mb-1">
+        <span className="text-base font-bold text-purple-700 dark:text-white">
+          예산까지 {num}원 남았습니다.
+          {/* 실제 연산이 된 금액이 보여지도록, num 에서 사용 금액 뺀? 콤마 붙여야함..*/}
+        </span>
+        <span className="text-sm font-medium text-purple-700 dark:text-white">
+          {percent}%
+        </span>
+      </div>
+      <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+        <div
+          className="bg-purple-600 text-xs font-medium text-purple-100 text-center p-0.5 leading-none  rounded-full"
+          style={{ width: `${percent}%` }}
+        >
+          {percent}
+        </div>
+      </div>
+      <Graph />
     </>
   );
 }
