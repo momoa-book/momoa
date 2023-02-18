@@ -9,7 +9,7 @@ const REST_API_KEY = process.env.KAKAO_REST_API_KEY;
 const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI;
 
 // 카카오 로그인
-exports.getKakao = async (req, res) => {
+exports.getKakao = async (req, res, next) => {
   let code = req.body.authcode;
   console.log(`인가 코드 : ${req.body.authcode}`);
 
@@ -23,28 +23,41 @@ exports.getKakao = async (req, res) => {
   });
   console.log(`토큰 : ${get_token.data.access_token}`);
   let token = get_token.data.access_token;
+  next(token);
+};
 
-  //받은 토큰으로 사용자 정보 가져오기 요청
+//받은 토큰으로 사용자 정보 가져오기 요청
+exports.getUserInfo = async (req, res, next, token) => {
+  console.log(`받아온 토큰 : ${token}`);
   let user_info = await axios({
     url: 'https://kapi.kakao.com/v2/user/me',
     headers: {
-      Authorization: `Bearer ${get_token.data.access_token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
-  console.log(`유저 정보(닉네임) : ${user_info.data.properties.nickname}`);
-  let user = user_info.data.properties.nickname;
-
-  //가입여부 확인
-  let find_user = await User.findOne({
-    where: {},
-  });
+  console.log(`유저 이메일 : ${user_info.data.kakao_account.email}`);
+  console.log(`유저 닉네임 : ${user_info.data.kakao_account.profile.nickname}`);
+  let get_user = {
+    user_email: user_info.data.kakao_account.email,
+    user_name: user_info.data.kakao_account.profile.nickname,
+  };
+  next();
 };
 
-//회원 확인 및 가입
+//가입여부 확인하여 가입처리 후 로그인처리
+//가입 된 이메일인 경우 로그인처리
+exports.kakaoLogin = async (req, res) => {
+  let find_user = await User.findOne({
+    attributes: ['user_email'],
+    where: get_user,
+  });
+  console.log(find_user);
 
-// 2. 제공받은 사용자 정보로 가입여부 확인
-// 가입된 경우 : 서비스 로그인 단계 수행
-// 가입 안된 경우 : DB에 회원정보 등록 후 서비스 로그인 단계 수행
-
-//서비스 로그인
-// 1. 세션 발급
+  if (find_user == null) {
+    let join = await User.create(get_user);
+    console.log(join);
+    res.redirect(REDIRECT_URI);
+  } else {
+    res.redirect(REDIRECT_URI);
+  }
+};

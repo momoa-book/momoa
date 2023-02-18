@@ -38,13 +38,13 @@ export default function CurrentStatus() {
                 setGoal(
                   Number(num.split(',').reduce((curr, acc) => curr + acc, ''))
                 );
-                // axios
-                //   .post('http://localhost:5000/api/goal', {
-                //     goal: goal,
-                //   })
-                //   .then((res) => {
-                //     console.log(res.data);
-                //   });
+                axios
+                  .post('http://localhost:5000/api/goal', {
+                    goal: goal,
+                  })
+                  .then((res) => {
+                    console.log(res.data);
+                  });
               }}
               className=" w-28 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
             >
