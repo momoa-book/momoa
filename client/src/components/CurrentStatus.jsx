@@ -95,7 +95,6 @@ export default function CurrentStatus() {
           {percent}
         </div>
       </div>
-      <Graph />
     </>
   );
 }
