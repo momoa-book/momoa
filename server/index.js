@@ -3,8 +3,8 @@ const cors = require('cors');
 const app = express();
 const session = require('express-session');
 const router = require('./routes');
-// import cookieParser from 'cookie-parser';
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 require('dotenv').config();
 
@@ -33,6 +33,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOption));
+app.use(bodyParser.json());
 app.use('/api', router);
 
 app.listen(process.env.PORT, () => {
