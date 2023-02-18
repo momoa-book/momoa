@@ -16,12 +16,7 @@ router.post('/check_email', controllerSignUp.send_code);
 router.post('/signup', controllerSignUp.approve);
 
 //카카오 로그인
-router.post(
-  '/getkakao',
-  controllerKakao.getKakao,
-  controllerKakao.getUserInfo,
-  controllerKakao.kakaoLogin
-);
+router.post('/getkakao', controllerKakao.kakaoLogin);
 
 //마이페이지 or 캘린더화면 처럼 유저 정보뿌려주는 화면에서 요청할 api
 
