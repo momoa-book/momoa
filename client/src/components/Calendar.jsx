@@ -153,7 +153,7 @@ const RenderDays = () => {
   for (let i = 0; i < 7; i++) {
     days.push(
       <div
-        className="w-full flex justify-around p-1 ml-2 font-semibold text-xs rounded-lg pl-2  border-1"
+        className="w-full flex justify-start p-1 ml-2 font-semibold text-xs rounded-lg pl-2  border-1"
         key={i}
       >
         {date[i]}
@@ -161,7 +161,7 @@ const RenderDays = () => {
     );
   }
 
-  return <div className="flex flex-row mt-2">{days}</div>;
+  return <div className="flex flex-row mt-2 border-b-2">{days}</div>;
 };
 
 const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
@@ -181,11 +181,11 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
       const cloneDay = day;
       days.push(
         <div
-          className={`flex flex-row m-5 ${
+          className={`flex flex-row m-0 w-full h-24 ${
             !isSameMonth(day, monthStart)
               ? 'text-slate-300'
               : isSameDay(day, selectedDate)
-              ? 'selected'
+              ? 'selected bg-violet-400'
               : format(currentMonth, 'M') !== format(day, 'M')
               ? 'not-valid'
               : 'first:text-red-600 last:text-blue-600'
@@ -194,11 +194,13 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
           onClick={() => onDateClick(parse(cloneDay))}
         >
           <span
-            className={
-              format(currentMonth, 'M') !== format(day, 'M')
+            className={`mt-4 mr-0 mb-0 ml-4 ${
+              !isSameDay(day, selectedDate)
+                ? 'selected'
+                : format(currentMonth, 'M') !== format(day, 'M')
                 ? 'text not-valid'
                 : ''
-            }
+            }`}
           >
             {formattedDate}
           </span>
@@ -207,7 +209,7 @@ const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
       day = addDays(day, 1);
     }
     rows.push(
-      <div className="flex justify-around mt-5" key={day}>
+      <div className="flex space-between mt-1" key={day}>
         {days}
       </div>
     );
