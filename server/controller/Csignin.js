@@ -8,10 +8,21 @@ const bcrypt = require('bcrypt');
 
 //원하는 정보들 조회하는
 exports.getUsers = async (req, res) => {
+  // console.log(req.decoded);
+  // console.log(req.decoded.user_name);
+  // console.log(req.decoded.user_pw);
+  console.log(req.body);
   try {
-    const users = await User.findAll({
+    // let data = {
+    //   user_pw: req.body.user_pw,
+    // };
+
+    const users = await User.findOne({
+      //한명의 정보만 조회하기때문에 유저가 동시접속 몇명하든 상관없이 findone으로 조회
       where: {
-        user_email: req.body.user_email,
+        user_email: req.decoded.user_email,
+        ////여기에서 req.decoded에 담아서 보냈기때문에 이걸 받는 controller의 getusers에서 user_email: req.decoded.user_email,라고 받는다!
+        // user_name: req.decoded.user_name,
       },
     });
     res.json(users);
@@ -45,9 +56,9 @@ exports.user_signin = async (req, res) => {
         user_email: req.body.user_email,
       },
     });
-    console.log(req.body);
+    // console.log(req.body);
     const match = await bcrypt.compare(req.body.user_pw, user[0].user_pw);
-    console.log(match);
+    // console.log(match);
     if (!match) return res.status(400).json({ msg: '비밀번호가 틀렸습니다' });
     const user_email = user[0].user_email;
     const user_name = user[0].user_name;
@@ -56,7 +67,7 @@ exports.user_signin = async (req, res) => {
       { user_email, user_name },
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: '30s',
+        expiresIn: '10m',
       }
     );
     console.log(accessToken);
@@ -67,7 +78,9 @@ exports.user_signin = async (req, res) => {
         expiresIn: '1d',
       }
     );
-    console.log(refreshToken);
+    // console.log(refreshToken);
+    console.log('액세스토큰', accessToken);
+    console.log('액세스토큰2', { accessToken });
     await User.update(
       { refresh_token: refreshToken },
       {
@@ -80,7 +93,7 @@ exports.user_signin = async (req, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ accessToken });
+    res.json({ accessToken }); //로그인할때 accesstoken 보내줌
   } catch (error) {
     console.log(error);
     res.status(404).json({ msg: '이메일을 찾을 수 없습니다' });
