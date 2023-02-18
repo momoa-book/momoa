@@ -1,5 +1,7 @@
 const { User } = require('../model');
 const axios = require('axios');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 //토큰 요청할 카카오 서버 옵션
@@ -33,7 +35,7 @@ exports.KakaoLogin = async (req, res, next) => {
     refresh_token: get_token.data.refresh_token,
   };
 
-  //받은 토큰으로 사용자 정보 가져오기 요청
+  //받은 토큰으로 사용자 정보 가져오기
   let user_info = await axios({
     url: 'https://kapi.kakao.com/v2/user/me',
     headers: {
@@ -42,27 +44,62 @@ exports.KakaoLogin = async (req, res, next) => {
   });
   console.log(`유저 이메일 : ${user_info.data.kakao_account.email}`);
   console.log(`유저 닉네임 : ${user_info.data.kakao_account.profile.nickname}`);
+  const user_email = user_info.data.kakao_account.email;
+  const user_name = user_info.data.kakao_account.profile.nickname;
+
+  ////jwt 토큰 발행
+  //access토큰 발행
+  const accessToken = jwt.sign(
+    { user_email, user_name },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: '10m',
+    }
+  );
+  console.log(`accessToken: ${accessToken}`);
+  //refresh토큰 발행
+  const refreshToken = jwt.sign(
+    { user_email, user_name },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: '1d',
+    }
+  );
+  console.log(`refreshToken: ${refreshToken}`);
+
   let get_user = {
-    user_email: user_info.data.kakao_account.email,
-    user_name: user_info.data.kakao_account.profile.nickname,
-    refresh_token: token.refresh_token,
+    user_email: user_email,
+    user_name: user_name,
+    refresh_token: refreshToken,
+    isKakao: 'Y',
   };
 
-  //가입여부 확인하여 가입처리 후 로그인처리
-  //가입 된 이메일인 경우 로그인처리
+  //가입여부 확인하여 로그인 처리 완료
   let find_user = await User.findOne({
     where: {
-      user_email: get_user.user_email,
+      user_email: user_email,
     },
   });
-  console.log(`찾기: ${find_user}`);
-
-  //jwt 발행(todo) 후 로그인처리
 
   if (find_user == null) {
-    let join = await User.create(get_user);
-    res.status(200).json({ token });
+    await User.create(get_user);
   } else {
-    res.status(200).json({ token });
+    await User.update(
+      {
+        refresh_token: refreshToken,
+      },
+      {
+        where: {
+          user_email: user_email,
+        },
+      }
+    );
   }
+  res
+    .status(200)
+    .cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    })
+    .json({ accessToken });
 };
