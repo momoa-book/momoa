@@ -1,5 +1,6 @@
 GET http://localhost:5000/api/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2EzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6Im1vbW9hMyIsImlhdCI6MTY3NjcwODY5MywiZXhwIjoxNjc2NzA5MjkzfQ.J21-tcc8SmSMZ2awkSNeZ2uzgt1yL7-ekazqEHMJcnU
+
 ###
 POST http://localhost:5000/api/users
 Content-Type:application/json
@@ -28,3 +29,14 @@ GET http://localhost:5000/api/token
 
 ###
 DELETE http://localhost:5000/api/logout
+
+
+//카카오로그인
+###
+POST http://localhost:5000/api/getkakao
+Content-Type:application/json
+
+{ 
+    "user_email":"laura1129@naver.com"
+    
+}
