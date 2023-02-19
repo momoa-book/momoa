@@ -2,8 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo2.svg';
 import Toggle from './Toggle';
-import { Link } from 'react-router-dom'; // 필요 없음 사실..
-import { ReactComponent as Logo2 } from '../assets/logo2.svg';
 
 export default function Header() {
   const navigate = useNavigate();
