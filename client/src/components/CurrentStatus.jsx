@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Graph from './Graph.jsx';
+//import Graph from './Graph.jsx';
 
 // 숫자 input 컴포넌트로 빼서 위에서도 사용해야겠다..
 

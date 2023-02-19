@@ -1,22 +1,36 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import { ReactComponent as Logo2 } from '../assets/logo2.svg';
+import { AuthAtom } from '../atoms/AuthAtom';
 
 export default function Kakao(props) {
-  // let code = new URL(window.location.href).searchParams.get('code');
+  const navigate = useNavigate();
+  const setAuth = useSetRecoilState(AuthAtom);
 
+  // 인가 코드
   let params = new URL(document.URL).searchParams;
   let code = params.get('code');
 
+  // 새로고침 혹은 주소창에 주소 입력 시 액세스 토큰 만료 되어짐..
   const getAccessToken = () => {
     axios
       .post('http://localhost:5000/api/getkakao', { authcode: code })
       .then((res) => {
-        console.log(res.data);
-        // let accessToken = res.data.accessToken;
-        // let refreshToken = res.headers['refresh-token'];
-        // localStorage.setItem('CC_Token', accessToken);
-        // localStorage.setItem('RF_Token', refreshToken);
+        if (res.status === 200) {
+          const { accessToken } = res.data;
+          setAuth(true);
+          axios.defaults.headers.common[
+            'Authorization'
+          ] = `Bearer ${accessToken}`;
+          setTimeout(() => {
+            navigate('/account');
+          }, 2000);
+        } else {
+          alert('로그인에 실패하였습니다.');
+          navigate('/login');
+        }
       });
   };
 

@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { AuthAtom } from '../atoms/AuthAtom';
 
 export default function EmailLogin() {
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(null);
+  const navigate = useNavigate();
+  const setAuth = useSetRecoilState(AuthAtom);
 
+  // 이메일 유효성 검사
   function isVaildEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
   }
+
+  // 이메일 input 핸들러
   const onEmailHandler = (event) => {
     if (!isVaildEmail(event.target.value)) {
       setEmailError('유효하지 않은 이메일입니다.');
@@ -18,25 +26,42 @@ export default function EmailLogin() {
     }
     setEmail(event.target.value);
   };
+
+  // 비밀번호 input 핸들러
   const onPasswordHandler = (event) => {
     setPassword(event.target.value);
   };
 
-  const login = () => {
+  // 로그인 api 요청
+  function login() {
     axios({
       url: 'http://localhost:5000/api/signin',
       method: 'POST',
       withCredentials: true,
       data: {
-        user_id: Email,
-        password: Password,
+        user_email: Email,
+        user_pw: Password,
       },
-    }).then((result) => {
-      if (result.status === 200) {
-        window.open('/', '_self');
-      }
-    });
-  };
+    })
+      .then((res) => {
+        const { accessToken } = res.data;
+        setAuth(true);
+        axios.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${accessToken}`;
+        setTimeout(() => {
+          navigate('/account');
+          //로그인성공하면 로딩화면 보여줄 수 있도록 하기
+        }, 2000);
+      })
+      .catch((error) => {
+        if (error.response.status === 400) {
+          alert(error.response.data.msg);
+        } else if (error.response.status === 404) {
+          alert(error.response.data.msg);
+        }
+      });
+  }
 
   return (
     <>
