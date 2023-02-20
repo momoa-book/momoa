@@ -5,6 +5,7 @@ const controllerSignIn = require('../controller/Csignin');
 const controllerRefreshToken = require('../controller/CrefreshToken');
 const middlewareVerifyToken = require('../middleware/VerifyToken');
 const controllerKakao = require('../controller/Ckakao');
+const controllerMain = require('../controller/Cmainleft');
 
 // import { getUsers } from '../controllers/Users.js';
 // const controller = require('../controller/Cmain');
@@ -40,5 +41,19 @@ router.post('/users', controllerSignIn.Register);
 
 //이 코드의 밑에있는 것들은 전부 미들웨어를 거치게 된다.
 // router.all('*', middlewareVerifyToken, (req,res,next) => {next();});
+
+//차트정보 불러오기
+router.get(
+  '/getchart',
+  middlewareVerifyToken.verifyToken,
+  controllerMain.get_chart
+);
+
+//수입지출등등입력하는 왼쪽 상단부
+router.post(
+  '/writeinfo',
+  middlewareVerifyToken.verifyToken,
+  controllerMain.write_info
+);
 
 module.exports = router;
