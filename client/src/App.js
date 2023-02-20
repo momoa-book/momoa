@@ -37,7 +37,7 @@ function App() {
         <Route path="/auth/kakao" element={<Kakao />} />
         <Route path="/*" element={<NotFound />} />
         <Route
-          path="/account"
+          path="/account/*"
           element={<PrivateRoute component={<Account />} />}
         />
       </Routes>

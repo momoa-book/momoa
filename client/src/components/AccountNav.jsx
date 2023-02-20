@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ReactComponent as Logo } from '../assets/logo2.svg';
 import Toggle from './Toggle';
 import { useRecoilState } from 'recoil';
 import { isClickedAtom } from '../atoms/InterfaceAtom';
+import { HiOutlineShare, HiOutlineChatAlt } from 'react-icons/hi';
+import ShareModal from './ShareModal';
 
 export default function AccountNav() {
   const [clicked, setClicked] = useRecoilState(isClickedAtom);
+  const [shareShow, setShareshow] = useState(false);
 
   return (
     <>
@@ -35,17 +38,28 @@ export default function AccountNav() {
               </button>
               <div className="flex md:mr-24 ">
                 <Logo className="h-8" width="50px" height="50px" />
-                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+                <span className="self-center text-gray-800 max-[1080px]:hidden font-semibold sm:text-2xl whitespace-nowrap dark:text-gray-50">
                   모모아
                 </span>
               </div>
             </div>
             <div className="flex items-center justify-start">
               <img
-                className="mr-3 w-8 h-8 rounded-full"
+                className="mr-4 w-8 h-8 rounded-full"
                 src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                 alt="user_pic"
               />
+              <HiOutlineChatAlt className="mr-3 h-6 w-6 hover:cursor-pointer hover:translate-y-1" />
+              <HiOutlineShare
+                onClick={() => setShareshow(!shareShow)}
+                className="mr-3 h-6 w-6 hover:cursor-pointer hover:translate-y-1"
+              />
+
+              {shareShow && (
+                <>
+                  <ShareModal />
+                </>
+              )}
 
               <Toggle />
             </div>
