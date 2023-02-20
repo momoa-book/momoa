@@ -40,8 +40,6 @@ export default function AccountNav() {
                 </span>
               </div>
             </div>
-            <div className="flex">문서 이름</div>
-
             <div className="flex items-center justify-start">
               <img
                 className="mr-3 w-8 h-8 rounded-full"
