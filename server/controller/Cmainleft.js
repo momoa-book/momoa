@@ -4,7 +4,7 @@ const { Info } = require('../model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-//차트정보 불러오는
+//sheet_id에 해당하는 모든 정보 불러오는
 exports.get_chart = async (req, res) => {
   let result = await Info.findAll({
     attributes: ['type', 'input_date', 'money'],
@@ -30,3 +30,7 @@ exports.write_info = (req, res) => {
 //sheet_id는 어떻게 처리함?
 
 //goal은 sheet차트에 있는데..??
+
+//목표 입력하는
+
+//마이페이지
