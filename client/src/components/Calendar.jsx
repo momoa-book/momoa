@@ -13,6 +13,10 @@ import {
   parse,
 } from 'date-fns';
 import { HiArrowCircleLeft, HiArrowCircleRight } from 'react-icons/hi';
+import AccountsHeader from './accountsAllList/AccountsHeader';
+import AccountsList from './accountsAllList/AccountsList';
+
+const filters = ['전체', '수입', '지출'];
 
 export default function Calendar() {
   // 1. new Date() 날짜 가져오기
@@ -21,6 +25,8 @@ export default function Calendar() {
   // 4. 이동아이콘을 클릭했을 때, 이전월로 이동하는 함수 prevMonth & 다음월로 이동하는 함수 nextMonth
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [filter, setFilter] = useState(filters[0]);
+
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
   };
@@ -31,85 +37,6 @@ export default function Calendar() {
     setSelectedDate(day);
   };
   return (
-    // <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-    //   <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-    //     <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
-    //       <tr>
-    //         <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-    //           Product name
-    //         </th>
-    //         <th scope="col" className="px-6 py-3">
-    //           Color
-    //         </th>
-    //         <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-    //           Category
-    //         </th>
-    //         <th scope="col" className="px-6 py-3">
-    //           Price
-    //         </th>
-    //       </tr>
-    //     </thead>
-    //     <tbody>
-    //       <tr className="border-b border-gray-200 dark:border-gray-700">
-    //         <th
-    //           scope="row"
-    //           className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-    //         >
-    //           Apple MacBook Pro 17"
-    //         </th>
-    //         <td className="px-6 py-4">Sliver</td>
-    //         <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">Laptop</td>
-    //         <td className="px-6 py-4">$2999</td>
-    //       </tr>
-    //       <tr className="border-b border-gray-200 dark:border-gray-700">
-    //         <th
-    //           scope="row"
-    //           className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-    //         >
-    //           Microsoft Surface Pro
-    //         </th>
-    //         <td className="px-6 py-4">White</td>
-    //         <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">Laptop PC</td>
-    //         <td className="px-6 py-4">$1999</td>
-    //       </tr>
-    //       <tr className="border-b border-gray-200 dark:border-gray-700">
-    //         <th
-    //           scope="row"
-    //           className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-    //         >
-    //           Magic Mouse 2
-    //         </th>
-    //         <td className="px-6 py-4">Black</td>
-    //         <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-    //           Accessories
-    //         </td>
-    //         <td className="px-6 py-4">$99</td>
-    //       </tr>
-    //       <tr className="border-b border-gray-200 dark:border-gray-700">
-    //         <th
-    //           scope="row"
-    //           className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-    //         >
-    //           Google Pixel Phone
-    //         </th>
-    //         <td className="px-6 py-4">Gray</td>
-    //         <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">Phone</td>
-    //         <td className="px-6 py-4">$799</td>
-    //       </tr>
-    //       <tr>
-    //         <th
-    //           scope="row"
-    //           className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-    //         >
-    //           Apple Watch 5
-    //         </th>
-    //         <td className="px-6 py-4">Red</td>
-    //         <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">Wearables</td>
-    //         <td className="px-6 py-4">$999</td>
-    //       </tr>
-    //     </tbody>
-    //   </table>
-    // </div>
     <div className="calendar">
       <RenderHeader
         currentMonth={currentMonth}
@@ -122,9 +49,14 @@ export default function Calendar() {
         selectedDate={selectedDate}
         onDateClick={onDateClick}
       />
-      {/* <div className="header">Header</div> */}
-      {/* <div className="days">Days</div> */}
-      {/* <div className="body">Cells</div> */}
+      <div>
+        <AccountsHeader
+          filters={filters}
+          filter={filter}
+          onFilterChange={setFilter}
+        />
+        <AccountsList filter={filter} />
+      </div>
     </div>
   );
 }
