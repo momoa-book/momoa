@@ -26,6 +26,7 @@ function App() {
           path="/"
           element={<PublicRoute restricted={true} component={<Main />} />}
         />
+
         <Route
           path="/signup"
           element={<PublicRoute restricted={true} component={<SignUp />} />}
@@ -40,6 +41,8 @@ function App() {
           path="/account/*"
           element={<PrivateRoute component={<Account />} />}
         />
+        {/* 임시 테스트 페이지 */}
+        <Route path="/test" element={<Account />} />
       </Routes>
     </>
   );
