@@ -11,6 +11,7 @@ import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PriavateRoute';
 import { useRecoilValue } from 'recoil';
 import { AuthAtom } from './atoms/AuthAtom';
+import InfoInit from './pages/InfoInit';
 
 axios.defaults.baseURL = 'http://localhost:5000';
 axios.defaults.withCredentials = true;
@@ -41,8 +42,7 @@ function App() {
           path="/account/*"
           element={<PrivateRoute component={<Account />} />}
         />
-        {/* 임시 테스트 페이지 */}
-        <Route path="/test" element={<Account />} />
+        <Route path="/infoset" element={<InfoInit />} />
       </Routes>
     </>
   );

@@ -39,7 +39,7 @@ exports.KakaoLogin = async (req, res, next) => {
   let user_info = await axios({
     url: 'https://kapi.kakao.com/v2/user/me',
     headers: {
-      Authorization: `Bearer ${token.access_token}`,
+      Authorization: `Bearer ${kakao_token.access_token}`,
     },
   });
   console.log(`유저 이메일 : ${user_info.data.kakao_account.email}`);
@@ -48,8 +48,8 @@ exports.KakaoLogin = async (req, res, next) => {
   const user_name = user_info.data.kakao_account.profile.nickname;
 
   //세션에 카카오 토큰 저장
-  req.session.access_token = access_token;
-  req.session.refresh_token = refresh_token;
+  req.session.access_token = kakao_token.access_token;
+  req.session.refresh_token = kakao_token.refresh_token;
 
   //가입여부 확인하여 로그인 처리 완료
   let find_user = await User.findOne({
@@ -71,6 +71,7 @@ exports.KakaoLogin = async (req, res, next) => {
         }
       );
       console.log(`accessToken: ${accessToken}`);
+
       //refresh토큰 발행
       const refreshToken = await jwt.sign(
         { user_email, user_name },
@@ -81,16 +82,13 @@ exports.KakaoLogin = async (req, res, next) => {
         }
       );
       console.log(`refreshToken: ${refreshToken}`);
+
       //토큰 전달
-      res.cookie('accessToken', accessToken, {
-        secure: false,
-        httpOnly: true,
-      });
       res.cookie('refreshToken', refreshToken, {
         secure: false,
         httpOnly: true,
       });
-      res.status(200).json('Kakao Login Success');
+      res.status(200).json({ accessToken: accessToken });
     } catch (err) {
       console.error(err);
       res.status(500).json(err);
@@ -101,18 +99,20 @@ exports.KakaoLogin = async (req, res, next) => {
       user_name: user_name,
       isKakao: 'Y',
     });
+
+    ////jwt 발행////
     try {
-      ////jwt 발행
       //access토큰 발행
       const accessToken = await jwt.sign(
         { user_email, user_name },
         process.env.ACCESS_TOKEN_SECRET,
         {
-          expiresIn: '1m',
+          expiresIn: '10m',
           issuer: 'Momoa',
         }
       );
       console.log(`accessToken: ${accessToken}`);
+
       //refresh토큰 발행
       const refreshToken = await jwt.sign(
         { user_email, user_name },
@@ -123,30 +123,16 @@ exports.KakaoLogin = async (req, res, next) => {
         }
       );
       console.log(`refreshToken: ${refreshToken}`);
+
       //토큰 전달
-      res.cookie('accessToken', accessToken, {
-        secure: false,
-        httpOnly: true,
-      });
       res.cookie('refreshToken', refreshToken, {
         secure: false,
         httpOnly: true,
       });
-      res.status(200).json('Kakao Login Success');
+      res.status(200).json({ accessToken: accessToken });
     } catch (err) {
       console.error(err);
       res.status(500).json(err);
     }
   }
-
-  // await User.update(
-  //   {
-  //     refresh_token: refreshToken,
-  //   },
-  //   {
-  //     where: {
-  //       user_email: user_email,
-  //     },
-  //   }
-  // );
 };

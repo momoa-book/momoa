@@ -32,7 +32,7 @@ export default function InfoInit() {
 
   function finalSignup() {
     axios({
-      url: 'http://localhost:5000/api/signin',
+      url: 'http://localhost:5000/api/signup2',
       method: 'POST',
       withCredentials: true,
       data: {

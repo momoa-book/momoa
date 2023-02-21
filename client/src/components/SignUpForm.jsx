@@ -67,7 +67,7 @@ export default function SignUpForm() {
         console.log(res.data.msg);
         // if (res.status === 200) {
         setTimeout(() => {
-          navigate('/login');
+          navigate('/infoset');
         }, 2000);
         // } else setCodeError(res.data.msg);
       });

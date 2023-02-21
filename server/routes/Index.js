@@ -14,7 +14,8 @@ const controllerMain = require('../controller/Cmainleft');
 router.post('/check_email', controllerSignUp.send_code);
 
 //회원가입
-router.post('/signup', controllerSignUp.approve);
+router.post('/signup', controllerSignUp.approve_code);
+router.post('/signup2', controllerSignUp.finish_signup);
 
 //카카오 로그인
 router.post('/getkakao', controllerKakao.KakaoLogin);
