@@ -27,6 +27,7 @@ function App() {
           path="/"
           element={<PublicRoute restricted={true} component={<Main />} />}
         />
+
         <Route
           path="/signup"
           element={<PublicRoute restricted={true} component={<SignUp />} />}

@@ -11,22 +11,32 @@ const Info = (Sequelize, DataTypes) => {
       input_date: {
         type: DataTypes.DATE,
         allowNull: false,
+        primaryKey: true,
       },
 
       type: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
       },
 
       money: {
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
 
       category: {
-        type: DataTypes.STRING(5),
+        type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: Sequelize.UUIDV4,
+      },
+
+      memo: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+
+      goal: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
       },
     },
     {
