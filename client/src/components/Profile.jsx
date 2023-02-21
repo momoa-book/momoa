@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { AuthAtom } from '../atoms/AuthAtom';
 import { useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -12,18 +13,15 @@ export default function Profile() {
     axios({
       url: 'http://localhost:5000/api/logout',
       method: 'DELETE',
-      data: {},
     })
       .then((res) => {
         setAuth(false);
         navigate('/');
       })
       .catch((error) => {
-        if (error.response.status === 400) {
+        if (error.response.status === 200) {
           alert(error.response.data.msg);
-        } else if (error.response.status === 404) {
-          alert(error.response.data.msg);
-        }
+        } else alert(error.response.data.msg);
       });
   }
   return (

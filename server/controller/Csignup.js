@@ -1,7 +1,6 @@
 const { User } = require('../model');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv').config();
-const session = require('express-session');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -99,7 +98,7 @@ exports.finish_signup = async (req, res) => {
   try {
     await User.update(
       {
-        user_name: user_email,
+        user_name: req.body.user_name,
         user_pw: hashPassword,
       },
       {
