@@ -43,11 +43,11 @@ router.post('/users', controllerSignIn.Register);
 //이 코드의 밑에있는 것들은 전부 미들웨어를 거치게 된다.
 // router.all('*', middlewareVerifyToken, (req,res,next) => {next();});
 
-//차트정보 불러오기
+//메인화면 모든 정보 불러오기
 router.get(
-  '/getchart',
+  '/getmain',
   middlewareVerifyToken.verifyToken,
-  controllerMain.get_chart
+  controllerMain.get_main
 );
 
 //수입지출등등입력하는 왼쪽 상단부
@@ -57,6 +57,7 @@ router.post(
   controllerMain.write_info
 );
 
+//목표금액 입력하는
 router.post(
   '/writegoal',
   middlewareVerifyToken.verifyToken,
