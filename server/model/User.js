@@ -19,10 +19,12 @@ const User = (Sequelize, DataTypes) => {
         allowNull: true,
         defaultValue: null,
       },
+
       refresh_token: {
         type: DataTypes.TEXT,
         defaultValue: null,
       },
+
       isKakao: {
         type: DataTypes.STRING(5),
         allownull: true,
