@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUpForm() {
   const [Email, setEmail] = useState('');
@@ -7,6 +8,7 @@ export default function SignUpForm() {
   const [emailError, setEmailError] = useState(null);
   const [emailCheck, setEmailCheck] = useState(false);
   const [codeError, setCodeError] = useState(null);
+  const navigate = useNavigate();
 
   function isVaildEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
@@ -24,38 +26,51 @@ export default function SignUpForm() {
     setsignupCode(event.target.value);
   };
 
-  const login = () => {
+  const createAccount = () => {
+    setEmailCheck(!emailCheck);
     axios({
       url: 'http://localhost:5000/api/check_email',
       method: 'POST',
       withCredentials: true,
       data: {
-        user_id: Email,
+        user_email: Email,
       },
-    }).then((res) => {
-      if (res.status === 200) {
-        setEmailCheck(emailCheck === true);
-      } else {
-        setEmailError('이미 등록 된 이메일입니다.');
-      }
-    });
+    })
+      .catch((err) => {
+        console.log(err.response.data);
+        setEmailError(err.response.data.msg);
+      })
+      .then((res) => {
+        console.log(`이메일 발송: ${res.status}`);
+        // if (res.status === 200) {
+        // } else {
+        //   setEmailError(res.data.msg);
+        // }
+      });
   };
 
-  const codeConfrim = () => {
+  const codeConfirm = () => {
+    console.log(Email);
     axios({
       url: 'http://localhost:5000/api/signup',
       method: 'POST',
       withCredentials: true,
       data: {
         code: signupCode,
+        user_email: Email,
       },
-    }).then((res) => {
-      if (res.status === 200) {
-        setEmailCheck(emailCheck === true);
-      } else if (res.status === 400) {
-        setCodeError('인증번호가 일치하지 않습니다.');
-      }
-    });
+    })
+      .catch((err) => {
+        setCodeError(err.response.data.msg);
+      })
+      .then((res) => {
+        console.log(res.data.msg);
+        // if (res.status === 200) {
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+        // } else setCodeError(res.data.msg);
+      });
   };
 
   return (
@@ -86,12 +101,16 @@ export default function SignUpForm() {
         )}
 
         {!emailCheck && (
-          <button type="button" onClick={login} className="user-submit-btn">
+          <button
+            type="button"
+            onClick={createAccount}
+            className="user-submit-btn"
+          >
             이메일로 시작하기
           </button>
         )}
 
-        {emailCheck && (
+        {emailCheck === true && (
           <>
             <label
               htmlFor="authcode"
@@ -115,7 +134,7 @@ export default function SignUpForm() {
             )}
             <button
               type="button"
-              onClick={codeConfrim}
+              onClick={codeConfirm}
               className=" text-white w-full bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-gray-800"
             >
               시작하기
