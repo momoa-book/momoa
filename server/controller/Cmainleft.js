@@ -22,7 +22,7 @@ exports.write_info = (req, res) => {
     category: req.body.category,
   };
 
-  Board.create(data).then((result) => {
+  Info.create(data).then((result) => {
     res.send(result);
   });
 };
@@ -32,5 +32,14 @@ exports.write_info = (req, res) => {
 //goal은 sheet차트에 있는데..??
 
 //목표 입력하는
+exports.write_goal = (req, res) => {
+  let data = {
+    goal: req.body.goal,
+  };
+
+  Info.create(data).then((result) => {
+    res.send(result);
+  });
+};
 
 //마이페이지
