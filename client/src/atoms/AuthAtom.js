@@ -14,4 +14,10 @@ const AuthAtom = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export { AuthAtom };
+const FinishAtom = atom({
+  key: 'finish',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export { AuthAtom, FinishAtom };

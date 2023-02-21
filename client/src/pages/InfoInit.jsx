@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ReactComponent as Logo } from '../assets/logo2.svg';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { AuthAtom } from '../atoms/AuthAtom';
+import { AuthAtom, FinishAtom } from '../atoms/AuthAtom';
 
 export default function InfoInit() {
   const [Password, setPassword] = useState('');
@@ -11,6 +11,7 @@ export default function InfoInit() {
   const [passwordError, setpasswordError] = useState('');
   const navigate = useNavigate();
   const setAuth = useSetRecoilState(AuthAtom);
+  const setFinish = useSetRecoilState(FinishAtom);
 
   function isVaildPw(pw) {
     return /^.*(?=.{8,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$/.test(pw);
@@ -42,6 +43,7 @@ export default function InfoInit() {
     })
       .then((res) => {
         setAuth(true);
+        setFinish(false);
         navigate('/account');
       })
       .catch((error) => {
