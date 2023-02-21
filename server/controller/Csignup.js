@@ -2,6 +2,8 @@ const { User } = require('../model');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv').config();
 const session = require('express-session');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 //인증코드(6자리 랜덤숫자) 생성 함수
 let authCode = '';
@@ -9,6 +11,9 @@ function createAuthCode() {
   authCode = String(Math.floor(Math.random() * 1000000));
   return authCode;
 }
+
+let user_email = '';
+let user_name = '';
 
 //이메일 유효성 검사, 인증코드 발송
 exports.send_code = async (req, res) => {
@@ -21,7 +26,7 @@ exports.send_code = async (req, res) => {
   if (find_email) {
     res.status(500).send({ msg: '이미 가입된 이메일입니다.' });
   } else {
-    req.session.user_email = req.body.user_email;
+    user_email = req.body.user_email;
     //인증코드 생성
     createAuthCode();
     console.log(`인증코드 생성 : ${authCode}`);
@@ -56,26 +61,27 @@ exports.send_code = async (req, res) => {
         res.status(500).send('이메일 발송 실패');
       } else {
         console.log(info);
-        req.session.email_authCode = authCode;
-        req.session.save(() => {
-          res.status(200).send('이메일 발송 성공');
-        });
+        res.status(200).send('이메일 발송 성공');
+        setTimeout(() => {
+          authCode = null;
+        }, 1000 * 6 * 15);
       }
     });
   }
 };
 
 //인증코드 확인, 회원가입 완료
-exports.approve = async (req, res) => {
+exports.approve_code = async (req, res) => {
   //세션에 저장해 둔 코드와 사용자가 입력한 코드가 일치하는지 확인
   //일치한다면 DB에 회원정보 등록 및 가입절차 완료
+
   if (req.body.code == authCode) {
     let register = await User.create({
       user_email: req.body.user_email,
     });
     console.log(`회원가입 완료 : ${register}`);
     res.status(200).send('회원가입 완료');
-  } else if (req.body.code === null) {
+  } else if (authCode === null) {
     res.status(500).send({
       msg: '인증 유효시간이 지나 인증할 수 없습니다. 인증코드를 재발급해주세요.',
     });
@@ -85,12 +91,72 @@ exports.approve = async (req, res) => {
     });
 };
 
-exports.first_login = async (req, res) => {
-  await User.update({
-    user_name: req.body.user_name,
-    user_pw: req.body.user_pw,
-    where: {
-      user_email: req.session.user_email,
-    },
-  });
+//회원가입 완료 및 자동로그인
+exports.finish_signup = async (req, res) => {
+  const salt = await bcrypt.genSalt();
+  const hashPassword = await bcrypt.hash(req.body.user_pw, salt);
+  user_name = req.body.user_name;
+  try {
+    await User.update(
+      {
+        user_name: user_email,
+        user_pw: hashPassword,
+      },
+      {
+        where: {
+          user_email: user_email,
+        },
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
+
+  ////JWT 발행////
+  try {
+    //access토큰 발행
+    const accessToken = await jwt.sign(
+      { user_email, user_name },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: '1m',
+        issuer: 'Momoa',
+      }
+    );
+    console.log(`accessToken: ${accessToken}`);
+
+    //refresh토큰 발행
+    const refreshToken = await jwt.sign(
+      { user_email, user_name },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: '24h',
+        issuer: 'Momoa',
+      }
+    );
+    console.log(`refreshToken: ${refreshToken}`);
+
+    await User.update(
+      {
+        refresh_token: refreshToken,
+      },
+      {
+        where: {
+          user_email: user_email,
+        },
+      }
+    );
+
+    //토큰 전달
+    res
+      .cookie('refreshToken', refreshToken, {
+        secure: false,
+        httpOnly: true,
+      })
+      .status(200)
+      .json({ accessToken: accessToken, msg: '회원가입 및 로그인 완료' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: '토큰 발급 오류', err: err });
+  }
 };

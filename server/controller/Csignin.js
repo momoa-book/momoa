@@ -109,7 +109,7 @@ exports.user_logout = async (req, res) => {
 
   //카카오 계정인 경우 카카오 로그아웃 먼저 수행
   console.log(`카카오토큰: ${req.session.access_token}`);
-  if (isKakao === 'Y') {
+  if (isKakao) {
     let kakao_logout = await axios({
       url: 'https://kapi.kakao.com/v1/user/logout',
       headers: {
