@@ -57,4 +57,10 @@ router.post(
   controllerMain.write_info
 );
 
+router.post(
+  '/writegoal',
+  middlewareVerifyToken.verifyToken,
+  controllerMain.write_goal
+);
+
 module.exports = router;
