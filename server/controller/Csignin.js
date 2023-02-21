@@ -79,8 +79,7 @@ exports.user_signin = async (req, res) => {
       }
     );
     // console.log(refreshToken);
-    console.log('액세스토큰', accessToken);
-    console.log('액세스토큰2', { accessToken });
+
     await User.update(
       { refresh_token: refreshToken },
       {
