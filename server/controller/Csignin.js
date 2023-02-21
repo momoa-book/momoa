@@ -102,6 +102,28 @@ exports.user_signin = async (req, res) => {
 
 exports.user_logout = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
+  const isKakao = await User.findOne({
+    attributes: ['isKakao'],
+    where: { user_email: req.body.user_email },
+  });
+
+  //카카오 계정인 경우 카카오 로그아웃 먼저 수행
+  console.log(`카카오토큰: ${req.session.access_token}`);
+  if (isKakao === 'Y') {
+    let kakao_logout = await axios({
+      url: 'https://kapi.kakao.com/v1/user/logout',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${req.session.access_token}`,
+      },
+    });
+  }
+  console.log(`로그아웃 완료: ${kakao_logout.data}`);
+  req.session.destroy(() => {
+    req.session;
+  });
+
+  //DB와 쿠키에서 jwt 리프레쉬 토큰 삭제
   if (!refreshToken) return res.sendStatus(204);
   const user = await User.findAll({
     where: {

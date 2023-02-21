@@ -1,7 +1,7 @@
 const { User } = require('../model');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const session = require('express-session');
 require('dotenv').config();
 
 //토큰 요청할 카카오 서버 옵션
@@ -30,7 +30,7 @@ exports.KakaoLogin = async (req, res, next) => {
     리프레시 토큰 만료시간: ${get_token.data.refresh_token_expires_in}
     }`);
 
-  let token = {
+  let kakao_token = {
     access_token: get_token.data.access_token,
     refresh_token: get_token.data.refresh_token,
   };
@@ -47,32 +47,9 @@ exports.KakaoLogin = async (req, res, next) => {
   const user_email = user_info.data.kakao_account.email;
   const user_name = user_info.data.kakao_account.profile.nickname;
 
-  ////jwt 토큰 발행
-  //access토큰 발행
-  const accessToken = jwt.sign(
-    { user_email, user_name },
-    process.env.ACCESS_TOKEN_SECRET,
-    {
-      expiresIn: '10m',
-    }
-  );
-  console.log(`accessToken: ${accessToken}`);
-  //refresh토큰 발행
-  const refreshToken = jwt.sign(
-    { user_email, user_name },
-    process.env.REFRESH_TOKEN_SECRET,
-    {
-      expiresIn: '1d',
-    }
-  );
-  console.log(`refreshToken: ${refreshToken}`);
-
-  let get_user = {
-    user_email: user_email,
-    user_name: user_name,
-    refresh_token: refreshToken,
-    isKakao: 'Y',
-  };
+  //세션에 카카오 토큰 저장
+  req.session.access_token = access_token;
+  req.session.refresh_token = refresh_token;
 
   //가입여부 확인하여 로그인 처리 완료
   let find_user = await User.findOne({
@@ -81,25 +58,95 @@ exports.KakaoLogin = async (req, res, next) => {
     },
   });
 
-  if (find_user == null) {
-    await User.create(get_user);
+  if (find_user) {
+    try {
+      ////jwt 발행
+      //access토큰 발행
+      const accessToken = await jwt.sign(
+        { user_email, user_name },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+          expiresIn: '1m',
+          issuer: 'Momoa',
+        }
+      );
+      console.log(`accessToken: ${accessToken}`);
+      //refresh토큰 발행
+      const refreshToken = await jwt.sign(
+        { user_email, user_name },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+          expiresIn: '24h',
+          issuer: 'Momoa',
+        }
+      );
+      console.log(`refreshToken: ${refreshToken}`);
+      //토큰 전달
+      res.cookie('accessToken', accessToken, {
+        secure: false,
+        httpOnly: true,
+      });
+      res.cookie('refreshToken', refreshToken, {
+        secure: false,
+        httpOnly: true,
+      });
+      res.status(200).json('Kakao Login Success');
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
   } else {
-    await User.update(
-      {
-        refresh_token: refreshToken,
-      },
-      {
-        where: {
-          user_email: user_email,
-        },
-      }
-    );
+    await User.create({
+      user_email: user_email,
+      user_name: user_name,
+      isKakao: 'Y',
+    });
+    try {
+      ////jwt 발행
+      //access토큰 발행
+      const accessToken = await jwt.sign(
+        { user_email, user_name },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+          expiresIn: '1m',
+          issuer: 'Momoa',
+        }
+      );
+      console.log(`accessToken: ${accessToken}`);
+      //refresh토큰 발행
+      const refreshToken = await jwt.sign(
+        { user_email, user_name },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+          expiresIn: '24h',
+          issuer: 'Momoa',
+        }
+      );
+      console.log(`refreshToken: ${refreshToken}`);
+      //토큰 전달
+      res.cookie('accessToken', accessToken, {
+        secure: false,
+        httpOnly: true,
+      });
+      res.cookie('refreshToken', refreshToken, {
+        secure: false,
+        httpOnly: true,
+      });
+      res.status(200).json('Kakao Login Success');
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
   }
-  res
-    .status(200)
-    .cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    })
-    .json({ accessToken });
+
+  // await User.update(
+  //   {
+  //     refresh_token: refreshToken,
+  //   },
+  //   {
+  //     where: {
+  //       user_email: user_email,
+  //     },
+  //   }
+  // );
 };
