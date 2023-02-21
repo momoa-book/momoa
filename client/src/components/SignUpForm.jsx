@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { FinishAtom } from '../atoms/AuthAtom';
 
 export default function SignUpForm() {
   const [Email, setEmail] = useState('');
@@ -8,6 +10,7 @@ export default function SignUpForm() {
   const [emailError, setEmailError] = useState(null);
   const [emailCheck, setEmailCheck] = useState(false);
   const [codeError, setCodeError] = useState(null);
+  const setFinish = useSetRecoilState(FinishAtom);
   const navigate = useNavigate();
 
   function isVaildEmail(email) {
@@ -65,17 +68,16 @@ export default function SignUpForm() {
       })
       .then((res) => {
         console.log(res.data.msg);
+        setFinish(true);
         // if (res.status === 200) {
-        setTimeout(() => {
-          navigate('/infoset');
-        }, 2000);
+        navigate('/infoset');
         // } else setCodeError(res.data.msg);
       });
   };
 
   return (
     <>
-      <form className="space-y-4 md:space-y-4" action="#">
+      <div className="space-y-4 md:space-y-4">
         {!emailCheck && (
           <>
             <label
@@ -141,25 +143,7 @@ export default function SignUpForm() {
             </button>
           </>
         )}
-
-        {/* <div>
-  <label
-    htmlFor="password"
-    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-  >
-    비밀번호
-  </label>
-  <input
-    type="password"
-    name="password"
-    id="password"
-    placeholder="비밀번호를 입력하세요."
-    className="user-primary-input"
-    required=""
-    onChange={onPasswordHandler}
-  />
-</div> */}
-      </form>
+      </div>
     </>
   );
 }

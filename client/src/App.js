@@ -10,7 +10,7 @@ import NotFound from './pages/NotFound';
 import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PriavateRoute';
 import { useRecoilValue } from 'recoil';
-import { AuthAtom } from './atoms/AuthAtom';
+import { AuthAtom, FinishAtom } from './atoms/AuthAtom';
 import InfoInit from './pages/InfoInit';
 
 axios.defaults.baseURL = 'http://localhost:5000';
@@ -18,6 +18,7 @@ axios.defaults.withCredentials = true;
 
 function App() {
   const auth = useRecoilValue(AuthAtom);
+  const finish = useRecoilValue(FinishAtom);
 
   console.log(auth);
   return (
@@ -42,7 +43,8 @@ function App() {
           path="/account/*"
           element={<PrivateRoute component={<Account />} />}
         />
-        <Route path="/infoset" element={<InfoInit />} />
+
+        {finish && <Route path="/infoset" element={<InfoInit />} />}
       </Routes>
     </>
   );
