@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { GrMoney } from 'react-icons/gr';
 import { CiForkAndKnife } from 'react-icons/ci';
 import { AiFillEdit } from 'react-icons/ai';
+import iconList from '../../utils/AccountIcon';
 
 export default function AccountsList({ filter }) {
   const [accounts, setAccounts] = useState([
@@ -11,6 +11,7 @@ export default function AccountsList({ filter }) {
       text: '2월 월급',
       total: '+3,000,000원',
       status: '수입',
+      no: 11,
     },
     {
       id: '423',
@@ -41,7 +42,7 @@ export default function AccountsList({ filter }) {
                 alt="user_pic"
               />
               <span className="bg-gray-200 w-8 h-8 mr-3 rounded-full flex justify-center items-center">
-                <GrMoney />
+                {iconList[item.title]}
               </span>
               <span className="flex items-center">{item.title}</span>
             </td>
