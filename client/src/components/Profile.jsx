@@ -8,7 +8,7 @@ export default function Profile() {
   function logout() {
     axios({
       url: 'http://localhost:5000/api/logout',
-      method: 'DELETE',
+      method: 'post',
     })
       .then((res) => {
         localStorage.removeItem('accessToken');

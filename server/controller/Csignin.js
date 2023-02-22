@@ -119,31 +119,6 @@ exports.user_logout = async (req, res) => {
     where: { user_email: user_email },
   });
   console.log(`카카오인지 검색: ${isKakao.isKakao}`);
-  if (isKakao.isKakao) {
-    // //카카오 계정인 경우 카카오 로그아웃 먼저 수행
-    // console.log(`카카오토큰: ${req.session.access_token}`);
-    // if (isKakao) {
-    //   let kakao_logout = await axios({
-    //     url: 'https://kapi.kakao.com/v1/user/logout',
-    //     headers: {
-    //       'Content-Type': 'application/x-www-form-urlencoded',
-    //       Authorization: `Bearer ${req.session.access_token}`,
-    //     },
-    //   });
-    // }
-    // console.log(`로그아웃 완료: ${kakao_logout.data}`);
-    // req.session.destroy(() => {
-    //   req.session;
-    // });
-    //카카오 계정인 경우 카카오 로그아웃 먼저 수행
-    console.log(`카카오토큰: ${req.session.access_token}`);
-    if (isKakao) {
-      let kakao_logout = await axios({
-        url: `https://kauth.kakao.com/oauth/logout?client_id=${process.env.KAKAO_REST_API_KEY}&logout_redirect_uri=${process.env.KAKAO_LOGOUT_REDIRECT_URI}`,
-        method: 'get',
-      });
-    }
-  }
 
   await User.update(
     { refresh_token: null },
@@ -153,8 +128,20 @@ exports.user_logout = async (req, res) => {
       },
     }
   );
-  res.clearCookie('refreshToken');
-  return res.sendStatus(200);
+
+  if (isKakao.isKakao) {
+    try {
+      await axios({
+        url: `https://kauth.kakao.com/oauth/logout?client_id=${process.env.KAKAO_REST_API_KEY}&logout_redirect_uri=${process.env.KAKAO_LOGOUT_REDIRECT_URI}`,
+        method: 'post',
+      });
+      res.clearCookie('refreshToken');
+      return res.status(200).json({ msg: '로그아웃 완료' });
+    } catch (err) {
+      console.log(`kakao logout error: ${err}`);
+      res.status(500).json({ msg: '로그아웃 실패' });
+    }
+  }
 };
 
 //로그인 페이지
