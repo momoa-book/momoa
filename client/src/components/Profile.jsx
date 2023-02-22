@@ -1,13 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import { useSetRecoilState } from 'recoil';
-import { AuthAtom } from '../atoms/AuthAtom';
 import { useNavigate } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
 
 export default function Profile() {
   const navigate = useNavigate();
-  const setAuth = useSetRecoilState(AuthAtom);
 
   function logout() {
     axios({
@@ -15,13 +11,11 @@ export default function Profile() {
       method: 'DELETE',
     })
       .then((res) => {
-        setAuth(false);
+        localStorage.removeItem('accessToken');
         navigate('/');
       })
       .catch((error) => {
-        if (error.response.status === 200) {
-          alert(error.response.data.msg);
-        } else alert(error.response.data.msg);
+        alert(error.response.data.msg);
       });
   }
   return (

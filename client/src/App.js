@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp';
 import Main from './pages/Main';
 import Account from './pages/Account';
 import Kakao from './pages/Kakao';
+import Test from './pages/Test';
 import NotFound from './pages/NotFound';
 import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PriavateRoute';
@@ -24,6 +25,7 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="/test/*" element={<PrivateRoute component={<Test />} />} />
         <Route
           path="/"
           element={<PublicRoute restricted={true} component={<Main />} />}

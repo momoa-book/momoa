@@ -67,7 +67,7 @@ exports.user_signin = async (req, res) => {
       { user_email, user_name },
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: '10m',
+        expiresIn: '20s',
       }
     );
     console.log(accessToken);

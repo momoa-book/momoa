@@ -44,22 +44,16 @@ export default function EmailLogin() {
       },
     })
       .then((res) => {
-        const { accessToken } = res.data;
-        setAuth(true);
-        axios.defaults.headers.common[
-          'Authorization'
-        ] = `Bearer ${accessToken}`;
+        const accessToken = res.data.accessToken;
+        console.log(res.data);
+        localStorage.setItem('accessToken', accessToken);
         setTimeout(() => {
           navigate('/account');
           //로그인성공하면 로딩화면 보여줄 수 있도록 하기
         }, 2000);
       })
       .catch((error) => {
-        if (error.response.status === 400) {
-          alert(error.response.data.msg);
-        } else if (error.response.status === 404) {
-          alert(error.response.data.msg);
-        }
+        alert(error.response.data.msg);
       });
   }
 
