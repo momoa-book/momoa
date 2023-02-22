@@ -9,8 +9,9 @@ import useUsers from './useUsers';
 export default function AccountSideBar() {
   const clicked = useRecoilValue(isClickedAtom);
   const navigate = useNavigate();
-  const { data } = useUsers();
-  console.log(data);
+  const { data, status } = useUsers();
+  //console.log(data);
+  //console.log(status);
 
   function newSheet() {
     axios
@@ -23,10 +24,6 @@ export default function AccountSideBar() {
         // 대신 자동으로 아래 배열 업뎃되어서 사이드바 바뀔 수 있도록 해주어야함
       });
   }
-  const list = [
-    { sheetId: 12121, name: '테스트12' },
-    { sheetId: 12124, name: '테스트21' },
-  ];
 
   useEffect(() => {
     if (clicked === true) {
@@ -53,7 +50,6 @@ export default function AccountSideBar() {
                 유저 아이디
               </span>
             </li>
-
             <li>
               <span
                 onClick={() => {
@@ -64,20 +60,27 @@ export default function AccountSideBar() {
                 가계부
               </span>
             </li>
-            {list.map((el) => {
-              return (
-                <li key={el.sheetId}>
-                  <span
-                    onClick={() => {
-                      navigate(`/account/${el.sheetId}`);
-                    }}
-                    className="flex items-center p-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer"
-                  >
-                    {el.name}
-                  </span>
-                </li>
-              );
-            })}
+            {/* status 로딩중이면 아무것도 렌더하지않고 로딩 완료 되었을 때 map 실행 */}
+            {status === 'loading' ? (
+              <></>
+            ) : (
+              <>
+                {data.map((el) => {
+                  return (
+                    <li key={el.id}>
+                      <span
+                        onClick={() => {
+                          navigate(`/account/${el.id}`);
+                        }}
+                        className="flex items-center p-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer"
+                      >
+                        {el.name}
+                      </span>
+                    </li>
+                  );
+                })}{' '}
+              </>
+            )}
             <li>
               <span
                 onClick={newSheet}
@@ -86,7 +89,6 @@ export default function AccountSideBar() {
                 새 문서 <HiPlusCircle className="h-5 w-5 ml-auto" />
               </span>
             </li>
-
             <li>
               <span
                 onClick={() => {
