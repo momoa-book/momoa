@@ -160,3 +160,25 @@ exports.KakaoLogin = async (req, res, next) => {
     }
   }
 };
+
+exports.KakaoLogout = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  const user = await User.findOne({
+    where: {
+      refresh_token: refreshToken,
+    },
+  });
+  const user_email = user.user_email;
+
+  User.update(
+    { refresh_token: null },
+    {
+      where: {
+        user_email: user_email,
+      },
+    }
+  );
+  //로그아웃 완료 응답 보내기
+  res.clearCookie('refreshToken');
+  return res.status(200).json({ msg: '로그아웃 성공' });
+};
