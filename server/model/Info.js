@@ -2,6 +2,13 @@ const Info = (Sequelize, DataTypes) => {
   return Sequelize.define(
     'Info',
     {
+      info_id: {
+        type: INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+
       sheet_id: {
         type: DataTypes.STRING(36),
         allowNull: false,
@@ -36,13 +43,6 @@ const Info = (Sequelize, DataTypes) => {
       goal: {
         type: DataTypes.INTEGER,
         allowNull: true,
-      },
-
-      sheet_index: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
       },
     },
     {

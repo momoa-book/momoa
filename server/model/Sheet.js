@@ -11,11 +11,11 @@ const Sheet = (Sequelize, DataTypes) => {
 
       sheet_name: {
         type: DataTypes.STRING(10),
-        allowNull: false,
+        allowNull: true,
       },
 
-      user_email: {
-        type: DataTypes.STRING(20),
+      creator: {
+        type: DataTypes.STRING(50),
         allowNull: false,
       },
     },
