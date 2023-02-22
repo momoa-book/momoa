@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { CiForkAndKnife } from 'react-icons/ci';
-import { AiFillEdit } from 'react-icons/ai';
 import iconList from '../../utils/AccountIcon';
 
 export default function AccountsList({ filter }) {
@@ -14,6 +12,20 @@ export default function AccountsList({ filter }) {
       no: 11,
     },
     {
+      id: '548',
+      title: '용돈',
+      text: '새뱃돈',
+      total: '+50,000원',
+      status: '수입',
+    },
+    {
+      id: '887',
+      title: '금융수입',
+      text: '현대차 주식배당금',
+      total: '+30,000원',
+      status: '수입',
+    },
+    {
       id: '423',
       title: '식비',
       text: '점심밥',
@@ -25,6 +37,55 @@ export default function AccountsList({ filter }) {
       title: '통신',
       text: '핸드폰 요금',
       total: '-40,000원',
+      status: '지출',
+    },
+    {
+      id: '125',
+      title: '생활',
+      text: '생필품',
+      total: '-10,000원',
+      status: '지출',
+    },
+    {
+      id: '890',
+      title: '쇼핑',
+      text: '봄자켓',
+      total: '-200,000원',
+      status: '지출',
+    },
+    {
+      id: '999',
+      title: '교통',
+      text: '택시비',
+      total: '-9,000원',
+      status: '지출',
+    },
+    {
+      id: '589',
+      title: '주거',
+      text: '관리비',
+      total: '-120,000원',
+      status: '지출',
+    },
+    {
+      id: '897',
+      title: '의료',
+      text: '건강검진',
+      total: '-230,000원',
+      status: '지출',
+    },
+    {
+      id: '253',
+      title: '금융',
+      text: '청년청약',
+      total: '-500,000원',
+      status: '지출',
+    },
+    {
+      id: '538',
+      title: '문화',
+      text: '타이타닉 영화',
+      total: '-12,000원',
       status: '지출',
     },
   ]);
