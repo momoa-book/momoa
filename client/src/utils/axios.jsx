@@ -19,7 +19,7 @@ axiosJWT.interceptors.request.use(
         return config;
       })
       .catch(async (err2) => {
-        if (err2.response.data.message == 'TokenExpiredError') {
+        if (err2.response.data.message === 'TokenExpiredError') {
           const rep = await axios.get('http://localhost:5000/api/token');
           console.log('rep : ', rep.data);
           const newAccessToken = rep.data.accessToken;

@@ -2,15 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { AuthAtom } from '../atoms/AuthAtom';
 
 export default function EmailLogin() {
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(null);
   const navigate = useNavigate();
-  const setAuth = useSetRecoilState(AuthAtom);
 
   // 이메일 유효성 검사
   function isVaildEmail(email) {
@@ -47,10 +44,7 @@ export default function EmailLogin() {
         const accessToken = res.data.accessToken;
         console.log(res.data);
         localStorage.setItem('accessToken', accessToken);
-        setTimeout(() => {
-          navigate('/account');
-          //로그인성공하면 로딩화면 보여줄 수 있도록 하기
-        }, 2000);
+        navigate('/account');
       })
       .catch((error) => {
         alert(error.response.data.msg);
