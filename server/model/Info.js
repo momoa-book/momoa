@@ -11,7 +11,6 @@ const Info = (Sequelize, DataTypes) => {
       input_date: {
         type: DataTypes.DATE,
         allowNull: false,
-        primaryKey: true,
       },
 
       type: {
@@ -25,7 +24,7 @@ const Info = (Sequelize, DataTypes) => {
       },
 
       category: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(4),
         allowNull: false,
       },
 
@@ -37,6 +36,13 @@ const Info = (Sequelize, DataTypes) => {
       goal: {
         type: DataTypes.INTEGER,
         allowNull: true,
+      },
+
+      sheet_index: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
       },
     },
     {
