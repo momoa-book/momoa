@@ -49,7 +49,7 @@ export default function Calendar() {
         selectedDate={selectedDate}
         onDateClick={onDateClick}
       />
-      <div>
+      <div className="h-60">
         <AccountsHeader
           filters={filters}
           filter={filter}

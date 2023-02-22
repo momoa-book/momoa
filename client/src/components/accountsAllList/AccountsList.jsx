@@ -92,28 +92,30 @@ export default function AccountsList({ filter }) {
 
   const filtered = getFilteredItems(accounts, filter);
   return (
-    <table className="w-full">
-      <tbody>
-        {filtered.map((item) => (
-          <tr>
-            <td className="flex">
-              <img
-                className="w-8 h-8 mr-4 rounded-full"
-                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                alt="user_pic"
-              />
-              <span className="bg-gray-200 w-8 h-8 mr-3 rounded-full flex justify-center items-center">
-                {iconList[item.title]}
-              </span>
-              <span className="flex items-center">{item.title}</span>
-            </td>
+    <div className="h-52 scrollbar scrollbar-thumb-violet-600 scrollbar-track-violet-50 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-aut ">
+      <table className="w-full">
+        <tbody>
+          {filtered.map((item) => (
+            <tr>
+              <td className="flex">
+                <img
+                  className="w-8 h-8 mr-4 rounded-full"
+                  src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                  alt="user_pic"
+                />
+                <span className="bg-gray-200 w-8 h-8 mr-3 mb-2 rounded-full flex justify-center items-center text-gray-800">
+                  {iconList[item.title]}
+                </span>
+                <span className="flex items-center">{item.title}</span>
+              </td>
 
-            <td>{item.text}</td>
-            <td className="text-end">{item.total}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+              <td>{item.text}</td>
+              <td className="text-end pr-4">{item.total}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
