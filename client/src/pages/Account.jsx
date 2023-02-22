@@ -11,7 +11,7 @@ export default function Account() {
       <AccountNav />
       <AccountSideBar />
       <Routes>
-        <Route path="/" element={<AccountContents />} />
+        <Route path="/:sheetId" element={<AccountContents />} />
         <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </>

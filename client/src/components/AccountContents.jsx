@@ -1,9 +1,13 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import CurrentStatus from './CurrentStatus';
 import ItempInput from './ItempInput';
 import Calendar from './Calendar';
 
 export default function AccountContents() {
+  const { sheetId } = useParams();
+  console.log(sheetId);
+
   return (
     <>
       <div className="p-4 sm:ml-40">
