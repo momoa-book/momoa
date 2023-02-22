@@ -3,14 +3,13 @@ import axios from 'axios';
 import { ReactComponent as Logo } from '../assets/logo2.svg';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { AuthAtom, FinishAtom } from '../atoms/AuthAtom';
+import { FinishAtom } from '../atoms/AuthAtom';
 
 export default function InfoInit() {
   const [Password, setPassword] = useState('');
   const [Nickname, setNickname] = useState('');
   const [passwordError, setpasswordError] = useState('');
   const navigate = useNavigate();
-  const setAuth = useSetRecoilState(AuthAtom);
   const setFinish = useSetRecoilState(FinishAtom);
 
   function isVaildPw(pw) {
@@ -42,16 +41,14 @@ export default function InfoInit() {
       },
     })
       .then((res) => {
-        setAuth(true);
+        console.log(res.data);
+        const { accessToken } = res.data;
+        localStorage.setItem('accessToken', accessToken);
         setFinish(false);
         navigate('/account');
       })
       .catch((error) => {
-        if (error.response.status === 400) {
-          alert(error.response.data.msg);
-        } else if (error.response.status === 404) {
-          alert(error.response.data.msg);
-        }
+        alert(error.response.data.msg);
       });
   }
   return (

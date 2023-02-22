@@ -11,17 +11,15 @@ import NotFound from './pages/NotFound';
 import PublicRoute from './components/PublicRoute';
 import PrivateRoute from './components/PriavateRoute';
 import { useRecoilValue } from 'recoil';
-import { AuthAtom, FinishAtom } from './atoms/AuthAtom';
+import { FinishAtom } from './atoms/AuthAtom';
 import InfoInit from './pages/InfoInit';
 
 axios.defaults.baseURL = 'http://localhost:5000';
 axios.defaults.withCredentials = true;
 
 function App() {
-  const auth = useRecoilValue(AuthAtom);
   const finish = useRecoilValue(FinishAtom);
 
-  console.log(auth);
   return (
     <>
       <Routes>
