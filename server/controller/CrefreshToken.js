@@ -34,3 +34,7 @@ exports.refreshToken = async (req, res) => {
     console.log(error);
   }
 };
+
+exports.verifyToken = (req, res) => {
+  res.send(true);
+};

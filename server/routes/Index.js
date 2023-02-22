@@ -29,6 +29,12 @@ router.get(
 );
 
 //메인화면 랜더링될때마다 refreshToken을 갱신해주는 api ->맨 첫페이지에서 useeffect로 함수걸어줘야됨
+
+router.get(
+  '/verify',
+  middlewareVerifyToken.verifyToken,
+  controllerRefreshToken.verifyToken
+);
 router.get('/token', controllerRefreshToken.refreshToken);
 
 //로그인
