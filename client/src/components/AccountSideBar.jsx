@@ -4,10 +4,13 @@ import { isClickedAtom } from '../atoms/InterfaceAtom';
 import { HiPlusCircle } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import useUsers from './useUsers';
 
 export default function AccountSideBar() {
   const clicked = useRecoilValue(isClickedAtom);
   const navigate = useNavigate();
+  const { data } = useUsers();
+  console.log(data);
 
   function newSheet() {
     axios
@@ -20,9 +23,10 @@ export default function AccountSideBar() {
         // 대신 자동으로 아래 배열 업뎃되어서 사이드바 바뀔 수 있도록 해주어야함
       });
   }
-
-  const list = ['테스트1', '테스트2'];
-  // db에서 받아오는 값으로 적용해주면 될 듯 .. 어라 근데 기본키가 없네
+  const list = [
+    { sheetId: 12121, name: '테스트12' },
+    { sheetId: 12124, name: '테스트21' },
+  ];
 
   useEffect(() => {
     if (clicked === true) {
@@ -62,9 +66,14 @@ export default function AccountSideBar() {
             </li>
             {list.map((el) => {
               return (
-                <li key={el.index}>
-                  <span className="flex items-center p-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer">
-                    {el}
+                <li key={el.sheetId}>
+                  <span
+                    onClick={() => {
+                      navigate(`/account/${el.sheetId}`);
+                    }}
+                    className="flex items-center p-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer"
+                  >
+                    {el.name}
                   </span>
                 </li>
               );
