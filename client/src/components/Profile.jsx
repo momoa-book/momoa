@@ -8,14 +8,23 @@ export default function Profile() {
   function logout() {
     axios({
       url: 'http://localhost:5000/api/logout',
-      method: 'post',
+      method: 'get',
     })
-      .then((res) => {
-        localStorage.removeItem('accessToken');
-        navigate('/');
-      })
       .catch((error) => {
-        alert(error.response.data.msg);
+        console.log(error.response.status);
+        alert('로그아웃 실패');
+      })
+      .then((res) => {
+        console.log(res.data.msg);
+        if (res.data.msg === 'kakao') {
+          window.location.href = `https://kauth.kakao.com/oauth/logout?client_id=${process.env.REACT_APP_REST_API_KEY}&logout_redirect_uri=${process.env.REACT_APP_KAKAO_LOGOUT_REDIRECT_URI}`;
+          localStorage.removeItem('accessToken');
+          navigate('/');
+        } else {
+          alert(res.data.msg);
+          localStorage.removeItem('accessToken');
+          navigate('/');
+        }
       });
   }
   return (

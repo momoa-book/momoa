@@ -102,8 +102,9 @@ exports.user_signin = async (req, res) => {
 exports.user_logout = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
-  // DB와 쿠키에서 jwt 리프레쉬 토큰 삭제
-  if (!refreshToken) return res.sendStatus(204);
+  // 리프레시 토큰이 없는 경우 오류 처리
+  if (!refreshToken)
+    return res.status(204).json({ msg: '이미 로그아웃 되었습니다.' });
 
   const user = await User.findAll({
     where: {
@@ -111,38 +112,47 @@ exports.user_logout = async (req, res) => {
     },
   });
 
-  if (!user[0]) return res.sendStatus(204);
+  // 해당 토큰을 갖고있는 유저가 없는 경우 오류처리
+  if (!user[0])
+    return res
+      .status(204)
+      .json({ msg: '사용자를 찾을 수 없습니다. 다시 시도해주세요.' });
+
   const user_email = user[0].user_email;
 
+  // 카카오 유저 구분
   const isKakao = await User.findOne({
     attributes: ['isKakao'],
     where: { user_email: user_email },
   });
-  console.log(`카카오인지 검색: ${isKakao.isKakao}`);
 
-  await User.update(
-    { refresh_token: null },
-    {
-      where: {
-        user_email: user_email,
-      },
-    }
-  );
-
+  //카카오 유저인 경우 카카오 로그아웃처리
   if (isKakao.isKakao) {
-    try {
-      await axios({
-        url: `https://kauth.kakao.com/oauth/logout?client_id=${process.env.KAKAO_REST_API_KEY}&logout_redirect_uri=${process.env.KAKAO_LOGOUT_REDIRECT_URI}`,
-        method: 'post',
-      });
-      res.clearCookie('refreshToken');
-      return res.status(200).json({ msg: '로그아웃 완료' });
-    } catch (err) {
-      console.log(`kakao logout error: ${err}`);
-      res.status(500).json({ msg: '로그아웃 실패' });
-    }
+    await User.update(
+      { refresh_token: null },
+      {
+        where: {
+          user_email: user_email,
+        },
+      }
+    );
+    res.json({ msg: 'kakao' });
+  } else {
+    // 리프레쉬 토큰 만료 (DB에서 null값으로 바꾸기)
+    await User.update(
+      { refresh_token: null },
+      {
+        where: {
+          user_email: user_email,
+        },
+      }
+    );
+    //로그인 완료 응답 보내기
+    res.clearCookie('refreshToken');
+    return res.status(200).json({ msg: '로그아웃 성공' });
   }
 };
+//
 
 //로그인 페이지
 // exports.login_main = (req, res) => {

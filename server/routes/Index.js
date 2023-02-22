@@ -41,10 +41,13 @@ router.get('/token', controllerRefreshToken.refreshToken);
 router.post('/signin', controllerSignIn.user_signin);
 
 //로그아웃
-router.delete('/logout', controllerSignIn.user_logout);
+router.get('/logout', controllerSignIn.user_logout);
+
+//카카오와 함께 로그아웃
+router.get('/kakaologout', controllerKakao.KakaoLogout);
 
 //테스트용
-router.post('/users', controllerSignIn.Register);
+http: router.post('/users', controllerSignIn.Register);
 
 //이 코드의 밑에있는 것들은 전부 미들웨어를 거치게 된다.
 // router.all('*', middlewareVerifyToken, (req,res,next) => {next();});
