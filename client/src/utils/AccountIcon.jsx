@@ -27,6 +27,6 @@ const iconList = {
   문화: <HiOutlineTicket />,
 };
 
-const item = [<GrAdd />, <GrMoney />];
+const item = [<GrAdd />, <GrMoney />, <BsPiggyBank />];
 
 export default iconList;
