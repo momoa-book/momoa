@@ -49,7 +49,7 @@ exports.user_signin = async (req, res) => {
       { user_email, user_name },
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: '20s',
+        expiresIn: '20m',
       }
     );
     console.log(accessToken);

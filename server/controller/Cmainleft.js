@@ -33,9 +33,10 @@ exports.get_sheetid = async (req, res) => {
         attributes: ['sheet_id'],
         include: {
           model: Sheet,
-          attributes: ['sheet_name', 'sheet_id'],
+          attributes: ['sheet_name'],
         },
       },
+      attributes: ['user_email'],
     });
 
     res.status(200).json({
@@ -72,10 +73,17 @@ exports.get_personalinfo = async function (req, res) {
           },
         },
       ],
+      attributes: ['user_email'],
     });
 
     res.status(200).json({
-      user,
+      user: {
+        user_email: user.user_email,
+        dbhubs: user.DBhubs.map((dbh) => ({
+          sheet_id: dbh.sheet_id,
+          sheet_name: dbh.Sheet.sheet_name,
+        })),
+      },
     });
   } catch (error) {
     console.log(error);
