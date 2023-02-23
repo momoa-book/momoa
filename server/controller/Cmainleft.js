@@ -33,9 +33,10 @@ exports.get_sheetid = async (req, res) => {
         attributes: ['sheet_id'],
         include: {
           model: Sheet,
-          attributes: ['sheet_name', 'sheet_id'],
+          attributes: ['sheet_name'],
         },
       },
+      attributes: ['user_email'],
     });
 
     res.status(200).json({
@@ -51,7 +52,7 @@ exports.get_sheetid = async (req, res) => {
 
 //2. 마이페이지에서 get 요청 (1.초대알림여부를 확인auto값으로 2..sheet name,sheet idsheet,creater, //유저테이블하고 db허브)
 
-exports.get_personalinfo = async function (req, res) {
+exports.get_personalinfo = async (req, res) => {
   const userEmail = req.decoded.user_email;
 
   try {
@@ -63,12 +64,12 @@ exports.get_personalinfo = async function (req, res) {
         {
           model: DBhub,
           where: {
-            auth: false,
+            auth: true,
           },
           attributes: ['sheet_id'],
           include: {
             model: Sheet,
-            attributes: ['sheet_name', 'sheet_id'],
+            attributes: ['sheet_name'],
           },
         },
       ],

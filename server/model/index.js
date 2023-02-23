@@ -57,6 +57,7 @@ db.Sheet.hasMany(db.Info, {
   onDelete: 'cascade',
   onUpdate: 'cascade',
 });
+
 db.Info.belongsTo(db.Sheet, {
   foreignKey: 'sheet_id', // info테이블의 foreignkey
   targetKey: 'sheet_id', // sheet테이블의 sheet_id
@@ -70,6 +71,7 @@ db.Sheet.hasMany(db.DBhub, {
   onDelete: 'cascade',
   onUpdate: 'cascade',
 });
+
 db.DBhub.belongsTo(db.Sheet, {
   foreignKey: 'sheet_id', // DBhubo테이블의 foreignkey
   targetKey: 'sheet_id', // sheet테이블의 sheet_id

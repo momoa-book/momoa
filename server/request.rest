@@ -48,20 +48,11 @@ Content-Type:application/json
 ###
 GET http://localhost:5000/api/getsheetid
 Content-Type:application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzE0NTQyOSwiZXhwIjoxNjc3MTQ2NjI5fQ.fqynM7x_vseRN4k5RL0SiHlAp0hK2oqKFmjdKLJH5Vg
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzE1NTMxMywiZXhwIjoxNjc3MTU2NTEzfQ.hgEVl_7-3fgAYzr16em7gRzB2A6b4JhhlPy9cT_NiCc
 
 //개인정보불러오기
 ###
 GET http://localhost:5000/api/getpersonalinfo
 Content-Type:application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzE0NTQyOSwiZXhwIjoxNjc3MTQ2NjI5fQ.fqynM7x_vseRN4k5RL0SiHlAp0hK2oqKFmjdKLJH5Vg
-
-
-{ 
-    "user_email":"momoa4@gmail.com",
-    "user_name": "kmj",
-    "sheet_id":"2",
-    "sheet_name":"문서2"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzE1NTQ5MiwiZXhwIjoxNjc3MTU2NjkyfQ.SxccFIzND6PgpvY_0xo6wQbk75HZAvtmanyqor2Qwls
 
