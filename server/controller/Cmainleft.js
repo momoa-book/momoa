@@ -17,12 +17,12 @@ const bcrypt = require('bcrypt');
 //get  '/getsheetid',
 
 exports.get_sheetid = async (req, res) => {
-  const userEmail = req.decoded.user_email;
+  const user_email = req.decoded.user_email;
 
   try {
     const user = await User.findOne({
       where: {
-        user_email: userEmail,
+        user_email: user_email,
       },
       include: {
         model: DBhub,
@@ -40,12 +40,46 @@ exports.get_sheetid = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: '정보를 받아올 수 없습니다',
+      message: 'ERROR',
     });
   }
 };
 
 //2. 마이페이지에서 get 요청 (1.초대알림여부를 확인auto값으로 2..sheet name,sheet idsheet,creater, //유저테이블하고 db허브)
+
+exports.get_personalinfo = async function (req, res) {
+  const userEmail = req.decoded.user_email;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        user_email: userEmail,
+      },
+      include: [
+        {
+          model: DBhub,
+          where: {
+            auth: true,
+          },
+          attributes: ['sheet_id'],
+          include: {
+            model: Sheet,
+            attributes: ['sheet_name', 'sheet_id'],
+          },
+        },
+      ],
+    });
+
+    res.status(200).json({
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: '정보를 받아올 수 없습니다',
+    });
+  }
+};
 
 //3. 초대받으면 auth값을  f로 먼저 create하고
 

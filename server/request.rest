@@ -18,8 +18,8 @@ POST http://localhost:5000/api/signin
 Content-Type:application/json
 
 { 
-    "user_email":"momoa3@gmail.com",
-    "user_pw":"12345"
+    "user_email":"momoa4@gmail.com",
+    "user_pw":"12345qwert"
 }
 
 //리프레쉬토큰 ->액세스토큰갱신
@@ -38,4 +38,35 @@ Content-Type:application/json
 { 
     "user_email":"laura1129@naver.com"
     
+}
+
+
+//getsheetid불러오기
+###
+GET http://localhost:5000/api/getsheetid
+Content-Type:application/json
+
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzEzNDU4OSwiZXhwIjoxNjc3MTM0NjA5fQ.agCx1Iw9Nbbk45Cu8ybqH3INVz-AFlhJtN3UWm7l0hA
+
+
+{ 
+    "user_email":"momoa4@gmail.com",
+    "sheet_id":"2",
+    "sheet_name":"문서2"
+}
+
+
+//개인정보불러오기
+###
+GET http://localhost:5000/api/getpersonalinfo
+Content-Type:application/json
+
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzEzNDU4OSwiZXhwIjoxNjc3MTM0NjA5fQ.agCx1Iw9Nbbk45Cu8ybqH3INVz-AFlhJtN3UWm7l0hA
+
+
+{ 
+    "user_email":"momoa4@gmail.com",
+    "user_name": "kmj",
+    "sheet_id":"2",
+    "sheet_name":"문서2"
 }
