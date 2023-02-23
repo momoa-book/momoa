@@ -18,7 +18,8 @@ axiosJWT.interceptors.request.use(
       .catch(async (err2) => {
         if (
           err2.response.data.message === 'TokenExpiredError' ||
-          err2.response.data.message === 'TokenNull'
+          err2.response.data.message === 'TokenNull' ||
+          err2.response.data.message === 'JsonWebTokenError'
         ) {
           const rep = await axios.get('http://localhost:5000/api/token');
           const newAccessToken = rep.data.accessToken;
@@ -26,6 +27,7 @@ axiosJWT.interceptors.request.use(
           axiosJWT.defaults.headers.common[
             'authorization'
           ] = `Bearer ${newAccessToken}`;
+          console.log(newAccessToken);
           config.headers.authorization = `Bearer ${newAccessToken}`;
           return config;
         } else {

@@ -88,6 +88,7 @@ exports.user_signin = async (req, res) => {
         },
       }
     );
+    res.clearCookie('refreshToken');
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
