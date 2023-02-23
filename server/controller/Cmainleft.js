@@ -1,5 +1,5 @@
 // const { User } = require('../model');
-const { Info } = require('../model');
+const { User, Sheet, DBhub, Info } = require('../model');
 // const userDatabase = require('../model/Database');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -13,7 +13,39 @@ exports.get_main = async (req, res) => {
   res.send(result);
 };
 
-//수입지출 등등 입력하는
+//1. 로그인 성공후 가계부 페이지 나올때 DBhub에서 user_email을 찾아서 user의 정보를 가져오고,sheet_id를 기준으로 sheet테이블에서 sheet_name,sheet id를 가져오는 get요청
+
+exports.get_sheetid = async function getSheetInfo(req, res) {
+  const userEmail = req.decoded.user_email;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        user_email: userEmail,
+      },
+      include: {
+        model: DBhub,
+        attributes: ['sheet_id'],
+        include: {
+          model: Sheet,
+          attributes: ['sheet_name', 'sheet_id'],
+        },
+      },
+    });
+
+    res.status(200).json({
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//2. 마이페이지에서 get 요청 (1.초대알림여부를 확인auto값으로 2..sheet name,sheet idsheet,creater, //유저테이블하고 db허브)
+
+//3. 초대받으면 auth값을  f로 먼저 create하고
+
+//4. 수입지출 등등 입력하는   post '/writeinfo'
 exports.write_info = (req, res) => {
   let data = {
     input_date: req.body.input_date,
@@ -27,7 +59,7 @@ exports.write_info = (req, res) => {
   });
 };
 
-//목표 입력하는
+//5. 목표 입력하는 .post('/writegoal',
 exports.write_goal = (req, res) => {
   let data = {
     goal: req.body.goal,
@@ -37,5 +69,3 @@ exports.write_goal = (req, res) => {
     res.send(result);
   });
 };
-
-//마이페이지

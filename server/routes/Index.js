@@ -52,6 +52,14 @@ http: router.post('/users', controllerSignIn.Register);
 //이 코드의 밑에있는 것들은 전부 미들웨어를 거치게 된다.
 // router.all('*', middlewareVerifyToken, (req,res,next) => {next();});
 
+//sheet_id가져오는
+
+router.get(
+  '/getsheetid',
+  middlewareVerifyToken.verifyToken,
+  controllerMain.get_sheetid
+);
+
 //메인화면 모든 정보 불러오기
 router.get(
   '/getmain',
