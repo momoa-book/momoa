@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import CurrentStatus from './CurrentStatus';
 import ItempInput from './ItempInput';
-import Calendar from './Calendar';
+import Calendar from './Calendar/Calendar';
 
 export default function AccountContents() {
   const { sheetId } = useParams();
