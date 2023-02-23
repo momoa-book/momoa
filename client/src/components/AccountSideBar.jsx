@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
-import { isClickedAtom } from '../atoms/InterfaceAtom';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { isClickedAtom, showModalAtom } from '../atoms/InterfaceAtom';
 import { HiPlusCircle } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import useUsers from './useUsers';
 
-export default function AccountSideBar() {
+export default function AccountSideBar({ sheetInfo }) {
   const clicked = useRecoilValue(isClickedAtom);
+  const [isShow, setisShow] = useRecoilState(showModalAtom);
+  const data = sheetInfo;
+
   const navigate = useNavigate();
-  const { data, status } = useUsers();
-  //console.log(data);
-  //console.log(status);
 
   function newSheet() {
     axios
@@ -51,21 +50,14 @@ export default function AccountSideBar() {
               </span>
             </li>
             <li>
-              <span
-                onClick={() => {
-                  navigate('/account');
-                }}
-                className="flex p-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer"
-              >
+              <span className="flex p-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer">
                 가계부
               </span>
             </li>
-            {/* status 로딩중이면 아무것도 렌더하지않고 로딩 완료 되었을 때 map 실행 */}
-            {status === 'loading' ? (
-              <></>
-            ) : (
+            {/* prop으로 받아 온 배열이 있을 경우에 map 실행 */}
+            {data ? (
               <>
-                {data.map((el) => {
+                {sheetInfo.map((el) => {
                   return (
                     <li key={el.id}>
                       <span
@@ -78,12 +70,17 @@ export default function AccountSideBar() {
                       </span>
                     </li>
                   );
-                })}{' '}
+                })}
               </>
+            ) : (
+              <></>
             )}
             <li>
               <span
-                onClick={newSheet}
+                onClick={() => {
+                  newSheet();
+                  setisShow(!isShow);
+                }}
                 className="flex items-center p-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer"
               >
                 새 문서 <HiPlusCircle className="h-5 w-5 ml-auto" />

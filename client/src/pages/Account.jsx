@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import AccountContents from '../components/AccountContents';
 import AccountNav from '../components/AccountNav';
 import AccountSideBar from '../components/AccountSideBar';
 import MyPage from './MyPage';
-import useUsers from '../components/useUsers';
+import useUsers from '../hooks/useUsers';
+import NoData from '../components/NoData';
+import Modal from '../components/Modal';
 
 export default function Account() {
   const navigate = useNavigate();
   const { data, status } = useUsers();
+  console.log(data);
+  // console.log(status); console.log(data);
 
-  // 서버에서 받아온 데이터가 성공 상태이고 배열 값이 있으면 제일 첫번째 문서 값의 링크로 이동
   useEffect(() => {
-    if (status === 'success' && data.length > 0) {
+    if (data.length > 0) {
       navigate(`/account/${data[0].id}`);
     }
   }, []);
@@ -20,11 +23,14 @@ export default function Account() {
   return (
     <>
       <AccountNav />
-      <AccountSideBar />
+      <AccountSideBar {...(data.length > 0 && { sheetInfo: data })} />
       <Routes>
+        {data.length < 0 && <Route path="/" element={<NoData />} />}
+        {data.length > 0 && <Route path="/" element={<Navigate to="/" />} />}
         <Route path="/:sheetId" element={<AccountContents />} />
         <Route path="/mypage" element={<MyPage />} />
       </Routes>
+      <Modal />
     </>
   );
 }
