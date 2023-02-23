@@ -20,22 +20,21 @@ router.post('/signup2', controllerSignUp.finish_signup);
 //카카오 로그인
 router.post('/getkakao', controllerKakao.KakaoLogin);
 
-//메인화면 랜더링될때마다 refreshToken을 갱신해주는 api ->맨 첫페이지에서 useeffect로 함수걸어줘야됨
-router.get('/token', controllerRefreshToken.refreshToken);
-
 //로그인
 router.post('/signin', controllerSignIn.user_signin);
 
-//로그아웃
-router.get('/logout', controllerSignIn.user_logout);
-
-//카카오와 함께 로그아웃
-router.get('/kakaologout', controllerKakao.KakaoLogout);
+//메인화면 랜더링될때마다 refreshToken을 갱신해주는 api ->맨 첫페이지에서 useeffect로 함수걸어줘야됨
+router.get('/token', controllerRefreshToken.refreshToken);
 
 //이 코드의 밑에있는 것들은 전부 미들웨어를 거치게 된다.
 router.all('*', middlewareVerifyToken.verifyToken);
 
 router.get('/verify', controllerRefreshToken.verifyToken);
+//로그아웃
+router.get('/logout', controllerSignIn.user_logout);
+
+//카카오와 함께 로그아웃
+router.get('/kakaologout', controllerKakao.KakaoLogout);
 
 //마이페이지 or 캘린더화면 처럼 유저 정보뿌려주는 화면에서 요청할 api
 router.get('/users', controllerSignIn.getUsers);
