@@ -51,22 +51,19 @@ db.DBhub.belongsTo(db.User, {
 
 //sheet테이블하고 info테이블의 관계설정
 
-db.Sheet.hasMany(
-  db.Info,
-  {
-    foreignKey: 'sheet_id', //Info 테이블에있는 거
-    sourceKey: 'sheet_id', //Sheet테이블에있는 sheet_id
-    onDelete: 'cascade',
-    onUpdate: 'cascade',
-  },
-  db.DBhub,
-  {
-    foreignKey: 'sheet_id', //Info 테이블에있는 거
-    sourceKey: 'sheet_id', //Sheet테이블에있는 sheet_id
-    onDelete: 'cascade',
-    onUpdate: 'cascade',
-  }
-);
+db.Sheet.hasMany(db.Info, {
+  foreignKey: 'sheet_id', //Info 테이블에있는 거
+  sourceKey: 'sheet_id', //Sheet테이블에있는 sheet_id
+  onDelete: 'cascade',
+  onUpdate: 'cascade',
+});
+
+db.Sheet.hasMany(db.DBhub, {
+  foreignKey: 'sheet_id', //Info 테이블에있는 거
+  sourceKey: 'sheet_id', //Sheet테이블에있는 sheet_id
+  onDelete: 'cascade',
+  onUpdate: 'cascade',
+});
 
 db.Info.belongsTo(db.Sheet, {
   foreignKey: 'sheet_id', // info테이블의 foreignkey
