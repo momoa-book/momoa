@@ -5,17 +5,25 @@ const jwt = require('jsonwebtoken');
 exports.refreshToken = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken;
+    console.log('---------------------------------------');
+    console.log(refreshToken);
     if (!refreshToken) return res.sendStatus(401);
     const user = await User.findAll({
       where: {
         refresh_token: refreshToken,
       },
     });
+    console.log('---------------------------------------');
+    console.log(user);
+    console.log('---------------------------------------');
     if (!user[0]) return res.sendStatus(403);
     jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET,
       (err, decoded) => {
+        console.log('---------------------------------------');
+        console.log(err);
+        console.log('---------------------------------------');
         if (err) return res.sendStatus(403);
         const user_email = user[0].user_email;
 
@@ -24,7 +32,7 @@ exports.refreshToken = async (req, res) => {
           { user_email, user_name },
           process.env.ACCESS_TOKEN_SECRET,
           {
-            expiresIn: '10s',
+            expiresIn: '2m',
           }
         );
         console.log('newToken : ', accessToken);
