@@ -1,19 +1,89 @@
-const { User, sequelize } = require('../model');
-const { Sheet } = require('../model');
-const { Info } = require('../model');
-const { DBhub } = require('../model');
+
+const { sequelize } = require('../model');
+
+const { User, Sheet, DBhub, Info } = require('../model');
+
 // const userDatabase = require('../model/Database');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-//sheet_id에 해당하는 모든 정보 불러오는
-exports.get_main = async (req, res) => {
-  let result = await Info.findAll({
-    attributes: ['type', 'input_date', 'money'],
-    // where: { type: req.query.type },
-  });
-  res.send(result);
+// //sheet_id에 해당하는 모든 정보 불러오는
+// exports.get_main = async (req, res) => {
+//   let result = await Info.findAll({
+//     attributes: ['type', 'input_date', 'money'],
+//     // where: { type: req.query.type },
+//   });
+//   res.send(result);
+// };
+
+//1. 로그인 성공후 가계부 페이지 나올때 DBhub에서 user_email을 찾아서 user의 정보를 가져오고,sheet_id를 기준으로 sheet테이블에서 sheet_name,sheet id를 가져오는 get요청  //
+//get  '/getsheetid',
+
+exports.get_sheetid = async (req, res) => {
+  const user_email = req.decoded.user_email;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        user_email: user_email,
+      },
+      include: {
+        model: DBhub,
+        attributes: ['sheet_id'],
+        include: {
+          model: Sheet,
+          attributes: ['sheet_name', 'sheet_id'],
+        },
+      },
+    });
+
+    res.status(200).json({
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: 'ERROR',
+    });
+  }
 };
+
+//2. 마이페이지에서 get 요청 (1.초대알림여부를 확인auto값으로 2..sheet name,sheet idsheet,creater, //유저테이블하고 db허브)
+
+exports.get_personalinfo = async function (req, res) {
+  const userEmail = req.decoded.user_email;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        user_email: userEmail,
+      },
+      include: [
+        {
+          model: DBhub,
+          where: {
+            auth: true,
+          },
+          attributes: ['sheet_id'],
+          include: {
+            model: Sheet,
+            attributes: ['sheet_name', 'sheet_id'],
+          },
+        },
+      ],
+    });
+
+    res.status(200).json({
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: '정보를 받아올 수 없습니다',
+    });
+  }
+};
+
 
 //가계부 정보 불러오기
 exports.getsheetdata = async (req, res) => {
@@ -77,12 +147,18 @@ exports.getsheetdata = async (req, res) => {
 };
 
 //수입지출 등등 입력하는
+
+//3. 초대받으면 auth값을  f로 먼저 create하고
+
+//4. 수입지출 등등 입력하는   post '/writeinfo'
+
 exports.write_info = (req, res) => {
   let data = {
     input_date: req.body.input_date,
     type: req.body.type,
     money: req.body.money,
     category: req.body.category,
+    memo: req.body.memo,
   };
 
   Info.create(data).then((result) => {
@@ -90,7 +166,7 @@ exports.write_info = (req, res) => {
   });
 };
 
-//목표 입력하는
+//5. 목표 입력하는 .post('/writegoal',
 exports.write_goal = (req, res) => {
   let data = {
     goal: req.body.goal,
@@ -100,5 +176,3 @@ exports.write_goal = (req, res) => {
     res.send(result);
   });
 };
-
-//마이페이지

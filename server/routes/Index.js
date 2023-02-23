@@ -37,6 +37,7 @@ router.get('/logout', controllerSignIn.user_logout);
 //카카오와 함께 로그아웃
 router.get('/kakaologout', controllerKakao.KakaoLogout);
 
+
 //마이페이지 or 캘린더화면 처럼 유저 정보뿌려주는 화면에서 요청할 api
 router.get('/users', controllerSignIn.getUsers);
 
@@ -45,6 +46,32 @@ http: router.post('/users', controllerSignIn.Register);
 
 //메인화면 모든 정보 불러오기
 router.get('/getsheetdata', controllerMain.getsheetdata);
+
+// 테스트용;
+// router.post('/users', controllerSignIn.Register);
+
+
+//sheet_id가져오는
+
+router.get(
+  '/getsheetid',
+  middlewareVerifyToken.verifyToken,
+  controllerMain.get_sheetid
+);
+
+//개인정보가져오는
+router.get(
+  '/getpersonalinfo',
+  controllerMain.get_personalinfo
+);
+
+
+//메인화면 모든 정보 불러오기
+// router.get(
+//   '/getmain',
+//   middlewareVerifyToken.verifyToken,
+//   controllerMain.get_main
+// );
 
 //수입지출등등입력하는 왼쪽 상단부
 router.post('/writeinfo', controllerMain.write_info);

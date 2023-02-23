@@ -31,23 +31,23 @@ exports.getUsers = async (req, res) => {
   }
 };
 
-exports.Register = async (req, res) => {
-  const { user_name, user_email, user_pw, confPassword } = req.body;
-  if (user_pw !== confPassword)
-    return res.status(400).json({ msg: '비밀번호가 일치하지 않습니다' });
-  const salt = await bcrypt.genSalt();
-  const hashPassword = await bcrypt.hash(user_pw, salt);
-  try {
-    await User.create({
-      user_name: user_name,
-      user_email: user_email,
-      user_pw: hashPassword,
-    });
-    res.json({ msg: '등록 완료' });
-  } catch (error) {
-    console.log(error);
-  }
-};
+// exports.Register = async (req, res) => {
+//   const { user_name, user_email, user_pw, confPassword } = req.body;
+//   if (user_pw !== confPassword)
+//     return res.status(400).json({ msg: '비밀번호가 일치하지 않습니다' });
+//   const salt = await bcrypt.genSalt();
+//   const hashPassword = await bcrypt.hash(user_pw, salt);
+//   try {
+//     await User.create({
+//       user_name: user_name,
+//       user_email: user_email,
+//       user_pw: hashPassword,
+//     });
+//     res.json({ msg: '등록 완료' });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 exports.user_signin = async (req, res) => {
   try {

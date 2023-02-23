@@ -18,7 +18,7 @@ exports.verifyToken = (req, res, next) => {
       console.log(err1.name);
       return res.status(403).send({ message: err1.name });
     }
-    // res.json(decoded);
+
     next();
   });
 };
