@@ -13,8 +13,8 @@ import {
   parse,
 } from 'date-fns';
 import { HiArrowCircleLeft, HiArrowCircleRight } from 'react-icons/hi';
-import AccountsHeader from './accountsAllList/AccountsHeader';
-import AccountsList from './accountsAllList/AccountsList';
+import AccountsHeader from '../accountsAllList/AccountsHeader';
+import AccountsList from '../accountsAllList/AccountsList';
 
 const filters = ['전체', '수입', '지출'];
 

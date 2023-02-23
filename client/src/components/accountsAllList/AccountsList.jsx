@@ -95,8 +95,8 @@ export default function AccountsList({ filter }) {
     <div className="h-52 scrollbar scrollbar-thumb-violet-600 scrollbar-track-violet-50 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-aut ">
       <table className="w-full">
         <tbody>
-          {filtered.map((item) => (
-            <tr>
+          {filtered.map((item, index) => (
+            <tr key={index}>
               <td className="flex">
                 <img
                   className="w-8 h-8 mr-4 rounded-full"
