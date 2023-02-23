@@ -42,4 +42,10 @@ axiosJWT.interceptors.request.use(
   }
 );
 
+const setToken = () => {
+  const accessToken = localStorage.getItem('accessToken');
+  axiosJWT.defaults.headers.common['authorization'] = `Bearer ${accessToken}`;
+};
+
 export default axiosJWT;
+export { setToken };
