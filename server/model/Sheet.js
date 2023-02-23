@@ -12,6 +12,7 @@ const Sheet = (Sequelize, DataTypes) => {
       sheet_name: {
         type: DataTypes.STRING(10),
         allowNull: true,
+        defaultValue: null,
       },
 
       creator: {
