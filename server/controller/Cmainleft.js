@@ -56,6 +56,7 @@ exports.write_info = (req, res) => {
     type: req.body.type,
     money: req.body.money,
     category: req.body.category,
+    memo: req.body.memo,
   };
 
   Info.create(data).then((result) => {
