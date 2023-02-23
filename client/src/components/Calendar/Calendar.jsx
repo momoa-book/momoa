@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { addMonths, subMonths } from 'date-fns';
 
 import AccountsHeader from '../accountsAllList/AccountsHeader';
@@ -18,6 +18,17 @@ export default function Calendar() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [filter, setFilter] = useState(filters[0]);
 
+  const [accountFakeDB, setAccountFakeDB] = useState([]);
+
+  useEffect(() => {
+    fetch('data/account.json')
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('데이터 도착:', data);
+        setAccountFakeDB(data);
+      });
+  }, []);
+
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
   };
@@ -26,16 +37,16 @@ export default function Calendar() {
   };
   const onDateClick = (day) => {
     // setSelectedDate(day);
-    const dateFormat =
-      day.getFullYear() +
-      '-' +
-      (day.getMonth() + 1 < 9
-        ? '0' + (day.getMonth() + 1)
-        : day.getMonth() + 1) +
-      '-' +
-      (day.getDate() < 9 ? '0' + day.getDate() : day.getDate());
-    console.log('날짜클릭: ', dateFormat);
-    console.log('타입확인: ', typeof dateFormat);
+    // const dateFormat =
+    //   day.getFullYear() +
+    //   '-' +
+    //   (day.getMonth() + 1 < 9
+    //     ? '0' + (day.getMonth() + 1)
+    //     : day.getMonth() + 1) +
+    //   '-' +
+    //   (day.getDate() < 9 ? '0' + day.getDate() : day.getDate());
+    // console.log('날짜클릭: ', dateFormat);
+    // console.log('타입확인: ', typeof dateFormat);
   };
 
   return (
@@ -50,6 +61,7 @@ export default function Calendar() {
         currentMonth={currentMonth}
         selectedDate={selectedDate}
         onDateClick={onDateClick}
+        accountFakeDB={accountFakeDB}
       />
       <div className="h-60">
         <AccountsHeader
