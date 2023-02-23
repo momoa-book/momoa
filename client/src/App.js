@@ -13,6 +13,7 @@ import PrivateRoute from './components/PriavateRoute';
 import { useRecoilValue } from 'recoil';
 import { FinishAtom } from './atoms/AuthAtom';
 import InfoInit from './pages/InfoInit';
+import AccountTest from './pages/AccountTest';
 
 axios.defaults.baseURL = 'http://localhost:5000';
 axios.defaults.withCredentials = true;
@@ -38,6 +39,8 @@ function App() {
           element={<PublicRoute restricted={true} component={<Login />} />}
         />
         <Route path="/auth/kakao" element={<Kakao />} />
+        {/* 테스트 페이지 */}
+        <Route path="/accountTest" element={<AccountTest />} />
         <Route path="/*" element={<NotFound />} />
         <Route
           path="/account/*"
