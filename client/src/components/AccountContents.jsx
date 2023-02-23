@@ -6,7 +6,6 @@ import ItempInput from './ItempInput';
 import axios from '../utils/axios';
 import Calendar from './Calendar/Calendar';
 
-
 export default function AccountContents() {
   const { sheetId } = useParams();
   console.log(sheetId);
@@ -19,7 +18,7 @@ export default function AccountContents() {
           sheet_id: 'dkdsu',
         },
       }).then((res) => {
-        console.log(res);
+        console.log(res.data);
       }),
     []
   );

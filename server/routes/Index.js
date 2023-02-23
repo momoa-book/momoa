@@ -6,6 +6,7 @@ const controllerRefreshToken = require('../controller/CrefreshToken');
 const middlewareVerifyToken = require('../middleware/VerifyToken');
 const controllerKakao = require('../controller/Ckakao');
 const controllerMain = require('../controller/Cmainleft');
+const controllerData = require('../controller/CSheetData');
 
 // import { getUsers } from '../controllers/Users.js';
 // const controller = require('../controller/Cmain');
@@ -23,6 +24,12 @@ router.post('/getkakao', controllerKakao.KakaoLogin);
 //로그인
 router.post('/signin', controllerSignIn.user_signin);
 
+//로그아웃
+router.get('/logout', controllerSignIn.user_logout);
+
+//카카오와 함께 로그아웃
+router.get('/kakaologout', controllerKakao.KakaoLogout);
+
 //메인화면 랜더링될때마다 refreshToken을 갱신해주는 api ->맨 첫페이지에서 useeffect로 함수걸어줘야됨
 router.get('/token', controllerRefreshToken.refreshToken);
 
@@ -30,17 +37,12 @@ router.get('/token', controllerRefreshToken.refreshToken);
 router.all('*', middlewareVerifyToken.verifyToken);
 
 router.get('/verify', controllerRefreshToken.verifyToken);
-//로그아웃
-router.get('/logout', controllerSignIn.user_logout);
-
-//카카오와 함께 로그아웃
-router.get('/kakaologout', controllerKakao.KakaoLogout);
 
 //마이페이지 or 캘린더화면 처럼 유저 정보뿌려주는 화면에서 요청할 api
 router.get('/users', controllerSignIn.getUsers);
 
 //메인화면 모든 정보 불러오기
-router.get('/getsheetdata', controllerMain.getsheetdata);
+router.get('/getsheetdata', controllerData.getsheetdata);
 
 //sheet_id가져오는
 
