@@ -60,6 +60,13 @@ router.get(
   controllerMain.get_sheetid
 );
 
+//개인정보가져오는
+router.get(
+  '/getpersonalinfo',
+  middlewareVerifyToken.verifyToken,
+  controllerMain.get_personalinfo
+);
+
 //메인화면 모든 정보 불러오기
 // router.get(
 //   '/getmain',
