@@ -6,11 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function AccountSideBar({ sheetInfo }) {
+  const navigate = useNavigate();
   const clicked = useRecoilValue(isClickedAtom);
   const [isShow, setisShow] = useRecoilState(showModalAtom);
   const data = sheetInfo;
-
-  const navigate = useNavigate();
 
   function newSheet() {
     axios
@@ -55,26 +54,22 @@ export default function AccountSideBar({ sheetInfo }) {
               </span>
             </li>
             {/* prop으로 받아 온 배열이 있을 경우에 map 실행 */}
-            {data ? (
-              <>
-                {sheetInfo.map((el) => {
-                  return (
-                    <li key={el.id}>
-                      <span
-                        onClick={() => {
-                          navigate(`/account/${el.id}`);
-                        }}
-                        className="flex items-center p-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer"
-                      >
-                        {el.name}
-                      </span>
-                    </li>
-                  );
-                })}
-              </>
-            ) : (
-              <></>
-            )}
+
+            {data?.map((el) => {
+              return (
+                <li key={el.sheet_id}>
+                  <span
+                    onClick={() => {
+                      navigate(`/account/${el.sheet_id}`);
+                    }}
+                    className="flex items-center p-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer"
+                  >
+                    {el.sheet_name}
+                  </span>
+                </li>
+              );
+            })}
+
             <li>
               <span
                 onClick={() => {

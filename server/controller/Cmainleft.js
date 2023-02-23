@@ -24,23 +24,39 @@ exports.get_sheetid = async (req, res) => {
   console.log(user_email);
 
   try {
-    const user = await User.findOne({
-      where: {
-        user_email: user_email,
-      },
-      include: {
-        model: DBhub,
-        attributes: ['sheet_id'],
-        include: {
-          model: Sheet,
-          attributes: ['sheet_name'],
+    const sheet = await Sheet.findAll({
+      attributes: ['sheet_name', 'sheet_id', 'DBhubs.sheet_id'],
+      raw: true,
+
+      include: [
+        {
+          model: DBhub,
+          required: true,
+          attributes: [],
+          where: {
+            user_email: user_email,
+          },
         },
-      },
-      attributes: ['user_email'],
+      ],
     });
 
+    // const user = await User.findOne({
+    //   where: {
+    //     user_email: user_email,
+    //   },
+    //   include: {
+    //     model: DBhub,
+    //     attributes: ['sheet_id'],
+    //     include: {
+    //       model: Sheet,
+    //       attributes: ['sheet_name'],
+    //     },
+    //   },
+    //   attributes: ['user_email'],
+    // });
+
     res.status(200).json({
-      user,
+      sheet,
     });
   } catch (error) {
     console.log(error);

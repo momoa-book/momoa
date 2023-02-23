@@ -2,8 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function Profile() {
+export default function Profile(Info) {
   const navigate = useNavigate();
+  const { user_email, user_name, isKakao } = Info;
 
   function logout() {
     axios({
@@ -35,9 +36,17 @@ export default function Profile() {
         alt="user_pic"
       />
       <div>
-        <div className="mb-2">이메일</div>
-        <div className="mb-2">닉네임</div>
-        <div className="mb-2">가입 유형</div>
+        <div className="mb-2">
+          <span className="font-bold">이메일</span> : {user_email}
+        </div>
+        <div className="mb-2">
+          <span className="font-bold">닉네임</span> : {user_name}
+        </div>
+        <div className="mb-2">
+          <span className="font-bold">회원유형</span> :{' '}
+          {!isKakao ? '이메일' : '카카오'} 가입
+        </div>
+
         <button className="user-submit-btn" onClick={logout}>
           로그아웃
         </button>
