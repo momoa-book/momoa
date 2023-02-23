@@ -1,5 +1,5 @@
 GET http://localhost:5000/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2EzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6Im1vbW9hMyIsImlhdCI6MTY3Njk3NTQ4MywiZXhwIjoxNjc2OTc2MDgzfQ.7BKlyYuaziwt6BjGKAnjRpVgBMiqzwbnCdzFa85BF2o
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoiYWhmbDExMjlAaGFubWFpbC5uZXQiLCJ1c2VyX25hbWUiOiLrh6zsiJgiLCJpYXQiOjE2NzcxMzExMjQsImV4cCI6MTY3NzEzMTE0NH0.q6gKS4IrhbMiIuwoIESMQIZEXF6LJXkYjFlSQGaizKM
 ###
 POST http://localhost:5000/api/users
 Content-Type:application/json
@@ -18,8 +18,8 @@ POST http://localhost:5000/api/signin
 Content-Type:application/json
 
 { 
-    "user_email":"momoa3@gmail.com",
-    "user_pw":"12345"
+    "user_email":"ahfl1129@hanmail.net",
+    "user_pw":"dkdsu0320"
 }
 
 //리프레쉬토큰 ->액세스토큰갱신
@@ -38,4 +38,13 @@ Content-Type:application/json
 { 
     "user_email":"laura1129@naver.com"
     
+}
+
+//가계부 불러오기
+###
+GET http://localhost:5000/api/getsheetdata
+Content-Type:application/json
+
+{ 
+    "sheet_id":"dkdsu"
 }

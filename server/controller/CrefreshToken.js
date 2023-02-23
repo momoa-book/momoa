@@ -24,14 +24,15 @@ exports.refreshToken = async (req, res) => {
           { user_email, user_name },
           process.env.ACCESS_TOKEN_SECRET,
           {
-            expiresIn: '2m',
+            expiresIn: '10s',
           }
         );
+        console.log('newToken : ', accessToken);
         res.json({ accessToken });
       }
     );
   } catch (error) {
-    console.log(error);
+    console.log(`error: ${error}`);
   }
 };
 
