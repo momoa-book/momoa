@@ -63,7 +63,7 @@ exports.get_personalinfo = async function (req, res) {
         {
           model: DBhub,
           where: {
-            auth: true,
+            auth: false,
           },
           attributes: ['sheet_id'],
           include: {

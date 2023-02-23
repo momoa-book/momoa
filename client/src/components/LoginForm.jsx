@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { setToken } from '../utils/axios';
 
 export default function EmailLogin() {
   const [Email, setEmail] = useState('');
@@ -44,6 +45,7 @@ export default function EmailLogin() {
         const accessToken = res.data.accessToken;
         console.log(res.data);
         localStorage.setItem('accessToken', accessToken);
+        setToken();
         navigate('/account');
       })
       .catch((error) => {
