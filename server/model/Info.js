@@ -3,7 +3,7 @@ const Info = (Sequelize, DataTypes) => {
     'Info',
     {
       info_id: {
-        type: INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
