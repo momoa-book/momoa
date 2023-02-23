@@ -1,4 +1,3 @@
-
 const { sequelize } = require('../model');
 
 const { User, Sheet, DBhub, Info } = require('../model');
@@ -20,7 +19,9 @@ const bcrypt = require('bcrypt');
 //get  '/getsheetid',
 
 exports.get_sheetid = async (req, res) => {
+  console.log(req.decoded);
   const user_email = req.decoded.user_email;
+  console.log(user_email);
 
   try {
     const user = await User.findOne({
@@ -83,7 +84,6 @@ exports.get_personalinfo = async function (req, res) {
     });
   }
 };
-
 
 //가계부 정보 불러오기
 exports.getsheetdata = async (req, res) => {
