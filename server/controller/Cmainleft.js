@@ -4,16 +4,17 @@ const { User, Sheet, DBhub, Info } = require('../model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-//sheet_id에 해당하는 모든 정보 불러오는
-exports.get_main = async (req, res) => {
-  let result = await Info.findAll({
-    attributes: ['type', 'input_date', 'money'],
-    // where: { type: req.query.type },
-  });
-  res.send(result);
-};
+// //sheet_id에 해당하는 모든 정보 불러오는
+// exports.get_main = async (req, res) => {
+//   let result = await Info.findAll({
+//     attributes: ['type', 'input_date', 'money'],
+//     // where: { type: req.query.type },
+//   });
+//   res.send(result);
+// };
 
-//1. 로그인 성공후 가계부 페이지 나올때 DBhub에서 user_email을 찾아서 user의 정보를 가져오고,sheet_id를 기준으로 sheet테이블에서 sheet_name,sheet id를 가져오는 get요청
+//1. 로그인 성공후 가계부 페이지 나올때 DBhub에서 user_email을 찾아서 user의 정보를 가져오고,sheet_id를 기준으로 sheet테이블에서 sheet_name,sheet id를 가져오는 get요청  //
+//get  '/getsheetid',
 
 exports.get_sheetid = async function getSheetInfo(req, res) {
   const userEmail = req.decoded.user_email;
@@ -38,6 +39,9 @@ exports.get_sheetid = async function getSheetInfo(req, res) {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      message: '정보를 받아올 수 없습니다',
+    });
   }
 };
 
