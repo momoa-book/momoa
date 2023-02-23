@@ -19,9 +19,20 @@ const Test = () => {
       console.log(response);
     });
   }
+
+  function getSheetData() {
+    axios({
+      url: 'http://localhost:5000/api/getsheetdata',
+      method: 'get',
+      data: {
+        sheet_id: 'dkdsu',
+      },
+    });
+  }
+
   return (
     <div>
-      <button type="button" onClick={eventHandle}>
+      <button type="button" onClick={getSheetData}>
         버튼
       </button>
     </div>

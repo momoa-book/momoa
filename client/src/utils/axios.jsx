@@ -1,11 +1,8 @@
 import axios from 'axios';
 
 const axiosJWT = axios.create();
-
-// axiosJWT.defaults.headers.common[
-//     'Authorization'
-//   ] = `Bearer ${localStorage.getItem('accessToken')}`;
-axiosJWT.defaults.headers.common['authorization'] = `Bearer {token}`;
+const accessToken = localStorage.getItem('accessToken');
+axiosJWT.defaults.headers.common['authorization'] = `Bearer ${accessToken}`;
 
 axiosJWT.interceptors.request.use(
   async (config) => {
@@ -19,11 +16,17 @@ axiosJWT.interceptors.request.use(
         return config;
       })
       .catch(async (err2) => {
-        if (err2.response.data.message === 'TokenExpiredError') {
+        if (
+          err2.response.data.message === 'TokenExpiredError' ||
+          err2.response.data.message === 'TokenNull'
+        ) {
           const rep = await axios.get('http://localhost:5000/api/token');
-          console.log('rep : ', rep.data);
           const newAccessToken = rep.data.accessToken;
           localStorage.setItem('accessToken', newAccessToken);
+          axiosJWT.defaults.headers.common[
+            'authorization'
+          ] = `Bearer ${newAccessToken}`;
+          config.headers.authorization = `Bearer ${newAccessToken}`;
           return config;
         } else {
           alert('error!');
