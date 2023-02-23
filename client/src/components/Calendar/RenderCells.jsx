@@ -15,6 +15,7 @@ export default function RenderCells({
   currentMonth,
   selectedDate,
   onDateClick,
+  accountFakeDB,
 }) {
   const monthStart = startOfMonth(currentMonth); // 오늘이 속한 달의 시작일
   const monthEnd = endOfMonth(monthStart); // 오늘이 속한 달의 마지막일
@@ -29,7 +30,10 @@ export default function RenderCells({
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, 'd');
-      const cloneDay = day;
+      // const cloneDay = day;
+      const cloneDay = format(day, 'yyyy-MM-dd');
+      console.log('cloneDay???', cloneDay);
+      console.log('accountFakeDB??', accountFakeDB);
       days.push(
         <div
           className={`flex flex-row m-0 w-full h-24 ${
