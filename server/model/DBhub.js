@@ -26,7 +26,7 @@ const DBhub = (Sequelize, DataTypes) => {
       },
     },
     {
-      tableName: 'Sheet',
+      tableName: 'DBhub',
       freezeTableName: true,
       timestamps: false,
     }

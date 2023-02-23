@@ -48,23 +48,14 @@ Content-Type:application/json
 ###
 GET http://localhost:5000/api/getsheetid
 Content-Type:application/json
-
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzEzNDU4OSwiZXhwIjoxNjc3MTM0NjA5fQ.agCx1Iw9Nbbk45Cu8ybqH3INVz-AFlhJtN3UWm7l0hA
-
-
-{ 
-    "user_email":"momoa4@gmail.com",
-    "sheet_id":"2",
-    "sheet_name":"문서2"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzE0NTQyOSwiZXhwIjoxNjc3MTQ2NjI5fQ.fqynM7x_vseRN4k5RL0SiHlAp0hK2oqKFmjdKLJH5Vg
 
 
 //개인정보불러오기
 ###
 GET http://localhost:5000/api/getpersonalinfo
 Content-Type:application/json
-
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzEzNDU4OSwiZXhwIjoxNjc3MTM0NjA5fQ.agCx1Iw9Nbbk45Cu8ybqH3INVz-AFlhJtN3UWm7l0hA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzE0NTQyOSwiZXhwIjoxNjc3MTQ2NjI5fQ.fqynM7x_vseRN4k5RL0SiHlAp0hK2oqKFmjdKLJH5Vg
 
 
 { 
