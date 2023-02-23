@@ -46,8 +46,8 @@ router.get('/logout', controllerSignIn.user_logout);
 //카카오와 함께 로그아웃
 router.get('/kakaologout', controllerKakao.KakaoLogout);
 
-//테스트용
-http: router.post('/users', controllerSignIn.Register);
+// 테스트용;
+// router.post('/users', controllerSignIn.Register);
 
 //이 코드의 밑에있는 것들은 전부 미들웨어를 거치게 된다.
 // router.all('*', middlewareVerifyToken, (req,res,next) => {next();});
@@ -61,11 +61,11 @@ router.get(
 );
 
 //메인화면 모든 정보 불러오기
-router.get(
-  '/getmain',
-  middlewareVerifyToken.verifyToken,
-  controllerMain.get_main
-);
+// router.get(
+//   '/getmain',
+//   middlewareVerifyToken.verifyToken,
+//   controllerMain.get_main
+// );
 
 //수입지출등등입력하는 왼쪽 상단부
 router.post(

@@ -16,7 +16,7 @@ const bcrypt = require('bcrypt');
 //1. 로그인 성공후 가계부 페이지 나올때 DBhub에서 user_email을 찾아서 user의 정보를 가져오고,sheet_id를 기준으로 sheet테이블에서 sheet_name,sheet id를 가져오는 get요청  //
 //get  '/getsheetid',
 
-exports.get_sheetid = async function getSheetInfo(req, res) {
+exports.get_sheetid = async (req, res) => {
   const userEmail = req.decoded.user_email;
 
   try {
