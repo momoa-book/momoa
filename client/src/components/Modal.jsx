@@ -1,10 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { useSheetMutation } from '../hooks/useSheetMutation';
 import { showModalAtom } from '../atoms/InterfaceAtom';
 import { HiOutlineXCircle } from 'react-icons/hi';
 
 export default function Modal() {
+  const { mutate: newSheet } = useSheetMutation();
   const [isShow, setisShow] = useRecoilState(showModalAtom);
+  const [Email, setEmail] = useState('');
+  const [Name, setName] = useState('');
+
+  const onEmailHandler = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const onNameHandler = (event) => {
+    setName(event.target.value);
+  };
+
+  function sheetSubmit() {
+    newSheet({
+      sheet_name: Name,
+      creator: '', //이게머지;;
+    });
+  }
+  // 여기서 초대하는건지?
+  // function emailInvite() {
+  //   newInvite({
+  //     user_Email: Email,
+  //   });
+  // }
 
   return (
     <>
@@ -25,13 +50,27 @@ export default function Modal() {
                   />
                 </div>
                 {/*body*/}
-                <div className="relative p-6 flex-auto">
+                <div className="relative p-4 flex-auto">
                   <div className="my-4 text-gray-600 dark:text-gray-50 ">
-                    <div className="flex">
+                    <div className="w-1/2 mb-2 flex mx-auto justify-center">
                       <input
                         type="text"
-                        //onChange={(e) => setNum(inputGoalFormat(e.target.value))}
-                        className="focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 focus:ring-2 focus:ring-purple-300"
+                        onChange={onNameHandler}
+                        className="w-4/5 focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 focus:ring-2 focus:ring-purple-300"
+                        placeholder="가계부 이름을 입력해주세요."
+                      />
+                      {/* <button
+                        // onClick={() => {}}
+                        className="min-[1080px]:w-1/5 w-1/3 focus:outline-none bg-purple-600 text-white font-medium rounded-lg text-sm px-5 py-2.5 "
+                      >
+                        만들기
+                      </button> */}
+                    </div>
+                    <div className="w-3/4 mx-auto flex justify-between">
+                      <input
+                        type="text"
+                        onChange={onEmailHandler}
+                        className="min-[1080px]:w-3/5 w-2/3 focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 focus:ring-2 focus:ring-purple-300"
                         placeholder="이메일로 초대해보세요."
                       />
                       <button
@@ -43,6 +82,7 @@ export default function Modal() {
                     </div>
                   </div>
                 </div>
+
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                   <button
@@ -50,14 +90,17 @@ export default function Modal() {
                     type="button"
                     onClick={() => setisShow(false)}
                   >
-                    Close
+                    닫기
                   </button>
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setisShow(false)}
+                    onClick={() => {
+                      setisShow(false);
+                      sheetSubmit();
+                    }}
                   >
-                    Save Changes
+                    생성하기
                   </button>
                 </div>
               </div>

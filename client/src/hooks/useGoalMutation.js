@@ -10,7 +10,7 @@ export const useGoalMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(setGoal, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries('sheets', data);
+      queryClient.invalidateQueries('getgoal', data);
     },
   });
 };

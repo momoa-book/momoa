@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../utils/axios';
 import Graph from './Graph';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useParams } from 'react-router-dom';
 import { useGoalMutation } from '../hooks/useGoalMutation';
+import { useQuery } from 'react-query';
 
 export default function CurrentStatus() {
   const { mutate: setGoal } = useGoalMutation();
@@ -11,6 +12,22 @@ export default function CurrentStatus() {
   const [enteredNum, setEnterdNum] = useState();
   const [none, setNone] = useState(true);
   const [percent, setPercent] = useState(0);
+
+  const fetchGoal = async () => {
+    const { data } = await axios({
+      url: 'http://localhost:5000/api/getgoal',
+      method: 'get',
+      params: {
+        sheet_id: sheetId,
+      },
+    });
+    return data;
+  };
+
+  const { data, status, error } = useQuery(['getgoal', sheetId], fetchGoal, {
+    refetchOnWindowFocus: false, // window focus 이동 후에 refetch 하지 않음
+    placeholderData: '',
+  });
 
   const changeEnteredNum = (e) => {
     const value = e.target.value;
@@ -35,14 +52,18 @@ export default function CurrentStatus() {
     }
   }, [enteredNum]);
 
+  console.log(data);
+  const { test, now } = data ?? {};
+  const { goal } = test ?? {};
+
   return (
     <>
       <div className="w-full rounded-lg p-6 mb-2 bg-purple-700 text-white">
         <div className="flex justify-between">
           <div className="text-xl font-medium">이번 달의 예산</div>
-          {!none && (
+          {goal && !none && (
             <div className="flex">
-              <div className="text-xl font-semibold mr-2">{enteredNum}원</div>
+              <div className="text-xl font-semibold mr-2">{goal}원</div>
               <HiOutlinePencilAlt
                 className="h-7 w-7 hover:cursor-pointer hover:translate-y-1"
                 onClick={() => setNone(true)}
@@ -74,17 +95,17 @@ export default function CurrentStatus() {
       </div>
 
       <div className="flex justify-between p-1 mb-1">
-        {!none && (
+        {goal && (
           <>
             {percent <= 100 ? (
               <span className="text-base font-bold text-gray-800 dark:text-gray-50">
-                예산까지 {Number(enteredNum.replace(/,/g, ''))}원 남았습니다.
+                {/* 예산까지 {Number(enteredNum.replace(/,/g, ''))}원 남았습니다. */}
                 {/* 실제 연산이 된 금액이 보여지도록, num 에서 사용 금액 뺀? 콤마 붙여야함..*/}
               </span>
             ) : (
               <span className="text-base font-bold text-red-700">
-                예산에서 {Number(enteredNum.replace(/,/g, ''))}원
-                초과되었습니다.
+                {/* 예산에서 {Number(enteredNum.replace(/,/g, ''))}원
+                초과되었습니다. */}
                 {/* 실제 연산이 된 금액이 보여지도록, num 에서 사용 금액 뺀? 콤마 붙여야함..*/}
               </span>
             )}

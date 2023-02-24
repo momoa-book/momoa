@@ -6,6 +6,7 @@ import useMyPage from '../hooks/useMyPage';
 
 export default function MyPage() {
   const { data, status } = useMyPage();
+  console.log(data);
 
   return (
     <>
@@ -40,7 +41,8 @@ export default function MyPage() {
               <ShareAccountStatus
                 {...(status === 'success' &&
                   data.sheet_auth && {
-                    invite: data.sheet_auth,
+                    share: data.sheet_share,
+                    invite: data.sheet_before_accept,
                   })}
               />
             </div>

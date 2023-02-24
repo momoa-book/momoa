@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { ReactComponent as Logo } from '../assets/logo2.svg';
 import Toggle from './Toggle';
 import { useRecoilState } from 'recoil';
-import { isClickedAtom } from '../atoms/InterfaceAtom';
+import { isClickedAtom, isShareAtom } from '../atoms/InterfaceAtom';
 import { HiOutlineShare, HiOutlineChatAlt } from 'react-icons/hi';
-import ShareModal from './ShareModal';
 
 export default function AccountNav(props) {
   const [clicked, setClicked] = useRecoilState(isClickedAtom);
-  const [shareShow, setShareshow] = useState(false);
+  const [isShare, setShare] = useRecoilState(isShareAtom);
 
   return (
     <>
@@ -50,19 +49,13 @@ export default function AccountNav(props) {
                 alt="user_pic"
               />
 
-              <div>{props.name}</div>
+              <div className="mr-2">{props.name}</div>
 
-              <HiOutlineChatAlt className="mr-3 h-6 w-6 hover:cursor-pointer hover:translate-y-1" />
+              {/* <HiOutlineChatAlt className="mr-3 h-6 w-6 hover:cursor-pointer hover:translate-y-1" /> */}
               <HiOutlineShare
-                onClick={() => setShareshow(!shareShow)}
+                onClick={() => setShare(!isShare)}
                 className="mr-3 h-6 w-6 hover:cursor-pointer hover:translate-y-1"
               />
-
-              {shareShow && (
-                <>
-                  <ShareModal />
-                </>
-              )}
 
               <Toggle />
             </div>

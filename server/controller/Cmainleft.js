@@ -255,3 +255,40 @@ exports.createSheet = async (req, res) => {
     });
   }
 };
+
+exports.get_goal = async (req, res) => {
+  let today = new Date();
+  let nowMonth = today.getMonth();
+
+  try {
+    const now = await Info.findAll({
+      raw: true,
+      attributes: ['money'],
+      where: {
+        [Op.and]: [
+          { type: 2 },
+          { sheet_id: req.query.sheet_id },
+          sequelize.where(
+            sequelize.fn('MONTH', sequelize.col('input_date')),
+            nowMonth + 1
+          ),
+        ],
+      },
+    });
+    const test = await Sheet.findOne({
+      raw: true,
+      attributes: ['goal'],
+      where: { sheet_id: req.query.sheet_id },
+    });
+
+    res.status(200).json({
+      test,
+      now,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: 'ERROR',
+    });
+  }
+};

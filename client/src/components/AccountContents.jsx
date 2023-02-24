@@ -2,13 +2,16 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import CurrentStatus from './CurrentStatus';
 import ItempInput from './ItempInput';
-
 import axios from '../utils/axios';
 import Calendar from './Calendar/Calendar';
+import ShareModal from './ShareModal';
+import { useRecoilValue } from 'recoil';
+import { isShareAtom } from '../atoms/InterfaceAtom';
 
 export default function AccountContents() {
   const { sheetId } = useParams();
-  console.log(sheetId);
+  const clickShare = useRecoilValue(isShareAtom);
+
   // useEffect(
   //   () =>
   //     axios({
@@ -25,6 +28,11 @@ export default function AccountContents() {
 
   return (
     <>
+      {clickShare && (
+        <>
+          <ShareModal />
+        </>
+      )}
       <div className="p-4 sm:ml-40">
         <div className="p-4 mt-16">
           <div className="grid grid-rows-1 grid-cols-1 min-[1080px]:grid-rows-3 min-[1080px]:grid-flow-col min-[1080px]:grid-cols-[550px_minmax(310px,_1fr)_0px] gap-2">
