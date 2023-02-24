@@ -211,28 +211,41 @@ exports.get_personalinfo = async (req, res) => {
 //4. 수입지출 등등 입력하는   post '/writeinfo'
 
 exports.write_info = (req, res) => {
-  let data = {
-    input_date: req.body.input_date,
-    type: req.body.type,
-    money: req.body.money,
-    category: req.body.category,
-    memo: req.body.memo,
-  };
+  try {
+    let data = {
+      sheet_id: req.body.sheet_id,
+      input_date: req.body.input_date,
+      type: req.body.type,
+      money: req.body.money,
+      category: req.body.category,
+      memo: req.body.memo,
+    };
 
-  Info.create(data).then((result) => {
-    res.send(result);
-  });
+    Info.create(data).then((result) => {
+      res.send(result);
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: 'ERROR',
+    });
+  }
 };
 
-//5. 목표 입력하는 .post('/writegoal',
-exports.write_goal = (req, res) => {
-  let data = {
-    goal: req.body.goal,
-  };
 
-  Sheet.create(data).then((result) => {
-    res.send(result);
-  });
+
+exports.write_goal = (req, res) => {
+  Sheet.update(
+    { goal: req.body.goal },
+    { where: { sheet_id: req.body.sheet_id } }
+  )
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+
 };
 
 //6. 초대받으면 auth값을  t로 update하는 초대버튼 api

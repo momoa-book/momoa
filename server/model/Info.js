@@ -39,11 +39,6 @@ const Info = (Sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: true,
       },
-
-      goal: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
     },
     {
       tableName: 'Info',

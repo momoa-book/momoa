@@ -24,10 +24,14 @@ exports.getsheetdata = async (req, res) => {
 
   //월 별 합계 구하기
   //월 추출
+  let incomeArr = [];
   console.log(income[0].dataValues.input_date.split('-')[1]);
-  //[{month: income[i].dataValues.input_date.split('-')[1], income: income[0].dataValues.money}]
-  //
-  //
+  //[{month: income[i].dataValues.input_date.split('-')[1], income: income[i].dataValues.money}]
+  let monthArr1 = income.map((el) => {
+    return el.dataValues.input_date.split('-')[1];
+  });
+  //중복값 제거
+  let monthArr2 = [...new Set(monthArr1)];
 
   // 1-2. 월별 지출 합계
   //Info 테이블에서 현재 날짜가 속해 있는 연도의, 월 별 수입 금액 데이터 추출
