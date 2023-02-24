@@ -8,17 +8,10 @@ const controllerKakao = require('../controller/Ckakao');
 const controllerMain = require('../controller/Cmainleft');
 const controllerData = require('../controller/CSheetData');
 
-// import { getUsers } from '../controllers/Users.js';
-// const controller = require('../controller/Cmain');
-
-//가계부 공유하기(초대버튼)
-router.post('/sharesheet', controllerData.shareSheet);
-
-//초대 승인, 거절
-router.post('/inviteapproval', controllerData.inviteApproval);
-
 //이메일 인증요청
 router.post('/check_email', controllerSignUp.send_code);
+//차트 정보 불러오기
+router.get('/getsheetdata', controllerData.getsheetdata);
 
 //회원가입
 router.post('/signup', controllerSignUp.approve_code);
@@ -47,24 +40,16 @@ router.get('/verify', controllerRefreshToken.verifyToken);
 //마이페이지 or 캘린더화면 처럼 유저 정보뿌려주는 화면에서 요청할 api
 router.get('/users', controllerSignIn.getUsers);
 
-//메인화면 모든 정보 불러오기
-router.get('/getsheetdata', controllerData.getsheetdata);
+// //차트 정보 불러오기
+// router.get('/getsheetdata', controllerData.getsheetdata);
 
 router.get('/getcalendar', controllerData.getcalendardata);
 
 //sheet_id가져오는
-
 router.get('/getsheetid', controllerMain.get_sheetid);
 
 //개인정보가져오는
 router.get('/getpersonalinfo', controllerMain.get_personalinfo);
-
-//메인화면 모든 정보 불러오기
-// router.get(
-//   '/getmain',
-//   middlewareVerifyToken.verifyToken,
-//   controllerMain.get_main
-// );
 
 //수입지출등등입력하는 왼쪽 상단부
 router.post('/writeinfo', controllerMain.write_info);
@@ -73,7 +58,6 @@ router.post('/writeinfo', controllerMain.write_info);
 router.post('/writegoal', controllerMain.write_goal);
 
 //초대할때 유저검색하면 유저정보 반환해주는
-
 router.get('/getUserByEmail', controllerMain.getUserByEmail);
 
 //가계부 공유하기(초대버튼)

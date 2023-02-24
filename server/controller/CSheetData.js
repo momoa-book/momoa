@@ -3,40 +3,10 @@ const { Op } = require('sequelize');
 const { User, Sheet, DBhub, Info } = require('../model');
 //가계부 정보 불러오기
 exports.getsheetdata = async (req, res) => {
+  console.log(req.query);
   //현재 연도 구하기
   let today = new Date();
   let nowYear = today.getFullYear();
-  //날짜, 금액 불러오기 (조건 : 수입, 연도=현재연도, 요청한 가계부 id와 동일)
-  //수입
-  let findIncome = await Info.findAll({
-    order: [['input_date', 'ASC']],
-    attributes: ['input_date', 'money'],
-    where: {
-      [Op.and]: [
-        { sheet_id: req.query.sheet_id },
-        { type: 1 },
-        sequelize.where(
-          sequelize.fn('YEAR', sequelize.col('input_date')),
-          nowYear
-        ),
-      ],
-    },
-  });
-
-  //지출
-  let findSpend = await Info.findAll({
-    attributes: ['input_date', 'money'],
-    where: {
-      [Op.and]: [
-        { sheet_id: req.query.sheet_id },
-        { type: 2 },
-        sequelize.where(
-          sequelize.fn('YEAR', sequelize.col('input_date')),
-          nowYear
-        ),
-      ],
-    },
-  });
 
   ///데이터 정제 함수
   function makeData(findData) {
@@ -71,13 +41,53 @@ exports.getsheetdata = async (req, res) => {
     });
 
     console.log(result);
+    return result;
   }
 
-  //수입, 지출 데이터 정리해서 보내기
-  const income = makeData(findIncome);
-  const spend = makeData(findSpend);
+  try {
+    //수입
+    let findIncome = await Info.findAll({
+      order: [['input_date', 'ASC']],
+      attributes: ['input_date', 'money'],
+      where: {
+        [Op.and]: [
+          { sheet_id: req.query.sheet_id },
+          { type: 1 },
+          sequelize.where(
+            sequelize.fn('YEAR', sequelize.col('input_date')),
+            nowYear
+          ),
+        ],
+      },
+    });
+    console.log('findIncomeData:', findIncome);
 
-  res.json({ incomeArr: income, spendArr: spend });
+    //지출
+    let findSpend = await Info.findAll({
+      order: [['input_date', 'ASC']],
+      attributes: ['input_date', 'money'],
+      where: {
+        [Op.and]: [
+          { sheet_id: req.query.sheet_id },
+          { type: 2 },
+          sequelize.where(
+            sequelize.fn('YEAR', sequelize.col('input_date')),
+            nowYear
+          ),
+        ],
+      },
+    });
+    console.log('findSpendData:', findSpend);
+
+    //필요한 데이터 추출
+    const income = makeData(findIncome);
+    const spend = makeData(findSpend);
+    console.log(income);
+    res.status(200).send({ incomeArr: income, spendArr: spend });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: '차트 정보를 불러오는 데 실패했습니다.' });
+  }
 };
 
 //가계부 공유하기
