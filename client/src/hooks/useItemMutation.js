@@ -7,7 +7,12 @@ const addItems = async (items) => {
 };
 
 export const useItemMutation = () => {
-  return useMutation(addItems);
+  const queryClient = useQueryClient();
+  return useMutation(addItems, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries('graph', 'calendar', data);
+    },
+  });
 };
 
 // export const useItemMutation = () => {
