@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { useItemMutation } from '../hooks/useItemMutation';
 
 export default function ItempInput() {
+  const { mutate: addItem } = useItemMutation();
+  const { sheetId } = useParams();
   const [isFilter, setisFilter] = useState();
   const [isOption, setisOption] = useState();
-  const [isNum, setisNum] = useState('');
-  const [isPrice, setisPrice] = useState('');
+  const [enteredNum, setEnterdNum] = useState();
   const [isDate, setisDate] = useState();
   const [isMemo, setisMemo] = useState('');
 
@@ -25,43 +27,28 @@ export default function ItempInput() {
     setisMemo(e.target.value);
   };
 
-  const inputPriceFormat = (str) => {
-    const comma = (str) => {
-      str = String(str);
-      return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    };
-    const uncomma = (str) => {
-      str = String(str);
-      return str.replace(/[^\d]+/g, '');
-    };
-    return comma(uncomma(str));
+  const changeEnteredNum = (e) => {
+    const value = e.target.value;
+    const removedCommaValue = Number(value.replaceAll(',', ''));
+    setEnterdNum(removedCommaValue.toLocaleString());
   };
 
   function ItemSubmit() {
-    setisPrice(Number(isNum.split(',').reduce((curr, acc) => curr + acc, '')));
-    console.log(isPrice);
-    axios({
-      url: 'http://localhost:5000/api/', // 수정 필요
-      method: 'POST',
-      withCredentials: true,
-      data: {
-        type: isFilter,
-        category: isOption,
-        money: isPrice,
-        input_date: isDate,
-        memo: isMemo,
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((error) => {
-        if (error.response.status === 400) {
-          alert(error.response.data.msg);
-        } else if (error.response.status === 404) {
-          alert(error.response.data.msg);
-        }
-      });
+    addItem({
+      sheet_id: sheetId,
+      type: isFilter,
+      category: isOption,
+      money: Number(enteredNum.replace(/,/g, '')),
+      input_date: isDate,
+      memo: isMemo,
+    });
+  }
+  function InputReset() {
+    setisFilter('');
+    setisOption('');
+    setEnterdNum('');
+    setisDate('');
+    setisMemo('');
   }
 
   return (
@@ -121,25 +108,25 @@ export default function ItempInput() {
               <option>항목을 선택하세요.</option>
               {isFilter === '1' && (
                 <>
-                  <option value="11">급여</option>
-                  <option value="12">용돈</option>
-                  <option value="13">금융수입</option>
-                  <option value="14">사업수입</option>
+                  <option value="급여">급여</option>
+                  <option value="용돈">용돈</option>
+                  <option value="금융수입">금융수입</option>
+                  <option value="사업수입">사업수입</option>
                 </>
               )}
 
               {isFilter === '2' && (
                 <>
-                  <option value="21">식비</option>
-                  <option value="22">생활</option>
-                  <option value="23">쇼핑</option>
-                  <option value="24">교통</option>
-                  <option value="25">주거</option>
-                  <option value="26">통신</option>
-                  <option value="27">의료</option>
-                  <option value="28">금융</option>
-                  <option value="29">문화</option>
-                  <option value="30">교육</option>
+                  <option value="식비">식비</option>
+                  <option value="생활">생활</option>
+                  <option value="쇼핑">쇼핑</option>
+                  <option value="교통">교통</option>
+                  <option value="주거">주거</option>
+                  <option value="통신">통신</option>
+                  <option value="의료">의료</option>
+                  <option value="금융">금융</option>
+                  <option value="문화">문화</option>
+                  <option value="교육">교육</option>
                 </>
               )}
             </select>
@@ -151,11 +138,11 @@ export default function ItempInput() {
             </label>
             <input
               type="text"
-              value={isNum}
+              value={enteredNum}
               id="money"
               className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
               placeholder="ex.50,000"
-              onChange={(e) => setisNum(inputPriceFormat(e.target.value))}
+              onChange={changeEnteredNum}
             />
           </div>
         </div>
@@ -169,6 +156,7 @@ export default function ItempInput() {
             </label>
             <input
               type="date"
+              value={isDate}
               onChange={selectDate}
               className='w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"'
             />
@@ -183,6 +171,7 @@ export default function ItempInput() {
             <input
               type="text"
               id="memo"
+              value={isMemo}
               onChange={inputMemo}
               className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500"
             />
@@ -192,7 +181,10 @@ export default function ItempInput() {
       <div className="flex justify-center">
         <button
           type="button"
-          onClick={ItemSubmit}
+          onClick={() => {
+            ItemSubmit();
+            InputReset();
+          }}
           className=" w-28 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5  dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
         >
           등록
