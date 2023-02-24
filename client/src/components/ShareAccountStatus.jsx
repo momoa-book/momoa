@@ -1,14 +1,15 @@
 import React from 'react';
 
 export default function ShareAccountStatus(props) {
-  const { sheet_auth } = props;
+  const { invite } = props;
+
   return (
     <>
       <div className="mb-6 text-xl font-bold tracking-tight ">
         가계부 공유 현황
       </div>
       <div className="w-full min-[1080px]:w-3/5">
-        {sheet_auth?.map((el) => {
+        {invite?.map((el) => {
           return (
             <div
               key={el.sheet_id}
