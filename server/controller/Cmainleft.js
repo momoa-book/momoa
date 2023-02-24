@@ -77,6 +77,7 @@ exports.get_personalinfo = async (req, res) => {
   console.log(user_email);
 
   try {
+    //creator의 이름은 나를 초대한사람의 이름이지만 guest의 이름이 내이름인, 즉 내가 초대받은 가계부 중에서 내가 수락누른것 auth값1
     const sheet_share = await Sheet.findAll({
       attributes: ['sheet_name', 'sheet_id'],
       raw: true,
@@ -95,6 +96,7 @@ exports.get_personalinfo = async (req, res) => {
     });
 
     const sheet = await Sheet.findAll({
+      //내가 만든가계부(user_email이 내 email인것들 중에서 기본으로 생성된 나만의 가계부: auth값이 0, 내가 만든 가계부중에서 내가 다른사람을 초대해서 수락을 받아 auth값이 1이된 가계부)
       attributes: ['sheet_name', 'sheet_id'],
       raw: true,
       include: [
@@ -111,15 +113,15 @@ exports.get_personalinfo = async (req, res) => {
     });
 
     const sheet_before_accept = await Sheet.findAll({
-      attributes: ['sheet_name', 'sheet_id'],
+      attributes: ['sheet_name', 'sheet_id', 'creator'],
       raw: true,
       include: [
         {
           model: DBhub,
           required: true,
-          attributes: ['guest'],
+          attributes: [],
           where: {
-            user_email,
+            guest: user_email,
             auth: 2,
           },
         },
@@ -131,10 +133,11 @@ exports.get_personalinfo = async (req, res) => {
       user_name,
       user_email,
       sheet,
-      sheet_before_accept: sheet_before_accept.map((sheet) => ({
-        ...sheet,
-        guest: sheet['DBhubs.guest'],
-      })),
+      sheet_before_accept,
+      // sheet_before_accept: sheet_before_accept.map((sheet) => ({
+      //   ...sheet,
+      //   guest: sheet['DBhubs.guest'],
+      // })),
     });
   } catch (error) {
     console.log(error);
