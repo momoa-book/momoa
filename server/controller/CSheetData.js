@@ -64,8 +64,8 @@ exports.getsheetdata = async (req, res) => {
   };
   const income = Object.keys(incomeValues).map((key) => {
     return {
-      month: key,
-      money: add(incomeValues[key]),
+      x: key,
+      y: add(incomeValues[key]),
     };
   });
 
@@ -99,8 +99,8 @@ exports.getsheetdata = async (req, res) => {
   };
   const spend = Object.keys(spendValues).map((key) => {
     return {
-      month: key,
-      money: addSpend(spendValues[key]),
+      x: key,
+      y: addSpend(spendValues[key]),
     };
   });
 
