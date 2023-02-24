@@ -208,8 +208,6 @@ exports.get_personalinfo = async (req, res) => {
 
 //수입지출 등등 입력하는
 
-//3. 초대받으면 auth값을  f로 먼저 create하고
-
 //4. 수입지출 등등 입력하는   post '/writeinfo'
 
 exports.write_info = (req, res) => {
@@ -234,17 +232,7 @@ exports.write_info = (req, res) => {
   }
 };
 
-//5. 목표 입력하는 .post('/writegoal',
-// exports.write_goal = (req, res) => {
-//   console.log(req.body);
-//   let data = {
-//     goal: req.body.goal,
-//   };
 
-//   Sheet.update(data, { whree }).then((result) => {
-//     res.send(result);
-//   });
-// };
 
 exports.write_goal = (req, res) => {
   Sheet.update(
@@ -257,4 +245,36 @@ exports.write_goal = (req, res) => {
     .catch((err) => {
       console.error(err);
     });
+
 };
+
+//6. 초대받으면 auth값을  t로 update하는 초대버튼 api
+
+//7. 거절하면 auth값을 날려버리는 api
+
+//8. 초대 하면 유저값을 반환해주는 api     get(/getUserByEmail)
+
+exports.getUserByEmail = async (req, res) => {
+  // const user_email = req.decoded.user_email;
+
+  try {
+    const { user_email } = req.body;
+    const user = await User.findOne({
+      where: { user_email },
+      attributes: ['user_email', 'user_name'],
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: '유저가 없습니다' });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: '서버 에러 ' });
+  }
+};
+
+//9. 초대 버튼을 누르면 auto를 f로 create해주는 api
+
+//10. sheet문서 만들기 api

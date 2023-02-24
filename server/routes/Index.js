@@ -64,4 +64,8 @@ router.post('/writeinfo', controllerMain.write_info);
 //목표금액 입력하는
 router.post('/writegoal', controllerMain.write_goal);
 
+//초대할때 유저검색하면 유저정보 반환해주는
+
+router.get('/getUserByEmail', controllerMain.getUserByEmail);
+
 module.exports = router;
