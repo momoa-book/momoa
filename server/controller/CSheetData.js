@@ -38,73 +38,102 @@ exports.getsheetdata = async (req, res) => {
     },
   });
 
-  //결과 배열 정리하기
-  let incomeData = [];
-  let months = [];
-  findIncome.forEach((element) => {
-    const { input_date, ...otherdata } = element.dataValues;
-    otherdata.month = element.dataValues.input_date.split('-')[1];
-    incomeData.push(otherdata);
-    months.includes(element.dataValues.input_date.split('-')[1])
-      ? months
-      : months.push(element.dataValues.input_date.split('-')[1]);
-  });
+  ///데이터 정제 함수
+  function makeData(findData) {
+    //결과 배열 정리하기
+    let arrData = [];
+    let months = [];
+    findData.forEach((element) => {
+      const { input_date, ...otherdata } = element.dataValues;
+      otherdata.month = element.dataValues.input_date.split('-')[1];
+      arrData.push(otherdata);
+      months.includes(element.dataValues.input_date.split('-')[1])
+        ? months
+        : months.push(element.dataValues.input_date.split('-')[1]);
+    });
 
-  console.log('수입 데이터 : ', incomeData);
+    // 같은 키값 합치기
+    const dataValues = arrData.reduce((acc, cur) => {
+      acc[cur.month] = acc[cur.month] || [];
+      acc[cur.month].push(cur.money);
+      return acc;
+    }, {});
 
-  // 같은 키값 합치기
-  const incomeValues = incomeData.reduce((acc, cur) => {
-    acc[cur.month] = acc[cur.month] || [];
-    acc[cur.month].push(cur.money);
-    return acc;
-  }, {});
-
-  const add = function (arr) {
-    return arr.reduce((a, b) => a + b, 0);
-  };
-  const income = Object.keys(incomeValues).map((key) => {
-    return {
-      month: key,
-      money: add(incomeValues[key]),
+    const add = function (arr) {
+      return arr.reduce((a, b) => a + b, 0);
     };
-  });
 
-  console.log(income);
-  /////////////////////////////////////////지출/////////////////////////////////////
-  //결과 배열 정리하기
-  let spendData = [];
-  let spendmonths = [];
-  console.dir(findSpend);
-  findSpend.forEach((element) => {
-    const { input_date, ...otherdata } = element.dataValues;
-    console.log(element.dataValues.input_date);
-    otherdata.month = element.dataValues.input_date.split('-')[1];
-    spendData.push(otherdata);
-    spendmonths.includes(element.dataValues.input_date.split('-')[1])
-      ? spendmonths
-      : spendmonths.push(element.dataValues.input_date.split('-')[1]);
-  });
+    const result = Object.keys(dataValues).map((key) => {
+      return {
+        month: key,
+        money: add(dataValues[key]),
+      };
+    });
 
-  console.log('지출 데이터 : ', spendData);
+    console.log(result);
+  }
 
-  // 같은 키값 합치기
-  const spendValues = spendData.reduce((acc, cur) => {
-    acc[cur.month] = acc[cur.month] || [];
-    acc[cur.month].push(cur.money);
-    return acc;
-  }, {});
-
-  const addSpend = function (arr) {
-    return arr.reduce((a, b) => a + b, 0);
-  };
-  const spend = Object.keys(spendValues).map((key) => {
-    return {
-      month: key,
-      money: addSpend(spendValues[key]),
-    };
-  });
-
-  console.log(spend);
+  //수입, 지출 데이터 정리해서 보내기
+  const income = makeData(findIncome);
+  const spend = makeData(findSpend);
 
   res.json({ incomeArr: income, spendArr: spend });
+};
+
+//가계부 공유하기
+exports.shareSheet = async (req, res) => {
+  try {
+    DBhub.update(
+      { guest: req.body.guest, auth: 2 },
+      {
+        where: {
+          user_email: req.decoded.user_email,
+          sheet_id: req.body.sheet_id,
+        },
+      }
+    );
+    res.status(200).json({
+      msg: '초대 완료!',
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      msg: '가계부 공유하기 도중 오류가 발생했습니다. 다시 시도해주세요.',
+    });
+  }
+};
+
+//초대 승인, 거절 버튼
+exports.inviteApproval = async (req, res) => {
+  //거절일 경우 = approve값이 false일 경우
+  //DBhub의 guest컬럼이 내 이메일이고 해당 가계부인 행을 삭제
+  try {
+    console.log(req.body.approve);
+    if (req.body.approve === 'N') {
+      DBhub.destroy({
+        where: {
+          guest: 'ahfl1129@gmail.com',
+          sheet_id: req.body.sheet_id,
+        },
+      });
+    } else {
+      DBhub.update(
+        { auth: 1 },
+        {
+          where: {
+            guest: 'ahfl1129@gmail.com',
+            sheet_id: req.body.sheet_id,
+          },
+        }
+      );
+    }
+    res.status(200).json({
+      msg: '응답 완료',
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      msg: '초대 승인/거절 처리 중 오류발생',
+    });
+  }
 };
