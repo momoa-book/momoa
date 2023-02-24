@@ -53,9 +53,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoib
 ###
 GET http://localhost:5000/api/getpersonalinfo
 Content-Type:application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzI2Mzc3OCwiZXhwIjoxNjc3MjY0OTc4fQ.O6qUzzEGaJ3YuVnrDXWyEITYJeXXcMHlm-4fNtpzRAQ
-
-//목표값 넣는
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzI2NjI5NSwiZXhwIjoxNjc3MjY3NDk1fQ.WJj4qLJGTLsCNf2WA4JUJKqe-X3FwmD8yuEbg_jRAaQ
 ###
 POST http://localhost:5000/api/writegoal
 Content-Type:application/json
