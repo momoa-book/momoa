@@ -21,6 +21,7 @@ const bcrypt = require('bcrypt');
 exports.get_sheetid = async (req, res) => {
   console.log(req.decoded);
   const user_email = req.decoded.user_email;
+  const user_name = req.decoded.user_name;
   console.log(user_email);
 
   try {
@@ -57,6 +58,7 @@ exports.get_sheetid = async (req, res) => {
 
     res.status(200).json({
       sheet,
+      user_name,
     });
   } catch (error) {
     console.log(error);

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import AccountContents from '../components/AccountContents';
 import AccountNav from '../components/AccountNav';
 import AccountSideBar from '../components/AccountSideBar';
@@ -20,7 +20,7 @@ export default function Account() {
 
   return (
     <>
-      <AccountNav />
+      <AccountNav {...(data.user_name && { name: data.user_name })} />
       <AccountSideBar
         {...(status === 'success' && data.sheet && { sheetInfo: data.sheet })}
       />
