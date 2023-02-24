@@ -42,10 +42,10 @@ export default function Profile(Info) {
         <div className="mb-2">
           <span className="font-bold">닉네임</span> : {user_name}
         </div>
-        <div className="mb-2">
+        {/* <div className="mb-2">
           <span className="font-bold">회원유형</span> :{' '}
-          {!isKakao ? '이메일' : '카카오'} 가입
-        </div>
+          {isKakao ? '카카오' : '이메일'} 가입
+        </div> */}
 
         <button className="user-submit-btn" onClick={logout}>
           로그아웃

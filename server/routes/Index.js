@@ -40,8 +40,8 @@ router.get('/verify', controllerRefreshToken.verifyToken);
 //마이페이지 or 캘린더화면 처럼 유저 정보뿌려주는 화면에서 요청할 api
 router.get('/users', controllerSignIn.getUsers);
 
-// //차트 정보 불러오기
-// router.get('/getsheetdata', controllerData.getsheetdata);
+//차트 정보 불러오기
+router.get('/getsheetdata', controllerData.getsheetdata);
 
 router.get('/getcalendar', controllerData.getcalendardata);
 
@@ -53,6 +53,9 @@ router.get('/getpersonalinfo', controllerMain.get_personalinfo);
 
 //수입지출등등입력하는 왼쪽 상단부
 router.post('/writeinfo', controllerMain.write_info);
+
+//목표금액 불러오는
+router.get('/getgoal', controllerMain.get_goal);
 
 //목표금액 입력하는
 router.post('/writegoal', controllerMain.write_goal);

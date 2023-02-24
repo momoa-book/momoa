@@ -9,3 +9,8 @@ export const showModalAtom = atom({
   key: 'isShow',
   default: false,
 });
+
+export const isShareAtom = atom({
+  key: 'isShare',
+  default: false,
+});

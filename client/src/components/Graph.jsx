@@ -39,6 +39,8 @@ const Graph = () => {
     placeholderData: '',
   });
 
+  console.log(data);
+
   const data2 = {
     datasets: [
       {
