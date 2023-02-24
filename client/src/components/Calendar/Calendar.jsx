@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { addMonths, subMonths } from 'date-fns';
-
+import axios from '../../utils/axios';
+import { useQuery } from 'react-query';
 import AccountsHeader from '../accountsAllList/AccountsHeader';
 import AccountsList from '../accountsAllList/AccountsList';
 import RenderHeader from './RenderHeader';
 import RenderDays from './RenderDays';
 import RenderCells from './RenderCells';
+import { useParams } from 'react-router-dom';
 
 const filters = ['전체', '수입', '지출'];
 
@@ -17,9 +19,30 @@ export default function Calendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [filter, setFilter] = useState(filters[0]);
-
   const [accountFakeDB, setAccountFakeDB] = useState([]);
   const [clickDB, setClickDB] = useState(null);
+  const { sheetId } = useParams();
+
+  // 서버에서 달력 데이터 요청하는 함수
+  const fetchCalendar = async () => {
+    const { data } = await axios({
+      url: 'http://localhost:5000/api/getcalendar',
+      method: 'get',
+      params: {
+        sheet_id: sheetId,
+      },
+    });
+    return data;
+  };
+  const { data, isLoading, error } = useQuery(
+    ['calendar', sheetId],
+    fetchCalendar,
+    {
+      refetchOnWindowFocus: false, // window focus 이동 후에 refetch 하지 않음
+      placeholderData: '',
+    }
+  );
+  console.log(data); // 데이터
 
   useEffect(() => {
     fetch('data/account.json')

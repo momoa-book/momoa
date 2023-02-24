@@ -50,6 +50,8 @@ router.get('/users', controllerSignIn.getUsers);
 //메인화면 모든 정보 불러오기
 router.get('/getsheetdata', controllerData.getsheetdata);
 
+router.get('/getcalendar', controllerData.getcalendardata);
+
 //sheet_id가져오는
 
 router.get('/getsheetid', controllerMain.get_sheetid);

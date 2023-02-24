@@ -59,7 +59,6 @@ exports.getsheetdata = async (req, res) => {
       return acc;
     }, {});
 
-
     const add = function (arr) {
       return arr.reduce((a, b) => a + b, 0);
     };
@@ -77,7 +76,6 @@ exports.getsheetdata = async (req, res) => {
   //수입, 지출 데이터 정리해서 보내기
   const income = makeData(findIncome);
   const spend = makeData(findSpend);
-
 
   res.json({ incomeArr: income, spendArr: spend });
 };
@@ -136,6 +134,33 @@ exports.inviteApproval = async (req, res) => {
     console.log(err);
     res.status(500).json({
       msg: '초대 승인/거절 처리 중 오류발생',
+    });
+  }
+};
+
+exports.getcalendardata = async (req, res) => {
+  try {
+    const calendar = await Info.findAll({
+      raw: true,
+      attributes: [
+        'info_id',
+        'input_date',
+        'type',
+        'money',
+        'category',
+        'memo',
+      ],
+      where: { sheet_id: req.query.sheet_id },
+    });
+    console.log(calendar);
+
+    res.status(200).json({
+      calendar,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      msg: '데이터가 없습니다.',
     });
   }
 };

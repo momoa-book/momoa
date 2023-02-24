@@ -7,7 +7,12 @@ const setGoal = async (items) => {
 };
 
 export const useGoalMutation = () => {
-  return useMutation(setGoal);
+  const queryClient = useQueryClient();
+  return useMutation(setGoal, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries('sheets', data);
+    },
+  });
 };
 
 // export const useItemMutation = () => {

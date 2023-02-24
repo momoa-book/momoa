@@ -1,31 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../utils/axios';
 import Chart from 'chart.js/auto';
+import { useQuery } from 'react-query';
 import { Bar } from 'react-chartjs-2';
 import { useParams } from 'react-router-dom';
 
-// data 서버에서 받아 오기
-
 const Graph = () => {
   const { sheetId } = useParams();
-  const [isGraph, setisGraph] = useState('');
-  console.log(isGraph.incomeArr);
-  console.log(isGraph.spendArr);
 
-  console.log(sheetId);
-  useEffect(
-    () =>
-      axios({
-        url: 'http://localhost:5000/api/getsheetdata',
-        method: 'get',
-        params: {
-          sheet_id: sheetId,
-        },
-      }).then((res) => {
-        setisGraph(res.data);
-      }),
-    []
-  );
+  // useEffect(
+  //   () =>
+  //     axios({
+  //       url: 'http://localhost:5000/api/getsheetdata',
+  //       method: 'get',
+  //       params: {
+  //         sheet_id: sheetId,
+  //       },
+  //     }).then((res) => {
+  //       console.log(res.data);
+  //     }),
+  //   []
+  // );
+
+  const fetchGraph = async () => {
+    const { data } = await axios({
+      url: 'http://localhost:5000/api/getsheetdata',
+      method: 'get',
+      params: {
+        sheet_id: sheetId,
+      },
+    });
+    console.log(data);
+    return data;
+  };
+
+  const { data, isLoading, error } = useQuery(['graph', sheetId], fetchGraph, {
+    refetchOnWindowFocus: false, // window focus 이동 후에 refetch 하지 않음
+    placeholderData: '',
+  });
 
   const data2 = {
     datasets: [
@@ -33,13 +45,13 @@ const Graph = () => {
         type: 'bar',
         label: '수입',
         backgroundColor: '#4ade80',
-        data: isGraph.incomeArr,
+        data: data.incomeArr,
       },
       {
         type: 'bar',
         label: '지출',
         backgroundColor: '#f87171',
-        data: isGraph.spendArr,
+        data: data.spendArr,
       },
     ],
   };
