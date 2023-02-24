@@ -19,6 +19,7 @@ export default function Calendar() {
   const [filter, setFilter] = useState(filters[0]);
 
   const [accountFakeDB, setAccountFakeDB] = useState([]);
+  const [clickDB, setClickDB] = useState(null);
 
   useEffect(() => {
     fetch('data/account.json')
@@ -38,16 +39,9 @@ export default function Calendar() {
 
   const onDateClick = (day) => {
     // setSelectedDate(day);
-    // const dateFormat =
-    //   day.getFullYear() +
-    //   '-' +
-    //   (day.getMonth() + 1 < 9
-    //     ? '0' + (day.getMonth() + 1)
-    //     : day.getMonth() + 1) +
-    //   '-' +
-    //   (day.getDate() < 9 ? '0' + day.getDate() : day.getDate());
-    // console.log('날짜클릭: ', dateFormat);
-    // console.log('타입확인: ', typeof dateFormat);
+    console.log('날짜클릭: ', day);
+    console.log('타입확인: ', typeof day);
+    setClickDB(accountFakeDB[day]);
   };
 
   return (
@@ -70,7 +64,11 @@ export default function Calendar() {
           filter={filter}
           onFilterChange={setFilter}
         />
-        <AccountsList filter={filter} accountFakeDB={accountFakeDB} />
+        <AccountsList
+          filter={filter}
+          accountFakeDB={accountFakeDB}
+          clickDay={clickDB}
+        />
       </div>
     </div>
   );

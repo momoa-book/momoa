@@ -88,7 +88,6 @@ export default function AccountsList({ filter, accountFakeDB }) {
   //     total: '-12,000원',
   //     status: '지출',
   //   },
-  // ]);
 
   const filtered = getFilteredItems(accountFakeDB, filter);
   return (
