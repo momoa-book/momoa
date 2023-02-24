@@ -53,7 +53,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoib
 ###
 GET http://localhost:5000/api/getpersonalinfo
 Content-Type:application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzI0MDkwMywiZXhwIjoxNjc3MjQyMTAzfQ.nnpEXoXDDI9w_DCigrPMWWHATcWbTYYJrdwXrj-iI7Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzI2Mzc3OCwiZXhwIjoxNjc3MjY0OTc4fQ.O6qUzzEGaJ3YuVnrDXWyEITYJeXXcMHlm-4fNtpzRAQ
 
 //목표값 넣는
 ###
@@ -88,11 +88,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoib
 ###
 POST http://localhost:5000/api/createSheet
 Content-Type:application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzI0Mjg5OSwiZXhwIjoxNjc3MjQ0MDk5fQ.mJk3uQaHk4JQScvIw5vn7vI0nrP36jHcwYyfpeaBrYs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzI2MzcyOSwiZXhwIjoxNjc3MjY0OTI5fQ.AFSTlI3hLNXWNue7tOWeJiNc7EBIJ8cWEa9bEQWTojs
 
 { 
-    "sheet_name": "dfdfdf",
+     "sheet_name": "dfdfdf",
     "creator":"나다",
-    "sheet_id":"6"
-
+    "auth":"0"
 }

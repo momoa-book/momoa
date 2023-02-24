@@ -70,168 +70,6 @@ exports.get_sheetid = async (req, res) => {
 
 //2. 마이페이지에서 get 요청 (1.초대알림여부를 확인auto값으로 2..sheet name,sheet idsheet,creater, //유저테이블하고 db허브)
 
-// exports.get_personalinfo = async (req, res) => {
-//   const user_email = req.decoded.user_email;
-//   const user_name = req.decoded.user_name;
-
-//   try {
-//     const user = await User.findOne({
-//       where: {
-//         user_email: user_email,
-//       },
-//       include: [
-//         {
-//           model: DBhub,
-//           where: {
-//             auth: true,
-//           },
-//           attributes: ['sheet_id'],
-//           include: {
-//             model: Sheet,
-//             attributes: ['sheet_name'],
-//           },
-//         },
-//       ],
-//     });
-
-//     res.status(200).json({
-//       user,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({
-//       message: '정보를 받아올 수 없습니다',
-//     });
-//   }
-// };
-
-// exports.get_personalinfo = async (req, res) => {
-//   try {
-//     const user_email = req.decoded.user_email;
-//     const sheets = await Sheet.findAll({
-//       include: [
-//         {
-//           model: DBhub,
-//           where: {
-//             user_email,
-//             auth: 2,
-//           },
-//           attributes: ['user_email'],
-//           include: {
-//             model: User,
-//             attributes: ['user_name'],
-//           },
-//         },
-//       ],
-//       attributes: ['sheet_id', 'sheet_name', 'creator'],
-//     });
-
-//     let data = sheets.map((sheet) => ({
-//       sheet_id: sheet.sheet_id,
-//       sheet_name: sheet.sheet_name,
-//       creator: sheet.creator,
-//       user_email: sheet.DBhubs[0].user_email,
-//       user_name: sheet.DBhubs[0].User.user_name,
-//       auth: 2,
-//     }));
-
-//     data = data
-//       .filter((el) => el.auth === 2)
-//       .map((el) => ({
-//         sheet_id: el.sheet_id,
-//         sheet_name: el.sheet_name,
-//         creator: el.creator,
-//         user_email: el.user_email,
-//         user_name: el.user_name,
-//       }));
-
-//     res.json(data);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: '서버 에러' });
-//   }
-// };
-
-//2. 마이페이지에서 get 요청 (1.초대알림여부를 확인auto값으로 2..sheet name,sheet idsheet,creater, //유저테이블하고 db허브)
-// exports.get_personalinfo = async (req, res) => {
-//   console.log(req.decoded);
-//   const user_email = req.decoded.user_email;
-//   const user_name = req.decoded.user_name;
-//   console.log(user_email);
-
-//   try {
-//     const sheet = await Sheet.findAll({
-//       attributes: ['sheet_name', 'sheet_id', 'DBhubs.sheet_id'],
-//       raw: true,
-
-//       include: [
-//         {
-//           model: DBhub,
-//           required: true,
-//           attributes: [],
-//           where: {
-//             user_email: user_email,
-//           },
-//         },
-//       ],
-//     });
-
-//     const sheet_auth = await Sheet.findAll({
-//       attributes: ['sheet_name', 'sheet_id', 'DBhubs.auth'],
-//       raw: true,
-//       include: [
-//         {
-//           model: DBhub,
-//           required: true,
-//           attributes: [],
-//           where: {
-//             user_email: user_email,
-//             auth: 2,
-//           },
-//         },
-//       ],
-//     });
-
-//     const sheet_guest = await Sheet.findAll({
-//       attributes: ['sheet_name', 'sheet_id', 'DBhubs.sheet_id'],
-//       raw: true,
-//       include: [
-//         {
-//           model: DBhub,
-//           as: 'DBhubs',
-//           required: true,
-//           attributes: [],
-//           where: {
-//             guest: user_email,
-//             auth: 1,
-//           },
-//         },
-//         {
-//           model: DBhub,
-//           as: 'DBhubs2',
-//           required: true,
-//           attributes: [],
-//           where: {
-//             user_email: user_email,
-//           },
-//         },
-//       ],
-//     });
-
-//     res.status(200).json({
-//       sheet,
-//       user_name,
-//       user_email,
-//       sheet_auth,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({
-//       message: 'ERROR',
-//     });
-//   }
-// };
-
 exports.get_personalinfo = async (req, res) => {
   console.log(req.decoded);
   const user_email = req.decoded.user_email;
@@ -375,22 +213,29 @@ exports.getUserByEmail = async (req, res) => {
 //9. 초대 버튼을 누르면 auth를 2로 create해주는 api
 
 //10. sheet문서 만들기 api   post /createSheet
+
+const { v4: uuidv4 } = require('uuid');
+
 exports.createSheet = async (req, res) => {
   const user_email = req.decoded.user_email;
   const user_name = req.decoded.user_name;
   const { sheet_name, creator } = req.body;
 
   try {
+    const sheet_id = uuidv4(); // sheet_id 값 생성
+
     const sheet = await Sheet.create({
       sheet_name,
       creator,
       goal: null,
+      sheet_id, // 생성한 sheet_id 값 전달
     });
 
     await DBhub.create({
       user_email,
-      auth: 2,
+      auth: 0,
       guest: null,
+      sheet_id,
     });
 
     return res.status(201).json({
