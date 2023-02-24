@@ -147,3 +147,30 @@ exports.inviteApproval = async (req, res) => {
     });
   }
 };
+
+exports.getcalendardata = async (req, res) => {
+  try {
+    const calendar = await Info.findAll({
+      raw: true,
+      attributes: [
+        'info_id',
+        'input_date',
+        'type',
+        'money',
+        'category',
+        'memo',
+      ],
+      where: { sheet_id: req.query.sheet_id },
+    });
+    console.log(calendar);
+
+    res.status(200).json({
+      calendar,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      msg: '데이터가 없습니다.',
+    });
+  }
+};
