@@ -29,6 +29,7 @@ const DBhub = (Sequelize, DataTypes) => {
       guest: {
         type: DataTypes.STRING(50),
         defaultValue: null,
+        allowNull: true,
       },
     },
     {
