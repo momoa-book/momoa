@@ -6,7 +6,7 @@ import { isClickedAtom } from '../atoms/InterfaceAtom';
 import { HiOutlineShare, HiOutlineChatAlt } from 'react-icons/hi';
 import ShareModal from './ShareModal';
 
-export default function AccountNav() {
+export default function AccountNav(props) {
   const [clicked, setClicked] = useRecoilState(isClickedAtom);
   const [shareShow, setShareshow] = useState(false);
 
@@ -49,6 +49,9 @@ export default function AccountNav() {
                 src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                 alt="user_pic"
               />
+
+              <div>{props.name}</div>
+
               <HiOutlineChatAlt className="mr-3 h-6 w-6 hover:cursor-pointer hover:translate-y-1" />
               <HiOutlineShare
                 onClick={() => setShareshow(!shareShow)}

@@ -44,15 +44,11 @@ export default function AccountSideBar({ sheetInfo }) {
         <div className="h-full px-3 overflow-y-auto bg-white dark:bg-gray-800">
           <ul>
             <li>
-              <span className="flex p-3 text-base font-bold text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 ">
-                유저 아이디
-              </span>
-            </li>
-            <li>
-              <span className="flex p-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer">
+              <span className="flex p-3 text-lg font-bold text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 ">
                 가계부
               </span>
             </li>
+
             {/* prop으로 받아 온 배열이 있을 경우에 map 실행 */}
 
             {data?.map((el) => {
