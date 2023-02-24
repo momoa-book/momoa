@@ -177,13 +177,13 @@ exports.get_personalinfo = async (req, res) => {
     });
 
     const sheet_auth = await Sheet.findAll({
-      attributes: ['sheet_name', 'sheet_id', 'creator'],
+      attributes: ['sheet_name', 'sheet_id', 'creator', 'DBhubs.auth'],
       raw: true,
       include: [
         {
           model: DBhub,
           required: true,
-          attributes: ['auth'],
+          attributes: [],
           where: {
             user_email: user_email,
             auth: 2,
@@ -232,8 +232,6 @@ exports.write_info = (req, res) => {
   }
 };
 
-
-
 exports.write_goal = (req, res) => {
   Sheet.update(
     { goal: req.body.goal },
@@ -245,7 +243,6 @@ exports.write_goal = (req, res) => {
     .catch((err) => {
       console.error(err);
     });
-
 };
 
 //6. 초대받으면 auth값을  t로 update하는 초대버튼 api
@@ -258,7 +255,7 @@ exports.getUserByEmail = async (req, res) => {
   // const user_email = req.decoded.user_email;
 
   try {
-    const { user_email } = req.body;
+    const { user_email } = req.params;
     const user = await User.findOne({
       where: { user_email },
       attributes: ['user_email', 'user_name'],
