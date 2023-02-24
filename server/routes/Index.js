@@ -74,6 +74,12 @@ router.post('/writegoal', controllerMain.write_goal);
 
 router.get('/getUserByEmail', controllerMain.getUserByEmail);
 
+//가계부 공유하기(초대버튼)
+router.post('/sharesheet', controllerData.shareSheet);
+
+//초대 승인, 거절
+router.post('/inviteapproval', controllerData.inviteApproval);
+
 //문서생성하는
 router.post('/createSheet', controllerMain.createSheet);
 

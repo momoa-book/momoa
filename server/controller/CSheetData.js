@@ -59,14 +59,15 @@ exports.getsheetdata = async (req, res) => {
       return acc;
     }, {});
 
+
     const add = function (arr) {
       return arr.reduce((a, b) => a + b, 0);
     };
 
     const result = Object.keys(dataValues).map((key) => {
       return {
-        month: key,
-        money: add(dataValues[key]),
+        x: key,
+        y: add(dataValues[key]),
       };
     });
 
@@ -76,6 +77,7 @@ exports.getsheetdata = async (req, res) => {
   //수입, 지출 데이터 정리해서 보내기
   const income = makeData(findIncome);
   const spend = makeData(findSpend);
+
 
   res.json({ incomeArr: income, spendArr: spend });
 };
