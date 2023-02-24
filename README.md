@@ -11,7 +11,7 @@
 김세현, 박의현, 김미정, 장현수(4명)  
 
 
-## 🛠개발 환경  
+## 🛠사용 기술 및 도구  
 
 ### 프론트엔드  
 
@@ -32,7 +32,7 @@
 </p>  
 
 
-### 협업  
+### 👥협업  
 
  <p align="center">
 <img src="https://user-images.githubusercontent.com/116782318/221222841-bfa66574-c548-43f5-8434-65e26fb35894.png" width=150px>
@@ -42,13 +42,13 @@
 
 
 
-### ERD  
+### ⚙️ERD  
 
 <img width="764" src="https://user-images.githubusercontent.com/116782318/221226448-e03cc19f-1242-492b-8663-7688ef9b2b6d.png">  
 
 
 
-## UI/기능  
+## 💡UI/기능  
 
 - 메인화면
 - 로그인/회원가입
