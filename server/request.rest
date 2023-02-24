@@ -53,4 +53,34 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoib
 ###
 GET http://localhost:5000/api/getpersonalinfo
 Content-Type:application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzIyMTAyNSwiZXhwIjoxNjc3MjIyMjI1fQ.s_4G-_UkxYox5uUFRI4ue1Zel99aSYrorZMo80OtfZ0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzIyNTcxNSwiZXhwIjoxNjc3MjI2OTE1fQ.HphA9WdAr9l2MI1bF-40EABP9llUklirHFVWxHMEnUE
+
+
+//목표값 넣는
+###
+POST http://localhost:5000/api/writegoal
+Content-Type:application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzIyMjk2OCwiZXhwIjoxNjc3MjI0MTY4fQ.sNlIF7xbl0x4x0-8i8vB9DTldjVyAj5RtzDY-UIjuvw
+
+{ 
+
+    "goal": "123"
+
+}
+
+
+###
+POST http://localhost:5000/api/writegoal
+Content-Type:application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzIyMzE2NSwiZXhwIjoxNjc3MjI0MzY1fQ.P0aOdyYpN-2aBKwpi6iN8w7fBkPUQ7pQRpJF385D2eA
+
+{ 
+    "goal": "123"
+
+}
+
+//유저이메일 검색하는 
+###
+GET http://localhost:5000/api/getUserByEmail
+Content-Type:application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzIyNTE5MywiZXhwIjoxNjc3MjI2MzkzfQ.zdOotS_P-7qwWAOMBWx5rnWgW-mNjecNiLwKE6kHb-g
