@@ -19,6 +19,11 @@ const Sheet = (Sequelize, DataTypes) => {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
+
+      goal: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
     },
     {
       tableName: 'Sheet',
