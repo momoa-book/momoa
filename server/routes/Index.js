@@ -11,6 +11,12 @@ const controllerData = require('../controller/CSheetData');
 // import { getUsers } from '../controllers/Users.js';
 // const controller = require('../controller/Cmain');
 
+//가계부 공유하기(초대버튼)
+router.post('/sharesheet', controllerData.shareSheet);
+
+//초대 승인, 거절
+router.post('/inviteapproval', controllerData.inviteApproval);
+
 //이메일 인증요청
 router.post('/check_email', controllerSignUp.send_code);
 
@@ -73,5 +79,8 @@ router.post('/sharesheet', controllerData.shareSheet);
 
 //초대 승인, 거절
 router.post('/inviteapproval', controllerData.inviteApproval);
+
+//문서생성하는
+router.post('/createSheet', controllerMain.createSheet);
 
 module.exports = router;

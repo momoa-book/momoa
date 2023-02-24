@@ -153,6 +153,85 @@ exports.get_sheetid = async (req, res) => {
 // };
 
 //2. 마이페이지에서 get 요청 (1.초대알림여부를 확인auto값으로 2..sheet name,sheet idsheet,creater, //유저테이블하고 db허브)
+// exports.get_personalinfo = async (req, res) => {
+//   console.log(req.decoded);
+//   const user_email = req.decoded.user_email;
+//   const user_name = req.decoded.user_name;
+//   console.log(user_email);
+
+//   try {
+//     const sheet = await Sheet.findAll({
+//       attributes: ['sheet_name', 'sheet_id', 'DBhubs.sheet_id'],
+//       raw: true,
+
+//       include: [
+//         {
+//           model: DBhub,
+//           required: true,
+//           attributes: [],
+//           where: {
+//             user_email: user_email,
+//           },
+//         },
+//       ],
+//     });
+
+//     const sheet_auth = await Sheet.findAll({
+//       attributes: ['sheet_name', 'sheet_id', 'DBhubs.auth'],
+//       raw: true,
+//       include: [
+//         {
+//           model: DBhub,
+//           required: true,
+//           attributes: [],
+//           where: {
+//             user_email: user_email,
+//             auth: 2,
+//           },
+//         },
+//       ],
+//     });
+
+//     const sheet_guest = await Sheet.findAll({
+//       attributes: ['sheet_name', 'sheet_id', 'DBhubs.sheet_id'],
+//       raw: true,
+//       include: [
+//         {
+//           model: DBhub,
+//           as: 'DBhubs',
+//           required: true,
+//           attributes: [],
+//           where: {
+//             guest: user_email,
+//             auth: 1,
+//           },
+//         },
+//         {
+//           model: DBhub,
+//           as: 'DBhubs2',
+//           required: true,
+//           attributes: [],
+//           where: {
+//             user_email: user_email,
+//           },
+//         },
+//       ],
+//     });
+
+//     res.status(200).json({
+//       sheet,
+//       user_name,
+//       user_email,
+//       sheet_auth,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//       message: 'ERROR',
+//     });
+//   }
+// };
+
 exports.get_personalinfo = async (req, res) => {
   console.log(req.decoded);
   const user_email = req.decoded.user_email;
@@ -160,8 +239,8 @@ exports.get_personalinfo = async (req, res) => {
   console.log(user_email);
 
   try {
-    const sheet = await Sheet.findAll({
-      attributes: ['sheet_name', 'sheet_id', 'DBhubs.sheet_id'],
+    const sheet_share = await Sheet.findAll({
+      attributes: ['sheet_name', 'sheet_id'],
       raw: true,
 
       include: [
@@ -170,14 +249,15 @@ exports.get_personalinfo = async (req, res) => {
           required: true,
           attributes: [],
           where: {
-            user_email: user_email,
+            guest: user_email,
+            auth: 1,
           },
         },
       ],
     });
 
-    const sheet_auth = await Sheet.findAll({
-      attributes: ['sheet_name', 'sheet_id', 'creator', 'DBhubs.auth'],
+    const sheet = await Sheet.findAll({
+      attributes: ['sheet_name', 'sheet_id'],
       raw: true,
       include: [
         {
@@ -185,7 +265,23 @@ exports.get_personalinfo = async (req, res) => {
           required: true,
           attributes: [],
           where: {
-            user_email: user_email,
+            user_email,
+            [Op.or]: [{ auth: 1 }, { auth: 0 }],
+          },
+        },
+      ],
+    });
+
+    const sheet_before_accept = await Sheet.findAll({
+      attributes: ['sheet_name', 'sheet_id'],
+      raw: true,
+      include: [
+        {
+          model: DBhub,
+          required: true,
+          attributes: ['guest'],
+          where: {
+            user_email,
             auth: 2,
           },
         },
@@ -193,10 +289,14 @@ exports.get_personalinfo = async (req, res) => {
     });
 
     res.status(200).json({
-      sheet,
+      sheet_share,
       user_name,
       user_email,
-      sheet_auth,
+      sheet,
+      sheet_before_accept: sheet_before_accept.map((sheet) => ({
+        ...sheet,
+        guest: sheet['DBhubs.guest'],
+      })),
     });
   } catch (error) {
     console.log(error);
@@ -272,6 +372,38 @@ exports.getUserByEmail = async (req, res) => {
   }
 };
 
-//9. 초대 버튼을 누르면 auto를 f로 create해주는 api
+//9. 초대 버튼을 누르면 auth를 2로 create해주는 api
 
-//10. sheet문서 만들기 api
+//10. sheet문서 만들기 api   post /createSheet
+exports.createSheet = async (req, res) => {
+  const user_email = req.decoded.user_email;
+  const user_name = req.decoded.user_name;
+  const { sheet_name, creator } = req.body;
+
+  try {
+    const sheet = await Sheet.create({
+      sheet_name,
+      creator,
+      goal: null,
+    });
+
+    await DBhub.create({
+      user_email,
+      auth: 2,
+      guest: null,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: '문서가 성공적으로 생성되었습니다',
+      sheet,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: '문서 생성에 실패했습니다',
+      error: error.message,
+    });
+  }
+};

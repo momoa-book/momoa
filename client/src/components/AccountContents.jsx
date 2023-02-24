@@ -9,19 +9,19 @@ import Calendar from './Calendar/Calendar';
 export default function AccountContents() {
   const { sheetId } = useParams();
   console.log(sheetId);
-  useEffect(
-    () =>
-      axios({
-        url: 'http://localhost:5000/api/getsheetdata',
-        method: 'get',
-        params: {
-          sheet_id: 'dkdsu',
-        },
-      }).then((res) => {
-        console.log(res.data);
-      }),
-    []
-  );
+  // useEffect(
+  //   () =>
+  //     axios({
+  //       url: 'http://localhost:5000/api/getsheetdata',
+  //       method: 'get',
+  //       params: {
+  //         sheet_id: 'dkdsu',
+  //       },
+  //     }).then((res) => {
+  //       console.log(res.data);
+  //     }),
+  //   []
+  // );
 
   return (
     <>

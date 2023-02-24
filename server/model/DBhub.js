@@ -22,7 +22,14 @@ const DBhub = (Sequelize, DataTypes) => {
 
       auth: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: 0,
+      },
+
+      guest: {
+        type: DataTypes.STRING(50),
+        defaultValue: null,
+        allowNull: true,
       },
     },
     {
