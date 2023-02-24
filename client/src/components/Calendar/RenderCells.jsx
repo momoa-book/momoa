@@ -26,6 +26,7 @@ export default function RenderCells({
   let days = []; // 한주
   let day = startDate;
   let formattedDate = '';
+  let item = '';
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
@@ -34,6 +35,20 @@ export default function RenderCells({
       const cloneDay = format(day, 'yyyy-MM-dd');
       console.log('cloneDay???', cloneDay);
       console.log('accountFakeDB??', accountFakeDB);
+
+      // if (cloneDay == accountFakeDB[0].input_date) {
+      //   console.log('같음!!');
+      // }
+      let result = accountFakeDB.filter(
+        (account) => account.input_date == cloneDay
+      );
+      if (result[0]) {
+        item = result[0].money;
+        console.log('타입은??', result[0].type == 1);
+      } else {
+        item = '';
+      }
+
       days.push(
         <div
           className={`flex flex-row m-0 w-full h-24 ${
@@ -59,6 +74,9 @@ export default function RenderCells({
             }`}
           >
             {formattedDate}
+          </span>
+          <span className={`${result[0] ? 'selected bg-red-400' : ''}`}>
+            {item}
           </span>
         </div>
       );
