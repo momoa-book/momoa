@@ -279,7 +279,7 @@ exports.get_personalinfo = async (req, res) => {
         {
           model: DBhub,
           required: true,
-          attributes: [],
+          attributes: ['guest'],
           where: {
             user_email,
             auth: 2,
@@ -293,7 +293,10 @@ exports.get_personalinfo = async (req, res) => {
       user_name,
       user_email,
       sheet,
-      sheet_before_accept,
+      sheet_before_accept: sheet_before_accept.map((sheet) => ({
+        ...sheet,
+        guest: sheet['DBhubs.guest'],
+      })),
     });
   } catch (error) {
     console.log(error);
@@ -371,4 +374,36 @@ exports.getUserByEmail = async (req, res) => {
 
 //9. 초대 버튼을 누르면 auth를 2로 create해주는 api
 
-//10. sheet문서 만들기 api
+//10. sheet문서 만들기 api   post /createSheet
+exports.createSheet = async (req, res) => {
+  const user_email = req.decoded.user_email;
+  const user_name = req.decoded.user_name;
+  const { sheet_name, creator } = req.body;
+
+  try {
+    const sheet = await Sheet.create({
+      sheet_name,
+      creator,
+      goal: null,
+    });
+
+    await DBhub.create({
+      user_email,
+      auth: 2,
+      guest: null,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: '문서가 성공적으로 생성되었습니다',
+      sheet,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: '문서 생성에 실패했습니다',
+      error: error.message,
+    });
+  }
+};

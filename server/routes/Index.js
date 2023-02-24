@@ -68,4 +68,7 @@ router.post('/writegoal', controllerMain.write_goal);
 
 router.get('/getUserByEmail', controllerMain.getUserByEmail);
 
+//문서생성하는
+router.post('/createSheet', controllerMain.createSheet);
+
 module.exports = router;
