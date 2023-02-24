@@ -53,7 +53,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoib
 ###
 GET http://localhost:5000/api/getpersonalinfo
 Content-Type:application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzIzNzU2MCwiZXhwIjoxNjc3MjM4NzYwfQ.HX5p6rO9jIMCJ7bmiBKPJwus7ovXJhIAYPpXRuXEnGk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzI0MDkwMywiZXhwIjoxNjc3MjQyMTAzfQ.nnpEXoXDDI9w_DCigrPMWWHATcWbTYYJrdwXrj-iI7Q
 
 //목표값 넣는
 ###
@@ -83,3 +83,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoib
 GET http://localhost:5000/api/getUserByEmail
 Content-Type:application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzIyNTE5MywiZXhwIjoxNjc3MjI2MzkzfQ.zdOotS_P-7qwWAOMBWx5rnWgW-mNjecNiLwKE6kHb-g
+
+//유저이메일 검색하는 
+###
+POST http://localhost:5000/api/createSheet
+Content-Type:application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzI0Mjg5OSwiZXhwIjoxNjc3MjQ0MDk5fQ.mJk3uQaHk4JQScvIw5vn7vI0nrP36jHcwYyfpeaBrYs
+
+{ 
+    "sheet_name": "dfdfdf",
+    "creator":"나다",
+    "sheet_id":"6"
+
+}
