@@ -35,6 +35,7 @@ export default function Calendar() {
   const nextMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
   };
+
   const onDateClick = (day) => {
     // setSelectedDate(day);
     // const dateFormat =
@@ -69,7 +70,7 @@ export default function Calendar() {
           filter={filter}
           onFilterChange={setFilter}
         />
-        <AccountsList filter={filter} />
+        <AccountsList filter={filter} accountFakeDB={accountFakeDB} />
       </div>
     </div>
   );
