@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Profile(Info) {
   const navigate = useNavigate();
-  const { user_email, user_name, isKakao } = Info;
+  const { isKakao, user_email, user_name } = Info;
 
   function logout() {
     axios({

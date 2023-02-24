@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import AccountContents from '../components/AccountContents';
 import AccountNav from '../components/AccountNav';
 import AccountSideBar from '../components/AccountSideBar';
@@ -9,15 +9,7 @@ import NoData from '../components/NoData';
 import Modal from '../components/Modal';
 
 export default function Account() {
-  const navigate = useNavigate();
   const { data, status } = useUsers();
-
-  useEffect(() => {
-    if (data.sheet) {
-      navigate(`/account/${data.sheet[0].sheet_id}`);
-    }
-  }, []);
-
   return (
     <>
       <AccountNav {...(data.user_name && { name: data.user_name })} />

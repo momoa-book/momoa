@@ -29,10 +29,20 @@ export default function MyPage() {
               />
             </div>
             <div className="w-full p-2">
-              <MyAccountStatus />
+              <MyAccountStatus
+                {...(status === 'success' &&
+                  data.sheet && {
+                    sheet: data.sheet,
+                  })}
+              />
             </div>
             <div className="w-full p-2 ">
-              <ShareAccountStatus />
+              <ShareAccountStatus
+                {...(status === 'success' &&
+                  data.sheet_auth && {
+                    invite: data.sheet_auth,
+                  })}
+              />
             </div>
           </div>
         </div>
