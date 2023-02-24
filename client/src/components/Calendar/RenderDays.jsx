@@ -6,7 +6,7 @@ export default function RenderDays() {
   for (let i = 0; i < 7; i++) {
     days.push(
       <div
-        className="w-full flex justify-start p-1 ml-2 font-semibold text-xs rounded-lg pl-2  border-1"
+        className="w-full flex justify-center p-1 font-semibold text-xs pl-2  border-1"
         key={i}
       >
         {date[i]}

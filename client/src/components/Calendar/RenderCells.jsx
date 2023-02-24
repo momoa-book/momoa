@@ -26,7 +26,9 @@ export default function RenderCells({
   let days = []; // 한주
   let day = startDate;
   let formattedDate = '';
-  let item = '';
+  let add = '';
+  let minus = '';
+  let add1 = '';
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
@@ -42,20 +44,25 @@ export default function RenderCells({
       let result = accountFakeDB.filter(
         (account) => account.input_date == cloneDay
       );
+      console.log('result????????????', result);
       if (result[0]) {
-        item = result[0].money;
+        // add = result[0].money;
+        let type1 = result[0].type == 1;
+
         console.log('타입은??', result[0].type == 1);
+        type1 ? (add = result[0].money) : (minus = result[0].money);
       } else {
-        item = '';
+        add = '';
+        minus = '';
       }
 
       days.push(
         <div
-          className={`flex flex-row m-0 w-full h-24 ${
+          className={`flex flex-row m-0 w-full h-24  ${
             !isSameMonth(day, monthStart)
               ? 'text-slate-300'
               : isSameDay(day, selectedDate)
-              ? 'selected bg-violet-400'
+              ? 'selected bg-violet-400 rounded-lg'
               : format(currentMonth, 'M') !== format(day, 'M')
               ? 'not-valid'
               : 'first:text-red-600 last:text-blue-600'
@@ -64,8 +71,8 @@ export default function RenderCells({
           // onClick={() => onDateClick(parse(cloneDay))}
           onClick={() => onDateClick(cloneDay)}
         >
-          <span
-            className={`mt-4 mr-0 mb-0 ml-4 ${
+          <div
+            className={`mt-2 mr-0 mb-0 text-center w-full ${
               !isSameDay(day, selectedDate)
                 ? 'selected'
                 : format(currentMonth, 'M') !== format(day, 'M')
@@ -74,10 +81,23 @@ export default function RenderCells({
             }`}
           >
             {formattedDate}
-          </span>
-          <span className={`${result[0] ? 'selected bg-red-400' : ''}`}>
-            {item}
-          </span>
+
+            <span
+              className={` block h-1/3 text-xs ${
+                result[0] ? 'selected text-zinc-500' : ''
+              }`}
+            >
+              {add}
+            </span>
+
+            <span
+              className={` block h-1/3 text-xs ${
+                result[0] ? 'selected text-zinc-500' : ''
+              }`}
+            >
+              {minus}
+            </span>
+          </div>
         </div>
       );
       day = addDays(day, 1);
