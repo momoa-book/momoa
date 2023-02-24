@@ -38,73 +38,43 @@ exports.getsheetdata = async (req, res) => {
     },
   });
 
-  //결과 배열 정리하기
-  let incomeData = [];
-  let months = [];
-  findIncome.forEach((element) => {
-    const { input_date, ...otherdata } = element.dataValues;
-    otherdata.month = element.dataValues.input_date.split('-')[1];
-    incomeData.push(otherdata);
-    months.includes(element.dataValues.input_date.split('-')[1])
-      ? months
-      : months.push(element.dataValues.input_date.split('-')[1]);
-  });
+  ///데이터 정제 함수
+  function makeData(findData) {
+    //결과 배열 정리하기
+    let arrData = [];
+    let months = [];
+    findData.forEach((element) => {
+      const { input_date, ...otherdata } = element.dataValues;
+      otherdata.month = element.dataValues.input_date.split('-')[1];
+      arrData.push(otherdata);
+      months.includes(element.dataValues.input_date.split('-')[1])
+        ? months
+        : months.push(element.dataValues.input_date.split('-')[1]);
+    });
 
-  console.log('수입 데이터 : ', incomeData);
+    // 같은 키값 합치기
+    const dataValues = arrData.reduce((acc, cur) => {
+      acc[cur.month] = acc[cur.month] || [];
+      acc[cur.month].push(cur.money);
+      return acc;
+    }, {});
 
-  // 같은 키값 합치기
-  const incomeValues = incomeData.reduce((acc, cur) => {
-    acc[cur.month] = acc[cur.month] || [];
-    acc[cur.month].push(cur.money);
-    return acc;
-  }, {});
-
-  const add = function (arr) {
-    return arr.reduce((a, b) => a + b, 0);
-  };
-  const income = Object.keys(incomeValues).map((key) => {
-    return {
-      month: key,
-      money: add(incomeValues[key]),
+    const add = function (arr) {
+      return arr.reduce((a, b) => a + b, 0);
     };
-  });
+    const result = Object.keys(dataValues).map((key) => {
+      return {
+        month: key,
+        money: add(dataValues[key]),
+      };
+    });
 
-  console.log(income);
-  /////////////////////////////////////////지출/////////////////////////////////////
-  //결과 배열 정리하기
-  let spendData = [];
-  let spendmonths = [];
-  console.dir(findSpend);
-  findSpend.forEach((element) => {
-    const { input_date, ...otherdata } = element.dataValues;
-    console.log(element.dataValues.input_date);
-    otherdata.month = element.dataValues.input_date.split('-')[1];
-    spendData.push(otherdata);
-    spendmonths.includes(element.dataValues.input_date.split('-')[1])
-      ? spendmonths
-      : spendmonths.push(element.dataValues.input_date.split('-')[1]);
-  });
+    console.log(result);
+  }
 
-  console.log('지출 데이터 : ', spendData);
-
-  // 같은 키값 합치기
-  const spendValues = spendData.reduce((acc, cur) => {
-    acc[cur.month] = acc[cur.month] || [];
-    acc[cur.month].push(cur.money);
-    return acc;
-  }, {});
-
-  const addSpend = function (arr) {
-    return arr.reduce((a, b) => a + b, 0);
-  };
-  const spend = Object.keys(spendValues).map((key) => {
-    return {
-      month: key,
-      money: addSpend(spendValues[key]),
-    };
-  });
-
-  console.log(spend);
+  //수입, 지출 데이터 정리해서 보내기
+  const income = makeData(findIncome);
+  const spend = makeData(findSpend);
 
   res.json({ incomeArr: income, spendArr: spend });
 };
