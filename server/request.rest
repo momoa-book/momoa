@@ -19,7 +19,7 @@ Content-Type:application/json
 
 { 
 
-    "user_email":"momoa4@gmail.com",
+    "user_email":"momoa3@gmail.com",
     "user_pw":"12345qwert"
 
 }
@@ -48,7 +48,7 @@ Content-Type:application/json
 ###
 GET http://localhost:5000/api/getsheetid
 Content-Type:application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzIxNTQ0MSwiZXhwIjoxNjc3MjE2NjQxfQ.4qeSrWThzMUmyyFrMkF19Rm4yAsECgOtWg_IKNbaDAU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2EzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IuyDgeuMgOuwqSIsImlhdCI6MTY3NzI5MDYzOCwiZXhwIjoxNjc3MjkxODM4fQ.yBSmvP14P3hDLiAES9hujURDjR9F4i287kfYrZQ-S-8
 //개인정보불러오기
 ###
 GET http://localhost:5000/api/getpersonalinfo
