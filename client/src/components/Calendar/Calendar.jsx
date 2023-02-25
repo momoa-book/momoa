@@ -44,14 +44,14 @@ export default function Calendar() {
   );
   console.log(data); // 데이터
 
-  useEffect(() => {
-    fetch('data/account.json')
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('데이터 도착:', data);
-        setAccountFakeDB(data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('data/account.json')
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log('데이터 도착:', data);
+  //       setAccountFakeDB(data);
+  //     });
+  // }, []);
 
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
@@ -64,7 +64,7 @@ export default function Calendar() {
     // setSelectedDate(day);
     console.log('날짜클릭: ', day);
     console.log('타입확인: ', typeof day);
-    setClickDB(accountFakeDB[day]);
+    setClickDB(data[day]);
   };
 
   return (
@@ -80,6 +80,7 @@ export default function Calendar() {
         selectedDate={selectedDate}
         onDateClick={onDateClick}
         accountFakeDB={accountFakeDB}
+        data={data}
       />
       <div className="h-60">
         <AccountsHeader
@@ -91,6 +92,7 @@ export default function Calendar() {
           filter={filter}
           accountFakeDB={accountFakeDB}
           clickDay={clickDB}
+          data={data}
         />
       </div>
     </div>
