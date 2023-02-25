@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import iconList from '../../utils/AccountIcon';
 
 export default function AccountsList({ filter, data }) {
-  const filtered = getFilteredItems(data.calendar, filter);
+  const [filtered, setFiltered] = useState([]);
+  console.log('data.calendar', data.calendar);
+  useEffect(() => {
+    getFilteredItems(data.calendar, filter);
+  }, [filter]);
   return (
     <div className="h-52 scrollbar scrollbar-thumb-violet-600 scrollbar-track-violet-50 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-aut ">
       <table className="w-full">
@@ -29,11 +33,21 @@ export default function AccountsList({ filter, data }) {
       </table>
     </div>
   );
-}
 
-function getFilteredItems(accountFakeDB, filter) {
-  if (filter === '전체') {
-    return accountFakeDB;
+  function getFilteredItems(accountFakeDB, filter, filtered) {
+    console.log('getFiltereditems');
+    if (filter === '전체') {
+      setFiltered(accountFakeDB);
+    } else if (filter === '수입') {
+      const result = accountFakeDB.filter(
+        (accountFakeDB) => accountFakeDB.type === 1
+      );
+      setFiltered(result);
+    } else if (filter === '지출') {
+      const result = accountFakeDB.filter(
+        (accountFakeDB) => accountFakeDB.type === 2
+      );
+      setFiltered(result);
+    }
   }
-  return accountFakeDB.filter((accountFakeDB) => accountFakeDB.type === filter);
 }
