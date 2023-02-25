@@ -10,7 +10,7 @@ export const useShareMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(shareInfo, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries('mypages', data);
+      queryClient.invalidateQueries('mypages', 'sheets', data);
     },
   });
 };

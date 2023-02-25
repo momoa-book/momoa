@@ -6,7 +6,6 @@ import useMyPage from '../hooks/useMyPage';
 
 export default function MyPage() {
   const { data, status } = useMyPage();
-  console.log(data);
 
   return (
     <>

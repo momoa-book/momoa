@@ -4,12 +4,13 @@ import AccountContents from '../components/AccountContents';
 import AccountNav from '../components/AccountNav';
 import AccountSideBar from '../components/AccountSideBar';
 import MyPage from './MyPage';
-import useUsers from '../hooks/useSheetId';
+import useSheetId from '../hooks/useSheetId';
 import NoData from '../components/NoData';
 import Modal from '../components/Modal';
 
 export default function Account() {
-  const { data, status } = useUsers();
+  const { data, status } = useSheetId();
+  console.log(data);
   return (
     <>
       <AccountNav {...(data.user_name && { name: data.user_name })} />

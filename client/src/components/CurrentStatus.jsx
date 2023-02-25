@@ -29,6 +29,9 @@ export default function CurrentStatus() {
     placeholderData: '',
   });
 
+  const { test, addSpend } = data ?? {};
+  const { goal } = test ?? {};
+
   const changeEnteredNum = (e) => {
     const value = e.target.value;
     const removedCommaValue = Number(value.replaceAll(',', ''));
@@ -36,25 +39,13 @@ export default function CurrentStatus() {
   };
 
   function goalApi() {
+    setPercent(((addSpend / goal) * 100).toFixed());
     setNone(false);
     setGoal({
       sheet_id: sheetId,
       goal: Number(enteredNum.replace(/,/g, '')),
     });
   }
-
-  useEffect(() => {
-    if (enteredNum) {
-      setPercent(
-        ((5000 / Number(enteredNum.replace(/,/g, ''))) * 100).toFixed(1)
-      );
-      // 10000 부분 사용 금액 합계로 변경해야함
-    }
-  }, [enteredNum]);
-
-  console.log(data);
-  const { test, now } = data ?? {};
-  const { goal } = test ?? {};
 
   return (
     <>
@@ -97,16 +88,14 @@ export default function CurrentStatus() {
       <div className="flex justify-between p-1 mb-1">
         {goal && (
           <>
-            {percent <= 100 ? (
+            {percent <= 100 && (
               <span className="text-base font-bold text-gray-800 dark:text-gray-50">
-                {/* 예산까지 {Number(enteredNum.replace(/,/g, ''))}원 남았습니다. */}
-                {/* 실제 연산이 된 금액이 보여지도록, num 에서 사용 금액 뺀? 콤마 붙여야함..*/}
+                예산까지 {goal - addSpend}원 남았습니다.
               </span>
-            ) : (
+            )}
+            {percent >= 100 && (
               <span className="text-base font-bold text-red-700">
-                {/* 예산에서 {Number(enteredNum.replace(/,/g, ''))}원
-                초과되었습니다. */}
-                {/* 실제 연산이 된 금액이 보여지도록, num 에서 사용 금액 뺀? 콤마 붙여야함..*/}
+                예산에서 {goal - addSpend}원 초과되었습니다.
               </span>
             )}
           </>

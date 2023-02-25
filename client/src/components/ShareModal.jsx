@@ -23,6 +23,11 @@ export default function ShareModal() {
       });
   }
 
+  function reset() {
+    setEmail('');
+    alert('초대가 완료되었습니다!');
+  }
+
   return (
     <>
       <div className="fixed top-0 right-0 z-10 mt-[60px] min-[1080px]:w-96 w-72 rounded-md bg-white dark:bg-gray-700 shadow-lg ">
@@ -35,7 +40,10 @@ export default function ShareModal() {
               placeholder="이메일로 초대해보세요."
             />
             <button
-              onClick={shareInvite}
+              onClick={() => {
+                shareInvite();
+                reset();
+              }}
               className="min-[1080px]:w-1/5 w-1/3 focus:outline-none bg-purple-600 text-white font-medium rounded-lg text-sm px-5 py-2.5 "
             >
               초대

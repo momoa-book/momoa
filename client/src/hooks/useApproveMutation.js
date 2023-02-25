@@ -13,21 +13,7 @@ export const useApproveMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(setApprove, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries('mypages', data);
+      queryClient.invalidateQueries('mypages', 'sheets', data);
     },
   });
 };
-
-// export const useItemMutation = () => {
-//   const queryClient = useQueryClient();
-//   return useMutation(addItems, {
-//     onSuccess: (data) => {
-//       queryClient.setQueryData('', ()=>{
-//         return {
-//           ...olddata,
-//           newData:[...oldData, data],
-//         }
-//       })
-//     }
-//   });
-// };

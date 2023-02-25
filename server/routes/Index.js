@@ -11,9 +11,6 @@ const controllerData = require('../controller/CSheetData');
 //이메일 인증요청
 router.post('/check_email', controllerSignUp.send_code);
 
-//초대 승인, 거절
-router.post('/inviteapproval', controllerData.inviteApproval);
-
 //회원가입
 router.post('/signup', controllerSignUp.approve_code);
 router.post('/signup2', controllerSignUp.finish_signup);
@@ -68,7 +65,7 @@ router.post('/writegoal', controllerMain.write_goal);
 router.post('/sharesheet', controllerData.shareSheet);
 
 // //초대 승인, 거절
-// router.post('/inviteapproval', controllerData.inviteApproval);
+router.post('/inviteapproval', controllerData.inviteApproval);
 
 //문서생성하는
 router.post('/createSheet', controllerMain.createSheet);
