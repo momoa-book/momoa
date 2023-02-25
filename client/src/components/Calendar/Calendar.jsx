@@ -10,7 +10,8 @@ import RenderCells from './RenderCells';
 import { useParams } from 'react-router-dom';
 
 const filters = ['전체', '수입', '지출'];
-
+const newfilters = [...filters];
+console.log('newfiltersnewfilters', newfilters);
 export default function Calendar() {
   // 1. new Date() 날짜 가져오기
   // 2. 날짜 함수 라이브러리 date-fns 메소드 사용
