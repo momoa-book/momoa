@@ -34,15 +34,15 @@ export default function MyPage() {
                 {...(status === 'success' &&
                   data.sheet && {
                     sheet: data.sheet,
+                    share: data.sheet_share,
                   })}
               />
             </div>
             <div className="w-full p-2 ">
               <ShareAccountStatus
                 {...(status === 'success' &&
-                  data.sheet_auth && {
-                    share: data.sheet_share,
-                    invite: data.sheet_before_accept,
+                  data.sheet_before_accept && {
+                    share: data.sheet_before_accept,
                   })}
               />
             </div>
