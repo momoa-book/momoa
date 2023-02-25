@@ -115,23 +115,24 @@ exports.shareSheet = async (req, res) => {
 
 //초대 승인, 거절 버튼
 exports.inviteApproval = async (req, res) => {
+  console.log(req.body);
   //거절일 경우 = approve값이 false일 경우
   //DBhub의 guest컬럼이 내 이메일이고 해당 가계부인 행을 삭제
   try {
     console.log(req.body.approve);
     if (req.body.approve === 'N') {
-      DBhub.destroy({
+      await DBhub.destroy({
         where: {
-          guest: req.decoded.user_email,
+          guest: 'ahfl1129@hanmail.net',
           sheet_id: req.body.sheet_id,
         },
       });
     } else {
-      DBhub.update(
+      await DBhub.update(
         { auth: 1 },
         {
           where: {
-            guest: req.decoded.user_email,
+            guest: 'ahfl1129@hanmail.net',
             sheet_id: req.body.sheet_id,
           },
         }
