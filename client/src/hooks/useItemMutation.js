@@ -10,7 +10,7 @@ export const useItemMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(addItems, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries('graph', 'setcalendar', data);
+      queryClient.invalidateQueries('graph', 'getcalendar', 'getgoal', data);
     },
   });
 };

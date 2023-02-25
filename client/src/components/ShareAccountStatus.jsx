@@ -9,7 +9,6 @@ export default function ShareAccountStatus(props) {
   function isApprove(e) {
     setApprove({ sheet_id: SheetId, approval: e });
   }
-
   return (
     <>
       <div className="mb-6 text-xl font-bold tracking-tight ">

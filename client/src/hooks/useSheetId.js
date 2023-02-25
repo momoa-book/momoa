@@ -9,7 +9,7 @@ const fetchSheet = async () => {
 export default () => {
   const { status, data, error } = useQuery('sheets', fetchSheet, {
     refetchOnWindowFocus: false, // window focus 이동 후에 refetch 하지 않음
-    placeholderData: '',
+    placeholderData: [],
   });
   return { status, data, error };
 };

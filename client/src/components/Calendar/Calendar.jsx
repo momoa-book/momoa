@@ -37,10 +37,10 @@ export default function Calendar() {
     return data;
   };
   const { data, isLoading, error } = useQuery(
-    ['setcalendar', sheetId],
+    ['getcalendar', sheetId],
     fetchCalendar,
     {
-      refetchOnWindowFocus: false, // window focus 이동 후에 refetch 하지 않음
+      //refetchOnWindowFocus: false, // window focus 이동 후에 refetch 하지 않음
       placeholderData: '',
     }
   );

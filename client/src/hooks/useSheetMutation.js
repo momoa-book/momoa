@@ -10,7 +10,7 @@ export const useSheetMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(newSheet, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries('sheets', data);
+      queryClient.invalidateQueries('sheets', 'mypages', data);
     },
   });
 };

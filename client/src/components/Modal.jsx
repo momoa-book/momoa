@@ -21,22 +21,15 @@ export default function Modal() {
   function sheetSubmit() {
     newSheet({
       sheet_name: Name,
-      creator: '', //이게머지;;
     });
   }
-  // 여기서 초대하는건지?
-  // function emailInvite() {
-  //   newInvite({
-  //     user_Email: Email,
-  //   });
-  // }
 
   return (
     <>
       {isShow ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-full min-[1080px]:w-1/2 my-6 mx-auto max-w-3xl">
+            <div className="relative w-full min-[1080px]:w-1/4 my-6 mx-auto max-w-2xl">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-gray-50 dark:bg-gray-800 outline-none focus:outline-none">
                 {/*header*/}
@@ -56,7 +49,7 @@ export default function Modal() {
                       <input
                         type="text"
                         onChange={onNameHandler}
-                        className="w-4/5 focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 focus:ring-2 focus:ring-purple-300"
+                        className="w-full focus:outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 focus:ring-2 focus:ring-purple-300"
                         placeholder="가계부 이름을 입력해주세요."
                       />
                       {/* <button
@@ -66,7 +59,7 @@ export default function Modal() {
                         만들기
                       </button> */}
                     </div>
-                    <div className="w-3/4 mx-auto flex justify-between">
+                    {/* <div className="w-3/4 mx-auto flex justify-between">
                       <input
                         type="text"
                         onChange={onEmailHandler}
@@ -79,7 +72,7 @@ export default function Modal() {
                       >
                         초대
                       </button>
-                    </div>
+                    </div>*/}
                   </div>
                 </div>
 
