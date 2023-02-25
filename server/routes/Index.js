@@ -10,8 +10,9 @@ const controllerData = require('../controller/CSheetData');
 
 //이메일 인증요청
 router.post('/check_email', controllerSignUp.send_code);
-//차트 정보 불러오기
-router.get('/getsheetdata', controllerData.getsheetdata);
+
+//목표금액 불러오는
+router.get('/getgoal', controllerMain.get_goal);
 
 //회원가입
 router.post('/signup', controllerSignUp.approve_code);
@@ -54,8 +55,8 @@ router.get('/getpersonalinfo', controllerMain.get_personalinfo);
 //수입지출등등입력하는 왼쪽 상단부
 router.post('/writeinfo', controllerMain.write_info);
 
-//목표금액 불러오는
-router.get('/getgoal', controllerMain.get_goal);
+// //목표금액 불러오는
+// router.get('/getgoal', controllerMain.get_goal);
 
 //목표금액 입력하는
 router.post('/writegoal', controllerMain.write_goal);

@@ -261,6 +261,10 @@ exports.get_goal = async (req, res) => {
   let today = new Date();
   let nowMonth = today.getMonth();
 
+  const add = function (arr) {
+    return arr.reduce((a, b) => a + b, 0);
+  };
+
   try {
     const now = await Info.findAll({
       raw: true,
@@ -276,6 +280,15 @@ exports.get_goal = async (req, res) => {
         ],
       },
     });
+
+    const nowSpendArr = [];
+    now.forEach((el) => {
+      nowSpendArr.push(el.money);
+    });
+
+    const addSpend = add(nowSpendArr);
+    console.log(addSpend);
+
     const test = await Sheet.findOne({
       raw: true,
       attributes: ['goal'],
@@ -284,7 +297,7 @@ exports.get_goal = async (req, res) => {
 
     res.status(200).json({
       test,
-      now,
+      addSpend,
     });
   } catch (error) {
     console.log(error);
