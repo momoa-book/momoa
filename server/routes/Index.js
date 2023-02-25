@@ -61,7 +61,7 @@ router.get('/getgoal', controllerMain.get_goal);
 router.post('/writegoal', controllerMain.write_goal);
 
 //초대할때 유저검색하면 유저정보 반환해주는
-router.get('/getUserByEmail', controllerMain.getUserByEmail);
+// router.get('/getUserByEmail', controllerMain.getUserByEmail);
 
 //가계부 공유하기(초대버튼)
 router.post('/sharesheet', controllerData.shareSheet);
