@@ -192,26 +192,26 @@ exports.write_goal = (req, res) => {
 
 //8. 초대 하면 유저값을 반환해주는 api     get(/getUserByEmail)
 
-exports.getUserByEmail = async (req, res) => {
-  // const user_email = req.decoded.user_email;
+// exports.getUserByEmail = async (req, res) => {
+//   // const user_email = req.decoded.user_email;
 
-  try {
-    const { user_email } = req.params;
-    const user = await User.findOne({
-      where: { user_email },
-      attributes: ['user_email', 'user_name'],
-    });
+//   try {
+//     const { user_email } = req.params;
+//     const user = await User.findOne({
+//       where: { user_email },
+//       attributes: ['user_email', 'user_name'],
+//     });
 
-    if (!user) {
-      return res.status(404).json({ message: '유저가 없습니다' });
-    }
+//     if (!user) {
+//       return res.status(404).json({ message: '유저가 없습니다' });
+//     }
 
-    return res.status(200).json(user);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: '서버 에러 ' });
-  }
-};
+//     return res.status(200).json(user);
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ message: '서버 에러 ' });
+//   }
+// };
 
 //9. 초대 버튼을 누르면 auth를 2로 create해주는 api
 
@@ -222,14 +222,15 @@ const { v4: uuidv4 } = require('uuid');
 exports.createSheet = async (req, res) => {
   const user_email = req.decoded.user_email;
   const user_name = req.decoded.user_name;
-  const { sheet_name, creator } = req.body;
+  const { sheet_name } = req.body;
 
   try {
     const sheet_id = uuidv4(); // sheet_id 값 생성
 
     const sheet = await Sheet.create({
       sheet_name,
-      creator,
+      // creator,
+      creator: req.decoded.user_email,
       goal: null,
       sheet_id, // 생성한 sheet_id 값 전달
     });

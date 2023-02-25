@@ -53,7 +53,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoib
 ###
 GET http://localhost:5000/api/getpersonalinfo
 Content-Type:application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzI2NjI5NSwiZXhwIjoxNjc3MjY3NDk1fQ.WJj4qLJGTLsCNf2WA4JUJKqe-X3FwmD8yuEbg_jRAaQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzI4NDUwNCwiZXhwIjoxNjc3Mjg1NzA0fQ.2MxICKGeIHVL3YtCHV9N-itgI7dfv58pYiMZk1DbAWA
 ###
 POST http://localhost:5000/api/writegoal
 Content-Type:application/json
@@ -86,10 +86,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoib
 ###
 POST http://localhost:5000/api/createSheet
 Content-Type:application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzI2MzcyOSwiZXhwIjoxNjc3MjY0OTI5fQ.AFSTlI3hLNXWNue7tOWeJiNc7EBIJ8cWEa9bEQWTojs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2VtYWlsIjoibW9tb2E0QGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6ImttaiIsImlhdCI6MTY3NzI4NDM4NSwiZXhwIjoxNjc3Mjg1NTg1fQ.bZn6xK3unFfFO090_W9S5eU6C_VBX54igG4lnMMl6-M
 
 { 
      "sheet_name": "dfdfdf",
-    "creator":"나다",
-    "auth":"0"
+     "auth":"0"
 }
