@@ -11,9 +11,6 @@ const controllerData = require('../controller/CSheetData');
 //이메일 인증요청
 router.post('/check_email', controllerSignUp.send_code);
 
-//목표금액 불러오는
-router.get('/getgoal', controllerMain.get_goal);
-
 //회원가입
 router.post('/signup', controllerSignUp.approve_code);
 router.post('/signup2', controllerSignUp.finish_signup);

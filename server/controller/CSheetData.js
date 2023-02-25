@@ -122,7 +122,7 @@ exports.inviteApproval = async (req, res) => {
     if (req.body.approve === 'N') {
       DBhub.destroy({
         where: {
-          guest: 'ahfl1129@gmail.com',
+          guest: req.decoded.user_email,
           sheet_id: req.body.sheet_id,
         },
       });
@@ -131,7 +131,7 @@ exports.inviteApproval = async (req, res) => {
         { auth: 1 },
         {
           where: {
-            guest: 'ahfl1129@gmail.com',
+            guest: req.decoded.user_email,
             sheet_id: req.body.sheet_id,
           },
         }
