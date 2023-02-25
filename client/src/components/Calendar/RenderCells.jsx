@@ -16,6 +16,7 @@ export default function RenderCells({
   selectedDate,
   onDateClick,
   accountFakeDB,
+  data,
 }) {
   const monthStart = startOfMonth(currentMonth); // 오늘이 속한 달의 시작일
   const monthEnd = endOfMonth(monthStart); // 오늘이 속한 달의 마지막일
@@ -28,7 +29,8 @@ export default function RenderCells({
   let formattedDate = '';
   let add = '';
   let minus = '';
-  let add1 = '';
+
+  // let data = '';
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
@@ -36,21 +38,21 @@ export default function RenderCells({
       // const cloneDay = day;
       const cloneDay = format(day, 'yyyy-MM-dd');
       console.log('cloneDay???', cloneDay);
-      console.log('accountFakeDB??', accountFakeDB);
+      console.log('data??', data);
 
-      // if (cloneDay == accountFakeDB[0].input_date) {
-      //   console.log('같음!!');
+      // if (cloneDay == data.calendar[0].input_date) {
+      //   console.log('같음!!', cloneDay == data.calendar[0].input_date);
       // }
-      let result = accountFakeDB.filter(
+
+      let result = data.calendar.filter(
         (account) => account.input_date == cloneDay
       );
-      console.log('result????????????', result);
       if (result[0]) {
         // add = result[0].money;
         let type1 = result[0].type == 1;
 
         console.log('타입은??', result[0].type == 1);
-        type1 ? (add = result[0].money) : (minus = result[0].money);
+        type1 ? (add = result[0].money) : (minus = '-' + result[0].money);
       } else {
         add = '';
         minus = '';

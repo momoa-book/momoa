@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import iconList from '../../utils/AccountIcon';
 
-export default function AccountsList({ filter, accountFakeDB }) {
+export default function AccountsList({ filter, accountFakeDB, data }) {
   // const [accounts, setAccounts] = useState([
   //   {
   //     id: '123',
@@ -89,7 +89,7 @@ export default function AccountsList({ filter, accountFakeDB }) {
   //     status: '지출',
   //   },
 
-  const filtered = getFilteredItems(accountFakeDB, filter);
+  const filtered = getFilteredItems(data.calendar, filter);
   return (
     <div className="h-52 scrollbar scrollbar-thumb-violet-600 scrollbar-track-violet-50 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-aut ">
       <table className="w-full">
