@@ -15,7 +15,6 @@ export default function RenderCells({
   currentMonth,
   selectedDate,
   onDateClick,
-  accountFakeDB,
   data,
 }) {
   const monthStart = startOfMonth(currentMonth); // 오늘이 속한 달의 시작일
@@ -37,16 +36,17 @@ export default function RenderCells({
       formattedDate = format(day, 'd');
       // const cloneDay = day;
       const cloneDay = format(day, 'yyyy-MM-dd');
-      console.log('cloneDay???', cloneDay);
-      console.log('data??', data);
 
       // if (cloneDay == data.calendar[0].input_date) {
       //   console.log('같음!!', cloneDay == data.calendar[0].input_date);
       // }
 
-      let result = data.calendar.filter(
-        (account) => account.input_date == cloneDay
-      );
+      let result = [];
+      if (data !== '' && data !== null) {
+        result = data.calendar.filter(
+          (account) => account.input_date == cloneDay
+        );
+      }
       if (result[0]) {
         // add = result[0].money;
         let type1 = result[0].type == 1;
