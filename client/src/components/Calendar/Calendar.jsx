@@ -25,6 +25,7 @@ export default function Calendar() {
 
   // 서버에서 달력 데이터 요청하는 함수
   const fetchCalendar = async () => {
+    console.log('fetchCalendar');
     const { data } = await axios({
       url: 'http://localhost:5000/api/getcalendar',
       method: 'get',
@@ -35,7 +36,7 @@ export default function Calendar() {
     return data;
   };
   const { data, isLoading, error } = useQuery(
-    ['calendar', sheetId],
+    ['setcalendar', sheetId],
     fetchCalendar,
     {
       refetchOnWindowFocus: false, // window focus 이동 후에 refetch 하지 않음
@@ -79,7 +80,6 @@ export default function Calendar() {
         currentMonth={currentMonth}
         selectedDate={selectedDate}
         onDateClick={onDateClick}
-        accountFakeDB={accountFakeDB}
         data={data}
       />
       <div className="h-60">
@@ -88,12 +88,7 @@ export default function Calendar() {
           filter={filter}
           onFilterChange={setFilter}
         />
-        <AccountsList
-          filter={filter}
-          accountFakeDB={accountFakeDB}
-          clickDay={clickDB}
-          data={data}
-        />
+        <AccountsList filter={filter} clickDay={clickDB} data={data} />
       </div>
     </div>
   );

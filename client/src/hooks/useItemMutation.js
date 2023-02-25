@@ -1,4 +1,4 @@
-import { QueryClient, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import axios from '../utils/axios';
 
 const addItems = async (items) => {
@@ -10,7 +10,7 @@ export const useItemMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(addItems, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries('graph', 'calendar', data);
+      queryClient.invalidateQueries('graph', 'setcalendar', data);
     },
   });
 };
