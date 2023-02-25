@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import iconList from '../../utils/AccountIcon';
 
-export default function AccountsList({ filter, data }) {
+export default function AccountsList({ filter, data, selectedDate }) {
   const [filtered, setFiltered] = useState([]);
-  console.log('data.calendar', data.calendar);
   useEffect(() => {
     getFilteredItems(data.calendar, filter);
-  }, [filter]);
+  }, [data]);
+  useEffect(() => {
+    getFilteredItems(data.calendar, filter);
+  }, [filter, selectedDate]);
   return (
     <div className="h-52 scrollbar scrollbar-thumb-violet-600 scrollbar-track-violet-50 scrollbar-thumb-rounded-full scrollbar-track-rounded-full overflow-aut ">
       <table className="w-full">
@@ -35,19 +37,26 @@ export default function AccountsList({ filter, data }) {
   );
 
   function getFilteredItems(accountFakeDB, filter, filtered) {
-    console.log('getFiltereditems');
-    if (filter === '전체') {
-      setFiltered(accountFakeDB);
-    } else if (filter === '수입') {
-      const result = accountFakeDB.filter(
+    if (accountFakeDB == '' || accountFakeDB == null) return false;
+    const accountList = accountFakeDB.filter(
+      (accountFakeDB) => accountFakeDB.input_date === selectedDate
+    );
+    if (accountList.length < 1) {
+      setFiltered([]);
+      return [];
+    }
+    if (filter === '수입') {
+      const result = accountList.filter(
         (accountFakeDB) => accountFakeDB.type === 1
       );
       setFiltered(result);
     } else if (filter === '지출') {
-      const result = accountFakeDB.filter(
+      const result = accountList.filter(
         (accountFakeDB) => accountFakeDB.type === 2
       );
       setFiltered(result);
+    } else {
+      setFiltered(accountList);
     }
   }
 }

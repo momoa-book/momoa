@@ -34,6 +34,8 @@ export default function Calendar() {
         sheet_id: sheetId,
       },
     });
+    console.log('--------------------------------');
+    console.log('data : ', data);
     return data;
   };
   const { data, isLoading, error } = useQuery(
@@ -44,7 +46,6 @@ export default function Calendar() {
       placeholderData: '',
     }
   );
-  console.log(data); // 데이터
 
   // useEffect(() => {
   //   fetch('data/account.json')
@@ -63,7 +64,7 @@ export default function Calendar() {
   };
 
   const onDateClick = (day) => {
-    // setSelectedDate(day);
+    setSelectedDate(day);
     console.log('날짜클릭: ', day);
     console.log('타입확인: ', typeof day);
     setClickDB(data[day]);
@@ -75,6 +76,7 @@ export default function Calendar() {
         currentMonth={currentMonth}
         prevMonth={prevMonth}
         nextMonth={nextMonth}
+        clickDate={() => {}}
       />
       <RenderDays />
       <RenderCells
@@ -89,7 +91,12 @@ export default function Calendar() {
           filter={filter}
           onFilterChange={setFilter}
         />
-        <AccountsList filter={filter} clickDay={clickDB} data={data} />
+        <AccountsList
+          filter={filter}
+          clickDay={clickDB}
+          data={data}
+          selectedDate={selectedDate}
+        />
       </div>
     </div>
   );
