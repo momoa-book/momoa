@@ -25,7 +25,7 @@ exports.get_sheetid = async (req, res) => {
   console.log(user_email);
 
   try {
-    const sheet = await Sheet.findAll({
+    const sheet_share = await Sheet.findAll({
       attributes: ['sheet_name', 'sheet_id', 'DBhubs.sheet_id'],
       raw: true,
 
@@ -35,7 +35,24 @@ exports.get_sheetid = async (req, res) => {
           required: true,
           attributes: [],
           where: {
-            user_email: user_email,
+            guest: user_email,
+            auth: 1,
+          },
+        },
+      ],
+    });
+
+    const sheet = await Sheet.findAll({
+      attributes: ['sheet_name', 'sheet_id', 'DBhubs.sheet_id'],
+      raw: true,
+      include: [
+        {
+          model: DBhub,
+          required: true,
+          attributes: [],
+          where: {
+            user_email,
+            [Op.or]: [{ auth: 1 }, { auth: 0 }],
           },
         },
       ],
@@ -58,6 +75,7 @@ exports.get_sheetid = async (req, res) => {
 
     res.status(200).json({
       sheet,
+      sheet_share,
       user_name,
     });
   } catch (error) {
