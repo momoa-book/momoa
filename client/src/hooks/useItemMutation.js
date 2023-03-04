@@ -2,7 +2,10 @@ import { useMutation, useQueryClient } from 'react-query';
 import axios from '../utils/axios';
 
 const addItems = async (items) => {
-  const res = await axios.post(`${process.env.SERVER_IP}/api/writeinfo`, items);
+  const res = await axios.post(
+    `${process.env.REACT_APP_SERVER_IP}/api/writeinfo`,
+    items
+  );
   return res.data;
 };
 
