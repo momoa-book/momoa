@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Logo2 } from '../assets/logo2.svg';
+import axiosurl from '../url';
 
 export default function Kakao(props) {
   const navigate = useNavigate();
@@ -9,20 +10,18 @@ export default function Kakao(props) {
   let code = params.get('code');
 
   const getAccessToken = () => {
-    axios
-      .post('http://localhost:5000/api/getkakao', { authcode: code })
-      .then((res) => {
-        if (res.status === 200) {
-          const { accessToken } = res.data;
-          localStorage.setItem('accessToken', accessToken);
-          setTimeout(() => {
-            navigate('/account');
-          }, 1500);
-        } else {
-          alert('로그인에 실패하였습니다.');
-          navigate('/login');
-        }
-      });
+    axios.post(axiosurl.getAccesstoken, { authcode: code }).then((res) => {
+      if (res.status === 200) {
+        const { accessToken } = res.data;
+        localStorage.setItem('accessToken', accessToken);
+        setTimeout(() => {
+          navigate('/account');
+        }, 1500);
+      } else {
+        alert('로그인에 실패하였습니다.');
+        navigate('/login');
+      }
+    });
   };
 
   useEffect(() => {

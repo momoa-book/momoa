@@ -1,10 +1,11 @@
+import url from './url';
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // src/setupProxy.js
 module.exports = function (app) {
   app.use(
     createProxyMiddleware('/api', {
-      target: 'http://localhost:5000', // 비즈니스 서버 URL 설정
+      target: process.env.SERVER_IP, // 비즈니스 서버 URL 설정
       changeOrigin: true,
     })
   );

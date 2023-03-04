@@ -4,6 +4,7 @@ import Chart from 'chart.js/auto';
 import { useQuery } from 'react-query';
 import { Bar } from 'react-chartjs-2';
 import { useParams } from 'react-router-dom';
+import axiosurl from '../url';
 
 const Graph = () => {
   const { sheetId } = useParams();
@@ -24,7 +25,7 @@ const Graph = () => {
 
   const fetchGraph = async () => {
     const { data } = await axios({
-      url: 'http://localhost:5000/api/getsheetdata',
+      url: axiosurl.fetchGraph,
       method: 'get',
       params: {
         sheet_id: sheetId,

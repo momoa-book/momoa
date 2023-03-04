@@ -30,13 +30,13 @@ router.get('/kakaologout', controllerKakao.KakaoLogout);
 //메인화면 랜더링될때마다 refreshToken을 갱신해주는 api ->맨 첫페이지에서 useeffect로 함수걸어줘야됨
 router.get('/token', controllerRefreshToken.refreshToken);
 
+router.get('/users', controllerSignIn.getUsers);
 //이 코드의 밑에있는 것들은 전부 미들웨어를 거치게 된다.
 router.all('*', middlewareVerifyToken.verifyToken);
 
 router.get('/verify', controllerRefreshToken.verifyToken);
 
 //마이페이지 or 캘린더화면 처럼 유저 정보뿌려주는 화면에서 요청할 api
-router.get('/users', controllerSignIn.getUsers);
 
 //차트 정보 불러오기
 router.get('/getsheetdata', controllerData.getsheetdata);

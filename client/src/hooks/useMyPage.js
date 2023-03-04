@@ -2,7 +2,9 @@ import { useQuery } from 'react-query';
 import axios from '../utils/axios';
 
 const fetchMypage = async () => {
-  const { data } = await axios.get(`http://localhost:5000/api/getpersonalinfo`);
+  const { data } = await axios.get(
+    `${process.env.SERVER_IP}/api/getpersonalinfo`
+  );
   return data;
 };
 

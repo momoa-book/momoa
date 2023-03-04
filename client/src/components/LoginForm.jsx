@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { setToken } from '../utils/axios';
+import axiosurl from '../url';
 
 export default function EmailLogin() {
   const [Email, setEmail] = useState('');
@@ -33,7 +34,7 @@ export default function EmailLogin() {
   // 로그인 api 요청
   function login() {
     axios({
-      url: 'http://localhost:5000/api/signin',
+      url: axiosurl.login,
       method: 'POST',
       withCredentials: true,
       data: {

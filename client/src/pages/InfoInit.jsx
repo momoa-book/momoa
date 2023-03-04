@@ -4,6 +4,7 @@ import { ReactComponent as Logo } from '../assets/logo2.svg';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { FinishAtom } from '../atoms/AuthAtom';
+import axiosurl from '../url';
 
 export default function InfoInit() {
   const [Password, setPassword] = useState('');
@@ -32,7 +33,7 @@ export default function InfoInit() {
 
   function finalSignup() {
     axios({
-      url: 'http://localhost:5000/api/signup2',
+      url: axiosurl.finalSignup,
       method: 'POST',
       withCredentials: true,
       data: {

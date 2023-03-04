@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from '../utils/axios';
+import axiosurl from '../url';
 
 const Test = () => {
   //     const getUsers = async () => {
@@ -14,7 +15,7 @@ const Test = () => {
   //   console.log(axios.defaults.headers);
 
   function eventHandle() {
-    axios.get('http://localhost:5000/api/users').then((response) => {
+    axios.get(axiosurl.eventHandle).then((response) => {
       console.log('---------------2222222-----------------');
       console.log(response);
     });
@@ -22,7 +23,7 @@ const Test = () => {
 
   function getSheetData() {
     axios({
-      url: 'http://localhost:5000/api/getsheetdata',
+      url: axiosurl.getSheetData,
       method: 'get',
       data: {
         sheet_id: 'dkdsu',

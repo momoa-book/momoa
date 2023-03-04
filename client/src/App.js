@@ -15,7 +15,7 @@ import { FinishAtom } from './atoms/AuthAtom';
 import InfoInit from './pages/InfoInit';
 import AccountTest from './pages/AccountTest';
 
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = process.env.SERVER_IP;
 axios.defaults.withCredentials = true;
 
 function App() {

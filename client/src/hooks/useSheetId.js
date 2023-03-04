@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import axios from '../utils/axios';
 
 const fetchSheet = async () => {
-  const { data } = await axios.get(`http://localhost:5000/api/getsheetid`);
+  const { data } = await axios.get(`${process.env.SERVER_IP}/api/getsheetid`);
   return data;
 };
 
