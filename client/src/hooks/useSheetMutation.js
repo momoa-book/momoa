@@ -3,7 +3,7 @@ import axios from '../utils/axios';
 
 const newSheet = async (items) => {
   const res = await axios.post(
-    `${process.env.SERVER_IP}/api/createSheet`,
+    `${process.env.REACT_APP_SERVER_IP}/api/createSheet`,
     items
   );
   return res.data;

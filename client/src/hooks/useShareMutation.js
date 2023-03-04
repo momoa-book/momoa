@@ -3,7 +3,7 @@ import axios from '../utils/axios';
 
 const shareInfo = async (items) => {
   const res = await axios.post(
-    `${process.env.SERVER_IP}/api/shareSheet`,
+    `${process.env.REACT_APP_SERVER_IP}/api/shareSheet`,
     items
   );
   return res.data;

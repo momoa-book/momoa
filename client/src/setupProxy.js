@@ -5,7 +5,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = function (app) {
   app.use(
     createProxyMiddleware('/api', {
-      target: process.env.SERVER_IP, // 비즈니스 서버 URL 설정
+      target: process.env.REACT_APP_SERVER_IP, // 비즈니스 서버 URL 설정
       changeOrigin: true,
     })
   );

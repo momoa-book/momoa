@@ -15,7 +15,7 @@ import { FinishAtom } from './atoms/AuthAtom';
 import InfoInit from './pages/InfoInit';
 import AccountTest from './pages/AccountTest';
 
-axios.defaults.baseURL = process.env.SERVER_IP;
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_IP;
 axios.defaults.withCredentials = true;
 
 function App() {
