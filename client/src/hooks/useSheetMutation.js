@@ -2,7 +2,10 @@ import { useMutation, useQueryClient } from 'react-query';
 import axios from '../utils/axios';
 
 const newSheet = async (items) => {
-  const res = await axios.post(`http://localhost:5000/api/createSheet`, items);
+  const res = await axios.post(
+    `${process.env.SERVER_IP}/api/createSheet`,
+    items
+  );
   return res.data;
 };
 

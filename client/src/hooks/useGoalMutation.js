@@ -2,7 +2,7 @@ import { QueryClient, useMutation, useQueryClient } from 'react-query';
 import axios from '../utils/axios';
 
 const setGoal = async (items) => {
-  const res = await axios.post(`http://localhost:5000/api/writegoal`, items);
+  const res = await axios.post(`${process.env.SERVER_IP}/api/writegoal`, items);
   return res.data;
 };
 

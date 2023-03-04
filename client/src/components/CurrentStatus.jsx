@@ -5,6 +5,7 @@ import { HiOutlinePencilAlt } from 'react-icons/hi';
 import { useParams } from 'react-router-dom';
 import { useGoalMutation } from '../hooks/useGoalMutation';
 import { useQuery } from 'react-query';
+import axiosurl from '../url';
 
 export default function CurrentStatus() {
   const { mutate: setGoal } = useGoalMutation();
@@ -15,7 +16,7 @@ export default function CurrentStatus() {
 
   const fetchGoal = async () => {
     const { data } = await axios({
-      url: 'http://localhost:5000/api/getgoal',
+      url: axiosurl.fetchgoal,
       method: 'get',
       params: {
         sheet_id: sheetId,

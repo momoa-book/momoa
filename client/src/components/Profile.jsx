@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axiosurl from '../url';
 
 export default function Profile(Info) {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ export default function Profile(Info) {
 
   function logout() {
     axios({
-      url: 'http://localhost:5000/api/logout',
+      url: axiosurl.logout,
       method: 'get',
     })
       .catch((error) => {

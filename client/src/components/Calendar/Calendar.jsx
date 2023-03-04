@@ -8,6 +8,7 @@ import RenderHeader from './RenderHeader';
 import RenderDays from './RenderDays';
 import RenderCells from './RenderCells';
 import { useParams } from 'react-router-dom';
+import axiosurl from '../../url';
 
 const filters = ['전체', '수입', '지출'];
 
@@ -27,7 +28,7 @@ export default function Calendar() {
   const fetchCalendar = async () => {
     console.log('fetchCalendar');
     const { data } = await axios({
-      url: 'http://localhost:5000/api/getcalendar',
+      url: axiosurl.fetchCalendar,
       method: 'get',
       params: {
         sheet_id: sheetId,

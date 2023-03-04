@@ -2,14 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const session = require('express-session');
-const router = require('./routes');
+const router = require('./routes/Index');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 require('dotenv').config();
 
 let corsOption = {
-  origin: 'http://localhost:3000', // 허락하는 요청 주소
+  origin: process.env.NODE_SERVER_IP, // 허락하는 요청 주소
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   optionsSuccessStatus: 200, // true로 하면 설정한 내용을 response 헤더에 추가 해줍니다.

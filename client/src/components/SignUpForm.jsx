@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { FinishAtom } from '../atoms/AuthAtom';
+import axiosurl from '../url';
 
 export default function SignUpForm() {
   const [Email, setEmail] = useState('');
@@ -32,7 +33,7 @@ export default function SignUpForm() {
   const createAccount = () => {
     setEmailCheck(!emailCheck);
     axios({
-      url: 'http://localhost:5000/api/check_email',
+      url: axiosurl.createAccount,
       method: 'POST',
       withCredentials: true,
       data: {
@@ -55,7 +56,7 @@ export default function SignUpForm() {
   const codeConfirm = () => {
     console.log(Email);
     axios({
-      url: 'http://localhost:5000/api/signup',
+      url: axiosurl.codeConfirm,
       method: 'POST',
       withCredentials: true,
       data: {
