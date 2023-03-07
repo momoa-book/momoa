@@ -9,20 +9,6 @@ import axiosurl from '../url';
 const Graph = () => {
   const { sheetId } = useParams();
 
-  // useEffect(
-  //   () =>
-  //     axios({
-  //       url: 'http://localhost:5000/api/getsheetdata',
-  //       method: 'get',
-  //       params: {
-  //         sheet_id: sheetId,
-  //       },
-  //     }).then((res) => {
-  //       console.log(res.data);
-  //     }),
-  //   []
-  // );
-
   const fetchGraph = async () => {
     const { data } = await axios({
       url: axiosurl.fetchGraph,

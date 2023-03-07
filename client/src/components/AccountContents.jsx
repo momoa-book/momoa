@@ -12,20 +12,6 @@ export default function AccountContents() {
   const { sheetId } = useParams();
   const clickShare = useRecoilValue(isShareAtom);
 
-  // useEffect(
-  //   () =>
-  //     axios({
-  //       url: 'http://localhost:5000/api/getsheetdata',
-  //       method: 'get',
-  //       params: {
-  //         sheet_id: 'dkdsu',
-  //       },
-  //     }).then((res) => {
-  //       console.log(res.data);
-  //     }),
-  //   []
-  // );
-
   return (
     <>
       {clickShare && (

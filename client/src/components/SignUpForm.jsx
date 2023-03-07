@@ -46,10 +46,6 @@ export default function SignUpForm() {
       })
       .then((res) => {
         console.log(`이메일 발송: ${res.status}`);
-        // if (res.status === 200) {
-        // } else {
-        //   setEmailError(res.data.msg);
-        // }
       });
   };
 

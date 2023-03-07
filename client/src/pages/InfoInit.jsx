@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { FinishAtom } from '../atoms/AuthAtom';
 import axiosurl from '../url';
+import { setToken } from '../utils/axios';
 
 export default function InfoInit() {
   const [Password, setPassword] = useState('');
@@ -46,6 +47,7 @@ export default function InfoInit() {
         const { accessToken } = res.data;
         localStorage.setItem('accessToken', accessToken);
         setFinish(false);
+        setToken();
         navigate('/account');
       })
       .catch((error) => {
