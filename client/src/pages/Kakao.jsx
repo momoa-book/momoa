@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Logo2 } from '../assets/logo2.svg';
 import axiosurl from '../url';
+import { setToken } from '../utils/axios';
 
 export default function Kakao(props) {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function Kakao(props) {
       if (res.status === 200) {
         const { accessToken } = res.data;
         localStorage.setItem('accessToken', accessToken);
+        setToken();
         setTimeout(() => {
           navigate('/account');
         }, 1500);
