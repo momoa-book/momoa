@@ -7,7 +7,6 @@ require('dotenv').config();
 const KAKAO_TOKEN_URL = 'https://kauth.kakao.com/oauth/token';
 const GRANT_TYPE = 'authorization_code';
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY;
-const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI;
 
 let kakao_token = {};
 let user_email = '';
@@ -20,10 +19,10 @@ exports.KakaoLogin = async (req, res, next) => {
 
   //사용자 인증 후 로그인 요청 시 전달받은 인가 코드로 토큰 요청
   let get_token = await axios({
-    url: `${KAKAO_TOKEN_URL}?grant_type=${GRANT_TYPE}&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}`,
+    url: `${KAKAO_TOKEN_URL}?grant_type=${GRANT_TYPE}&client_id=${REST_API_KEY}&redirect_uri=http://43.201.17.158:3001/auth/kakao&code=${code}`,
     method: 'post',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
     },
   });
   console.log(`{
@@ -39,8 +38,10 @@ exports.KakaoLogin = async (req, res, next) => {
   //받은 토큰으로 사용자 정보 가져오기
   let user_info = await axios({
     url: 'https://kapi.kakao.com/v2/user/me',
+    method: 'post',
     headers: {
       Authorization: `Bearer ${kakao_token.access_token}`,
+      'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
     },
   });
   console.log(`유저 이메일 : ${user_info.data.kakao_account.email}`);

@@ -12,6 +12,7 @@ export default function Kakao(props) {
 
   const getAccessToken = () => {
     axios.post(axiosurl.getAccesstoken, { authcode: code }).then((res) => {
+      console.log(res);
       if (res.status === 200) {
         const { accessToken } = res.data;
         localStorage.setItem('accessToken', accessToken);
