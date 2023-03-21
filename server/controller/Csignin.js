@@ -9,20 +9,12 @@ require('dotenv').config();
 //원하는 정보들 조회하는
 exports.getUsers = async (req, res) => {
   console.log(req.decoded);
-  // console.log(req.decoded.user_name);
-  // console.log(req.decoded.user_pw);
-  // console.log(req.body);
   try {
-    // let data = {
-    //   user_pw: req.body.user_pw,
-    // };
-
     const users = await User.findOne({
       //한명의 정보만 조회하기때문에 유저가 동시접속 몇명하든 상관없이 findone으로 조회
       where: {
         user_email: req.decoded.user_email,
         ////여기에서 req.decoded에 담아서 보냈기때문에 이걸 받는 controller의 getusers에서 user_email: req.decoded.user_email,라고 받는다!
-        // user_name: req.decoded.user_name,
       },
     });
     res.json(users); //유저의 모든 정보를 보내준다(?)이것땜에 email,password,refreshtoken,name이 다뜬다...
