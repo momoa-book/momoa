@@ -8,7 +8,7 @@ export default function AccountSideBar({ sheetInfo }) {
   const navigate = useNavigate();
   const clicked = useRecoilValue(isClickedAtom);
   const [isShow, setisShow] = useRecoilState(showModalAtom);
-  const data = sheetInfo;
+  const { sheet, sheet_share } = sheetInfo;
 
   useEffect(() => {
     if (clicked === true) {
@@ -38,7 +38,22 @@ export default function AccountSideBar({ sheetInfo }) {
 
             {/* prop으로 받아 온 배열이 있을 경우에 map 실행 */}
 
-            {data?.map((el) => {
+            {sheet?.map((el) => {
+              return (
+                <li key={el.sheet_id}>
+                  <span
+                    onClick={() => {
+                      navigate(`/account/${el.sheet_id}`);
+                    }}
+                    className="flex items-center p-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:cursor-pointer"
+                  >
+                    {el.sheet_name}
+                  </span>
+                </li>
+              );
+            })}
+
+            {sheet_share?.map((el) => {
               return (
                 <li key={el.sheet_id}>
                   <span

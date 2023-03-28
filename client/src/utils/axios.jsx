@@ -7,8 +7,12 @@ axiosJWT.defaults.headers.common['authorization'] = `Bearer ${accessToken}`;
 
 axiosJWT.interceptors.request.use(
   async (config) => {
+    // refresh 검증3
+
+    // access 검증
     await axios
       .get(axiosurl.interceptor1, {
+        //verify
         headers: {
           authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
@@ -22,7 +26,7 @@ axiosJWT.interceptors.request.use(
           err2.response.data.message === 'TokenNull' ||
           err2.response.data.message === 'JsonWebTokenError'
         ) {
-          const rep = await axios.get(axiosurl.interceptor2);
+          const rep = await axios.get(axiosurl.interceptor2); // /token (refreshtoken실행)
           const newAccessToken = rep.data.accessToken;
           localStorage.setItem('accessToken', newAccessToken);
           axiosJWT.defaults.headers.common[

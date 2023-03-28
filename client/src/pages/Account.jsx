@@ -15,7 +15,7 @@ export default function Account() {
     <>
       <AccountNav {...(data.user_name && { name: data.user_name })} />
       <AccountSideBar
-        {...(status === 'success' && data.sheet && { sheetInfo: data.sheet })}
+        {...(status === 'success' && data && { sheetInfo: data })}
       />
       <Routes>
         <Route path="/" element={<NoData />} />

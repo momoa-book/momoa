@@ -18,7 +18,7 @@ const bcrypt = require('bcrypt');
 //1. 로그인 성공후 가계부 페이지 나올때 DBhub에서 user_email을 찾아서 user의 정보를 가져오고,sheet_id를 기준으로 sheet테이블에서 sheet_name,sheet id를 가져오는 get요청  //
 //get  '/getsheetid',
 
-exports.get_sheetid = async (req, res) => {
+exports.getSheetid = async (req, res) => {
   console.log(req.decoded);
   const user_email = req.decoded.user_email;
   const user_name = req.decoded.user_name;
@@ -88,7 +88,7 @@ exports.get_sheetid = async (req, res) => {
 
 //2. 마이페이지에서 get 요청 (1.초대알림여부를 확인auto값으로 2..sheet name,sheet idsheet,creater, //유저테이블하고 db허브)
 
-exports.get_personalinfo = async (req, res) => {
+exports.getPersonalinfo = async (req, res) => {
   console.log(req.decoded);
   const user_email = req.decoded.user_email;
   const user_name = req.decoded.user_name;
@@ -169,7 +169,7 @@ exports.get_personalinfo = async (req, res) => {
 
 //4. 수입지출 등등 입력하는   post '/writeinfo'
 
-exports.write_info = (req, res) => {
+exports.writeInfo = (req, res) => {
   try {
     let data = {
       sheet_id: req.body.sheet_id,
@@ -191,7 +191,7 @@ exports.write_info = (req, res) => {
   }
 };
 
-exports.write_goal = (req, res) => {
+exports.writeGoal = (req, res) => {
   Sheet.update(
     { goal: req.body.goal },
     { where: { sheet_id: req.body.sheet_id } }
@@ -275,7 +275,7 @@ exports.createSheet = async (req, res) => {
   }
 };
 
-exports.get_goal = async (req, res) => {
+exports.getGoal = async (req, res) => {
   let today = new Date();
   let nowMonth = today.getMonth();
 

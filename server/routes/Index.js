@@ -5,7 +5,7 @@ const controllerSignIn = require('../controller/Csignin');
 const controllerRefreshToken = require('../controller/CrefreshToken');
 const middlewareVerifyToken = require('../middleware/VerifyToken');
 const controllerKakao = require('../controller/Ckakao');
-const controllerMain = require('../controller/Cmainleft');
+const controllerMain = require('../controller/Cmain');
 const controllerData = require('../controller/CSheetData');
 
 //이메일 인증요청
@@ -44,19 +44,19 @@ router.get('/getsheetdata', controllerData.getsheetdata);
 router.get('/getcalendar', controllerData.getcalendardata);
 
 //sheet_id가져오는
-router.get('/getsheetid', controllerMain.get_sheetid);
+router.get('/getsheetid', controllerMain.getSheetid);
 
 //개인정보가져오는
-router.get('/getpersonalinfo', controllerMain.get_personalinfo);
+router.get('/getpersonalinfo', controllerMain.getPersonalinfo);
 
 //수입지출등등입력하는 왼쪽 상단부
-router.post('/writeinfo', controllerMain.write_info);
+router.post('/writeinfo', controllerMain.writeInfo);
 
 //목표금액 불러오는
-router.get('/getgoal', controllerMain.get_goal);
+router.get('/getgoal', controllerMain.getGoal);
 
 //목표금액 입력하는
-router.post('/writegoal', controllerMain.write_goal);
+router.post('/writegoal', controllerMain.writeGoal);
 
 //초대할때 유저검색하면 유저정보 반환해주는
 // router.get('/getUserByEmail', controllerMain.getUserByEmail);
