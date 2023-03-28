@@ -52,7 +52,7 @@ exports.getSheetid = async (req, res) => {
           attributes: [],
           where: {
             user_email,
-            [Op.or]: [{ auth: 1 }, { auth: 0 }],
+            [Op.or]: [{ auth: 1 }, { auth: 0 }, { auth: 2 }],
           },
         },
       ],
@@ -114,7 +114,7 @@ exports.getPersonalinfo = async (req, res) => {
     });
 
     const sheet = await Sheet.findAll({
-      //내가 만든가계부(user_email이 내 email인것들 중에서 기본으로 생성된 나만의 가계부: auth값이 0, 내가 만든 가계부중에서 내가 다른사람을 초대해서 수락을 받아 auth값이 1이된 가계부)
+      //내가 만든가계부(user_email이 내 email인것들 중에서 기본으로 생성된 나만의 가계부: auth값이 0, 내가 만든 가계부중에서 내가 다른사람을 초대해서 수락을 받아 auth값이 1이된 가계부,내가 만든 가계부 중에서 다른 사람을 초대했고 아직 수락전이라서 auth2값이 2인 가계부)
       attributes: ['sheet_name', 'sheet_id'],
       raw: true,
       include: [
@@ -124,7 +124,7 @@ exports.getPersonalinfo = async (req, res) => {
           attributes: [],
           where: {
             user_email,
-            [Op.or]: [{ auth: 1 }, { auth: 0 }],
+            [Op.or]: [{ auth: 1 }, { auth: 0 }, { auth: 2 }],
           },
         },
       ],
