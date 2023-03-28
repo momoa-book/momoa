@@ -3,7 +3,7 @@ import axios from '../utils/axios';
 
 const fetchMypage = async () => {
   const { data } = await axios.get(
-    `${process.env.REACT_APP_SERVER_IP}/api/getpersonalinfo`
+    `${process.env.REACT_APP_SERVER_IP}/api/personalinfo`
   );
   return data;
 };

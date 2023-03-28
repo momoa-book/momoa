@@ -9,14 +9,14 @@ const controllerMain = require('../controller/Cmain');
 const controllerData = require('../controller/CSheetData');
 
 //이메일 인증요청
-router.post('/check_email', controllerSignUp.send_code);
+router.post('/check-email', controllerSignUp.send_code);
 
 //회원가입
 router.post('/signup', controllerSignUp.approve_code);
 router.post('/signup2', controllerSignUp.finish_signup);
 
 //카카오 로그인
-router.post('/getkakao', controllerKakao.KakaoLogin);
+router.post('/kakao', controllerKakao.KakaoLogin);
 
 //로그인
 router.post('/signin', controllerSignIn.user_signin);
@@ -39,21 +39,21 @@ router.get('/verify', controllerRefreshToken.verifyToken);
 //마이페이지 or 캘린더화면 처럼 유저 정보뿌려주는 화면에서 요청할 api
 
 //차트 정보 불러오기
-router.get('/getsheetdata', controllerData.getsheetdata);
+router.get('/sheetdata', controllerData.getsheetdata);
 
-router.get('/getcalendar', controllerData.getcalendardata);
+router.get('/calendar', controllerData.getcalendardata);
 
 //sheet_id가져오는
-router.get('/getsheetid', controllerMain.getSheetid);
+router.get('/sheetid', controllerMain.getSheetid);
 
 //개인정보가져오는
-router.get('/getpersonalinfo', controllerMain.getPersonalinfo);
+router.get('/personalinfo', controllerMain.getPersonalinfo);
 
 //수입지출등등입력하는 왼쪽 상단부
 router.post('/writeinfo', controllerMain.writeInfo);
 
 //목표금액 불러오는
-router.get('/getgoal', controllerMain.getGoal);
+router.get('/goal', controllerMain.getGoal);
 
 //목표금액 입력하는
 router.post('/writegoal', controllerMain.writeGoal);
