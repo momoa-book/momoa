@@ -44,7 +44,7 @@
 
 ### ⚙️ERD  
 
-<img width="764" src="https://user-images.githubusercontent.com/116782318/221226448-e03cc19f-1242-492b-8663-7688ef9b2b6d.png">  
+<img width="764" src="https://user-images.githubusercontent.com/116782390/229264966-78057988-53dd-4472-abd0-9156e6917da8.png">  
 
 
 
