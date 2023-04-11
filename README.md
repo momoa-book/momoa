@@ -7,37 +7,46 @@
 #### 📍개발 기간
 2023.02.11 ~ 2023.02.25 (2주간)  
 
-#### 👩🏻‍💻개발 인원
-김세현, 박의현, 김미정, 장현수(4명)  
+#### 👩🏻‍💻개발 인원  
+
+- 프론트엔드(FE): 김세현, 박의현
+- 백엔드(BE): 김미정, 장현수   
+   
+   
 
 
 ## 🛠사용 기술 및 도구  
 
 ### 프론트엔드  
 
-<p align="center">
-<img src="https://user-images.githubusercontent.com/116782318/221221091-dd10b2a0-81ce-4c90-a3a9-4aa62fbc3a19.jpeg" width=150px>
-<img src="https://user-images.githubusercontent.com/116782318/221221118-55a57d31-ff47-4b91-97f1-f187d51721af.png" width=150px>
-<img src="https://user-images.githubusercontent.com/116782318/221221136-09ea13be-dcd3-4ef4-a088-e6eabc5f9980.png" width=150px>
-<img src="https://user-images.githubusercontent.com/116782318/221221148-e59f8748-af6e-4a59-a2a1-54776c6aad73.png" width=150px>
-<img src="https://user-images.githubusercontent.com/116782318/221221789-ba381b5d-fcf8-4e41-b096-6563be23a6d7.svg" width=150px>
+<p>
+<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> 
+<img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+<img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
+<img src="https://img.shields.io/badge/recoil-764ABC?style=for-the-badge&logo=react&logoColor=white">
+<img src="https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
 </p>  
 
 ### 백엔드  
 
-<p align="center">
-<img src="https://user-images.githubusercontent.com/116782318/221222020-f5513183-cda9-41d2-9f69-97e3168b1a24.png" width=150px>
-<img src="https://user-images.githubusercontent.com/116782318/221222036-701f3c26-f703-4337-b8b1-c2d111d2c10d.png" width=150px>
-<img src="https://user-images.githubusercontent.com/116782318/221222046-2ca88dfb-5e6b-4903-9d00-031843947fa9.png" width=150px>
+<p>
+<img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+<img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white">
+<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/badge/sequelize-52B0E7?style=for-the-badge&logo=sequelize&logoColor=white">
+
 </p>  
 
 
 ### 👥협업  
 
- <p align="center">
-<img src="https://user-images.githubusercontent.com/116782318/221222841-bfa66574-c548-43f5-8434-65e26fb35894.png" width=150px>
-<img src="https://user-images.githubusercontent.com/116782318/221222859-8a3ba5ea-ed13-482a-90b9-be838100223b.png" width=150px>
-<img src="https://user-images.githubusercontent.com/116782318/221222900-3d08c10e-3732-4a76-a77c-819e0624d129.png" width=150px>
+<p>
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+<img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
+<img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white">
 </p>  
 
 
