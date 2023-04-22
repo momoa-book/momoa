@@ -96,9 +96,24 @@ exports.getPersonalinfo = async (req, res) => {
 
   try {
     //creator의 이름은 나를 초대한사람의 이름이지만 guest의 이름이 내이름인, 즉 내가 초대받은 가계부 중에서 내가 수락누른것 auth값1
+    //그리고 내가 만든 가계부중에서 내가 다른사람을 초대해서 수락을 받아 auth값이 1이된 가계부
     const sheet_share = await Sheet.findAll({
       attributes: ['sheet_name', 'sheet_id'],
       raw: true,
+
+      //밑에거가 원래코드고 이거하려면 const sheet에서 auth:1있어야됨
+      //   include: [
+      //     {
+      //       model: DBhub,
+      //       required: true,
+      //       attributes: [],
+      //       where: {
+      //         guest: user_email,
+      //         auth: 1,
+      //       },
+      //     },
+      //   ],
+      // });
 
       include: [
         {
@@ -106,15 +121,23 @@ exports.getPersonalinfo = async (req, res) => {
           required: true,
           attributes: [],
           where: {
-            guest: user_email,
-            auth: 1,
+            [Op.or]: [
+              {
+                guest: user_email,
+                auth: 1,
+              },
+              {
+                user_email,
+                auth: 1,
+              },
+            ],
           },
         },
       ],
     });
 
     const sheet = await Sheet.findAll({
-      //내가 만든가계부(user_email이 내 email인것들 중에서 기본으로 생성된 나만의 가계부: auth값이 0, 내가 만든 가계부중에서 내가 다른사람을 초대해서 수락을 받아 auth값이 1이된 가계부,내가 만든 가계부 중에서 다른 사람을 초대했고 아직 수락전이라서 auth2값이 2인 가계부)
+      //내가 만든가계부(user_email이 내 email인것들 중에서 기본으로 생성된 나만의 가계부: auth값이 0, 내가 만든 가계부 중에서 다른 사람을 초대했고 아직 수락전이라서 auth2값이 2인 가계부, 내가 만든 가계부 중에서 다른 사람을 초대했는데 거절당해서 게스트는 null이고 auth값이 2인 가계부)
       attributes: ['sheet_name', 'sheet_id'],
       raw: true,
       include: [
@@ -124,7 +147,7 @@ exports.getPersonalinfo = async (req, res) => {
           attributes: [],
           where: {
             user_email,
-            [Op.or]: [{ auth: 1 }, { auth: 0 }, { auth: 2 }],
+            [Op.or]: [{ auth: 0 }, { auth: 2 }],
           },
         },
       ],
