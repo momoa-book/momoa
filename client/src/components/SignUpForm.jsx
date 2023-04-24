@@ -41,8 +41,9 @@ export default function SignUpForm() {
       },
     })
       .catch((err) => {
-        console.log(err.response.data);
-        setEmailError(err.response.data.msg);
+        //console.log(err.response.data);
+        alert(err.response.data);
+        setEmailCheck(false);
       })
       .then((res) => {
         console.log(`이메일 발송: ${res.status}`);
